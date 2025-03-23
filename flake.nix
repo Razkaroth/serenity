@@ -17,12 +17,18 @@
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     nixarr.url = "github:rasmus-kirk/nixarr";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs =
-    { ... }@inputs:
+    { 
+      nixos-hardware,
+      nixarr,
+      zen-browser,
+      ...
+    }@inputs:
     let
-      HOSTNAME = "hydenix";
+      HOSTNAME = "serenity";
 
       hydenixConfig = inputs.hydenix.inputs.hydenix-nixpkgs.lib.nixosSystem {
         inherit (inputs.hydenix.lib) system;
@@ -30,6 +36,9 @@
           inherit inputs;
         };
         modules = [
+        inputs.nixarr.nixosModules.default
+
+          # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
           ./configuration.nix
         ];
       };

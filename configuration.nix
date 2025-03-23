@@ -56,12 +56,12 @@ in
     # === Other common modules ===
     #inputs.hydenix.inputs.nixos-hardware.nixosModules.common-pc
     #inputs.hydenix.inputs.nixos-hardware.nixosModules.common-pc-ssd
-    inputs.hydenix.inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
 
   ];
 
   home-manager = {
     useGlobalPkgs = true;
+    backupFileExtension = "bak";
     useUserPackages = true;
     extraSpecialArgs = {
       inherit inputs;

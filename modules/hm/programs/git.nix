@@ -1,13 +1,9 @@
-{ userConfig, ... }:
-
-let
-  cfg = userConfig;
-in
+{  ... }:
 {
 programs.git = {
     enable = true;
-    userName = cfg.gitUser;
-    userEmail = cfg.gitEmail;
+    userName = "razkaroth";
+    userEmail = "rocker.ikaros@gmail.com";
     lfs.enable = true;
     extraConfig = {
     push = { autoSetupRemote = true; };
