@@ -94,7 +94,7 @@
         "Vanta Black"
         "Cosmic Blue"
         "Scarlet Night"
-        "Ever Blushing"
+        # "Ever Blushing"
       ]; # default enabled themes, full list in https://github.com/richen604/hydenix/tree/main/hydenix/sources/themes
     };
     waybar.enable = true; # enable waybar module
