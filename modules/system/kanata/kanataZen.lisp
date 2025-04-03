@@ -72,7 +72,7 @@
      caps @akt  @sym  bspc  del   spc    ◀     ▼     ▲     ▶     _     _     _           _
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _    S-,    =    S-.   @qt   @dq   @op   @ob    _     _     _     _           _     _
+     _     x     =    S-.   @qt   @dq   @op   @ob    _     _     _     _           _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
      _     _     _                 _                 _     _     _           _     _     _
