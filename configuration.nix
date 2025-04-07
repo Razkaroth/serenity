@@ -61,7 +61,7 @@ in
 
   home-manager = {
     useGlobalPkgs = true;
-    backupFileExtension = "bak";
+    backupFileExtension = "nixbak";
     useUserPackages = true;
     extraSpecialArgs = {
       inherit inputs;

@@ -24,7 +24,7 @@
       enable = true; # enable editors module
       # neovim.enable = true; # enable neovim module
       vscode = {
-        enable = true; # enable vscode module
+        enable = false; # enable vscode module
         wallbash = true; # enable wallbash extension for vscode
       };
       # vim.enable = true; # enable vim module
@@ -38,7 +38,6 @@
       useUserJs = true; # if useHydeConfig is true, apply hyde user.js preferences
       useExtensions = true; # if useHydeConfig is true, install hyde firefox extensions
     };
-    gaming.enable = true; # enable gaming module
     git = {
       enable = true; # enable git module
       name = "razkaroth"; # git user name eg "John Doe"
