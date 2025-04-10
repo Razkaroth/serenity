@@ -22,38 +22,21 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-    fileSystems."/" =
-    { device = "/dev/disk/by-uuid/4e865d23-9d02-4f8c-bf68-5b84fc9de046";
-      fsType = "btrfs";
-      options = [ "subvol=@" "compress=zstd"  ];
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/8a73874d-a988-47d3-a17c-aaa8d6fc3092";
+      fsType = "ext4";
     };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/4e865d23-9d02-4f8c-bf68-5b84fc9de046";
-      fsType = "btrfs";
-      options = [ "subvol=@home" "compress=zstd"  ];
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/FB55-918E";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/4e865d23-9d02-4f8c-bf68-5b84fc9de046";
-      fsType = "btrfs";
-      options = [ "subvol=@nix" "compress=zstd"  ];
-    };
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/91f8ab4c-3c28-492c-8fae-0534c0d78fe6"; }
+    ];
 
-  fileSystems."/data" =
-    { device = "/dev/disk/by-uuid/4e865d23-9d02-4f8c-bf68-5b84fc9de046";
-      fsType = "btrfs";
-      options = [ "subvol=@nixarr" "compress=zstd"  ];
-    };
-
-  fileSystems."/boot" = 
-  {
-    device = "/dev/disk/by-uuid/6DA6-F853";
-    fsType = "vfat";
-    options = [ "fmask=0022" "dmask=0022" ];
-  };
-
-  swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -66,11 +49,8 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;
-  boot.swraid.enable = true;
  
 
-  # Enable periodic scrubbing of Btrfs filesystems
-  services.btrfs.autoScrub.enable = true;
 
   # nvidia
   hardware.graphics = {
