@@ -73,6 +73,7 @@ in
       {
         imports = [
           inputs.hydenix.lib.homeModules
+          inputs.nix-index-database.hmModules.nix-index
           ./modules/hm
         ];
       };

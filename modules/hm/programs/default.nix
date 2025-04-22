@@ -4,5 +4,6 @@
     ./pass.nix
     ./tmux.nix
     ./zsh.nix
+    ./vscode.nix
   ];
 }
