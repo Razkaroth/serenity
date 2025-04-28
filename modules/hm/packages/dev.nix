@@ -57,7 +57,6 @@
     typescript
     eslint
     # very important stuff
-    uwuify
     neofetch
     thefuck
   ];

@@ -80,29 +80,28 @@
     terminals = {
       enable = true; # enable terminals module
       kitty.enable = true; # enable kitty terminal
-      #  configText = ""; # kitty config text
+      kitty.configText = "allow_remote_control yes"; # kitty config text
     };
     theme = {
       enable = true; # enable theme module
-      active = "Cosmic Blue"; # active theme eg "Catppuccin Mocha"
+      active = "Cat Latte"; # active theme
       themes = [
         "Catppuccin Mocha"
-        "Catppuccin Latte"
         "Rose Pine"
         "Red Stone"
         "Vanta Black"
         "Cosmic Blue"
         "Scarlet Night"
         "Ever Blushing"
-        "Another-World"
-        "Bad-Blood"
-        "Cat-Latte"
-        "Graphite-Mono"
+        "Another World"
+        "Bad Blood"
+        "Cat Latte"
+        "Graphite Mono"
         "Gruvbox Retro"
         "Monokai"
         "Moonlight"
         "Tokyo Night"
-        "Sci-fi"
+        "Sci fi"
         "Solarized Dark"
       ]; # default enabled themes, full list in https://github.com/richen604/hydenix/tree/main/hydenix/sources/themes
     };

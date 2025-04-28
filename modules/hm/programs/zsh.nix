@@ -22,7 +22,7 @@
       alias ld='eza -lhD --icons=auto' # long list dirs
       alias lt='eza --icons=auto --tree' # list folder as tree
       alias vc='code' # gui code editor
-      alias n='nvim'
+      alias n='~/.config/nvim/kitty.sh' # kitty wrapper for nvim
       alias ta='tmux attach'
       alias t='tmux new-session -A -s scratch'
       alias lz='lazygit'
@@ -43,7 +43,6 @@
       # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh  
 
-      source $HOME/.local/state/nix/profiles/home-manager/home-path/share/hyde/hyde-cli/shell-completions/Hyde.zsh
 
       export PATH=$HOME/.local/bin:$PATH
       eval "$(zoxide init zsh)"
