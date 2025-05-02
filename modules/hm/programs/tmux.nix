@@ -46,6 +46,8 @@ in {
       bind '"' split-window -c '#{pane_current_path}'
       bind % split-window -h -c '#{pane_current_path}'
 
+      set -g update-environment "DISPLAY KITTY_PID KITTY_LISTEN_ON"
+
       # window rezise with arrow keys
       bind -n M-Up resize-pane -U 5
       bind -n M-Down resize-pane -D 5

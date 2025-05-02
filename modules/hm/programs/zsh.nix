@@ -48,6 +48,15 @@
       eval "$(zoxide init zsh)"
       eval $(thefuck --alias)
 
+      if [ -n "$TMUX" ]; then                                                                               
+        function refresh {                                                                                
+          export $(tmux show-environment | grep "^KITTY_PID")
+          export $(tmux show-environment | grep "^KITTY_LISTEN_ON")
+        }                                                                                                 
+      else                                                                                                  
+        function refresh { }                                                                              
+      fi
+
     '';
     initExtraFirst = ''
 

@@ -80,7 +80,9 @@
     terminals = {
       enable = true; # enable terminals module
       kitty.enable = true; # enable kitty terminal
-      kitty.configText = "allow_remote_control yes"; # kitty config text
+      kitty.configText = ''
+        allow_remote_control yes
+        ''; # kitty config text
     };
     theme = {
       enable = true; # enable theme module

@@ -32,6 +32,7 @@
     code-cursor
     postman
     insomnia
+    pandoc
     speedtest-cli
     stripe-cli
     zoxide
