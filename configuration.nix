@@ -93,6 +93,7 @@ in
       visit ./modules/hm/default.nix for more options
 
       audio.enable = true; # enable audio module
+*/
       boot = {
         enable = true; # enable boot module
         useSystemdBoot = true; # disable for GRUB
@@ -100,6 +101,7 @@ in
         grubExtraConfig = ""; # additional GRUB configuration
         kernelPackages = pkgs.linuxPackages_zen; # default zen kernel
       };
+    /*
       hardware.enable = true; # enable hardware module
       network.enable = true; # enable network module
       nix.enable = true; # enable nix module

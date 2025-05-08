@@ -19,65 +19,6 @@
   )
 )
 
-(defalias
-  spc (tap-hold 150 200 spc (layer-while-held lyrs))
-  lyBk (layer-switch base)
-  sym (layer-switch symbols)
-  akt (layer-switch actions)
-  )
-
-(defsrc
-  esc   1    2    3    4    5    6    7    8    9    0    -    =    grv  bspc
-  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \    del
-  caps  a    s    d    f    g    h    j    k    l    ;    '    ret       pgup
-  lsft  z    x    c    v    b    n    m    ,    .    /    rsft      ▲    pgdn
-  lctl  lmet lalt           spc            ralt rmet rctl      ◀    ▼    ▶
-)
-
-(deflayer base
-
-;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
-     esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
-
-;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
-     tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
-
-;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
-     esc   a     s     d     f     g     h     j     k     l     ;     '     ret         home
-
-;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     end
-
-;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     lctl  lmet  lalt             @spc              ralt  rmet  rctl         ◀     ▼     ▶
-)
-
-;; ----------------- LAYERS -----------------
-
-(defalias
-  ;; nvim complete alt tab
-  c A-tab
-  qt (macro ' spc)
-  dq (macro S-' spc)
-  )
-;; x key is broken on my laptop, so we use z instead on the lyrs layer
-(deflayer lyrs
-;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
-     esc   f1    f2    f3    f4    f5    f6    f7    f8    f9    f10   f11   f12   _     _
-
-;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
-     _     _     _    ret   lrld   @c    home  pgdn  pgup  end    _     _     _     _     _
-
-;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
-     caps @akt  @sym  bspc  del   spc    ◀     ▼     ▲     ▶     _     _     _           _
-
-;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     x     =    S-.   @qt   @dq   @op   @ob    _     _     _     _           _     _
-
-;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _                 _                 _     _     _           _     _     _
-)
-
 ;; ----------------- SYMBOLS -----------------
 
 (defalias
@@ -111,51 +52,150 @@
   pipe S-\
  )
 
-(deflayer symbols
-;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
-     _    S-1   S-2   S-3   S-4   S-5   S-6   S-7   S-8   S-9   S-0   S--   S-=  S-grv   _
+ ;; -----------------------------------------------
+ ;; ---------------- Layer movement ---------------
+ ;; -----------------------------------------------
 
-;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
-     _     1     2     3     4     5     6     7     8     9     0     _     _     _     _
+(defalias
+  spc (tap-hold 150 200 spc (layer-while-held lyrs))
+  lyBk (layer-switch base)
+  lu (layer-switch 1up)
+  ld (layer-switch 1down)
+  l2u (layer-switch 2up)
+  l2d (layer-switch 2down)
+  )
 
-;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
-     @lyBk _     _     =     -    @us    [    @op   @cp    ]     _     _     _           _
-
-;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     \     _    S-=   @us  @lyBk  @ob   @cb    ,     .     /     _           _     _
-
-;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _               @spc                _     _     _           _     _     _
+(defsrc
+  esc   1    2    3    4    5    6    7    8    9    0    -    =    grv  bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \    del
+  caps  a    s    d    f    g    h    j    k    l    ;    '    ret       pgup
+  lsft  z    x    c    v    b    n    m    ,    .    /    rsft      ▲    pgdn
+  lctl  lmet lalt           spc            ralt rmet rctl      ◀    ▼    ▶
 )
 
 
 
 
-;; ----------------- action LAYER -----------------
+;; -----------------------------------------------
+;; ------------------ 2up LAYER ------------------
+;; -----------------------------------------------
 
-
-(deflayer actions
+(deflayer 2up
 ;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
      _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
 
 ;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
-     _     _     _     _     _     _     _     _     _     _     pp     _     _     _     _
+     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
 
 ;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
-     @lyBk _     _     _     _     _    prev voldwn volu  next   _     _     _           _
+     @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     _     _     _     _   @lyBk     _    mute   _     _     _     _           _     _
+     _     _     _     _     _     _     _     _     _     _     _     _           _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _               @spc               _     _     _           _     _     _
+     _     _     _                 -                 _     _     _           _     _     _
+)
+
+
+;; -----------------------------------------------
+;; ------------------ 1up LAYER ------------------
+;; -----------------------------------------------
+
+(deflayer 1up
+;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
+     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+
+;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
+     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+
+;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
+     @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
+
+;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
+     _     _     _     _     _     _     _     _     _     _     _     _           _     _
+
+;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
+     _     _     _                 -                 _     _     _           _     _     _
+)
+
+
+;; -----------------------------------------------
+;; ----------------- BASE LAYER -----------------
+;; -----------------------------------------------
+
+(deflayer base
+
+;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
+     esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
+
+;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
+     tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
+
+;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
+     esc   a     s     d     f     g     h     j     k     l     ;     '     ret         home
+
+;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
+     lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     end
+
+;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
+     lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
+)
+
+
+
+;; -----------------------------------------------
+;; ----------------- 1down LAYER -----------------
+;; -----------------------------------------------
+
+(deflayer 1down
+;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
+     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+
+;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
+     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+
+;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
+     @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
+
+;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
+     _     _     _     _     _     _     _     _     _     _     _     _           _     _
+
+;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
+     _     _     _                 -                 _     _     _           _     _     _
+)
+
+
+
+;; -----------------------------------------------
+;; ----------------- 2down LAYER -----------------
+;; -----------------------------------------------
+
+(deflayer 2down
+;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
+     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+
+;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
+     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+
+;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
+     @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
+
+;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
+     _     _     _     _     _     _     _     _     _     _     _     _           _     _
+
+;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
+     _     _     _                 -                 _     _     _           _     _     _
 )
 
 
 
 
-;; ----------------- BLANK LAYER -----------------
 
+
+;; -----------------------------------------------
+;; ----------------- BLANK LAYER -----------------
+;; -----------------------------------------------
 
 (deflayer blank
 ;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
@@ -168,12 +208,11 @@
      @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     _     _     _     _   @lyBk      _     _     _     _     _     _           _     _
+     _     _     _     _     _     _     _     _     _     _     _     _           _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _               @spc                 _     _     _           _     _     _
+     _     _     _                 -                 _     _     _           _     _     _
 )
-
 
 
 
