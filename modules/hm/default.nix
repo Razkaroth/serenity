@@ -67,7 +67,7 @@
       #  configText = ""; # zsh config text
       bash.enable = false; # enable bash shell
       fish.enable = false; # enable fish shell
-      pokego.enable = true; # enable Pokemon ASCII art scripts
+      pokego.enable = false; # enable Pokemon ASCII art scripts
     };
     # social = {
     #   enable = true; # enable social module
