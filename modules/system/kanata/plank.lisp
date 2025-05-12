@@ -1,4 +1,3 @@
-
 ;; -*- TIMINGS -*-
 (defvar
   tap-time 150
@@ -57,13 +56,16 @@
  ;; -----------------------------------------------
 
 (defalias
-  spc (tap-hold 150 200 spc (layer-while-held lyrs))
   lyBk (layer-switch base)
-  lu (layer-switch 1up)
-  ld (layer-switch 1down)
-  l2u (layer-switch 2up)
-  l2d (layer-switch 2down)
-  )
+
+  lu (tap-hold 100 110 (layer-switch 1up) rsft)
+
+  l2u (tap-hold 100 110 (layer-switch 2up) rsft)
+
+  ld (tap-hold 100 110 (layer-switch 1down) lsft)
+
+  l2d (tap-hold 100 110 (layer-switch 2down) lsft)
+)
 
 (defsrc
   esc   1    2    3    4    5    6    7    8    9    0    -    =    grv  bspc
@@ -91,10 +93,10 @@
      @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     _     _     _     _     _     _     _     _     _     _     _           _     _
+     @lu   _     _     _     _     _     _     _     _     _     _     _           _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _                 -                 _     _     _           _     _     _
+     _     _     _                 _                 _     _     _           _     _     _
 )
 
 
@@ -104,19 +106,19 @@
 
 (deflayer 1up
 ;;   esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
-     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+     _     S-1   S-2   S-3   S-4   S-5   S-6   S-7   S-8   S-9   S-0   S--   S-=   grv   bspc
 
 ;;   tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
      _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
 
 ;;   caps  a     s     d     f     g     h     j     k     l     ;     '     ret         pgup
-     @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
+     @lyBk _     _     @op   @ob   [     ]     @cb   @cp   _     _     _     _           pgup
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     _     _     _     _     _     _     _     _     _     _     _           _     _
+     @lyBk _     _     _     _     _     _     _     S-,   S-.   S-/   @rsft       _     pgdn
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _                 -                 _     _     _           _     _     _
+     _     _     _                 _                 _     _     _           _     _     _
 )
 
 
@@ -136,7 +138,7 @@
      esc   a     s     d     f     g     h     j     k     l     ;     '     ret         home
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     end
+     @ld   z     x     c     v     b     n     m     ,     .     /     @lu         ▲     end
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
      lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
@@ -159,10 +161,10 @@
      @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     _     _     _     _     _     _     _     _     _     _     _           _     _
+     @lyBk _     _     _     _     _     _     _     _     _     _     @l2d        _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _                 -                 _     _     _           _     _     _
+     _     _     _                 _                 _     _     _           _     _     _
 )
 
 
@@ -182,10 +184,10 @@
      @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     _     _     _     _     _     _     _     _     _     _     _           _     _
+     _     _     _     _     _     _     _     _     _     _     _     @lu         _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _                 -                 _     _     _           _     _     _
+     _     _     _                 _                 _     _     _           _     _     _
 )
 
 
@@ -211,7 +213,7 @@
      _     _     _     _     _     _     _     _     _     _     _     _           _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
-     _     _     _                 -                 _     _     _           _     _     _
+     _     _     _                 _                 _     _     _           _     _     _
 )
 
 

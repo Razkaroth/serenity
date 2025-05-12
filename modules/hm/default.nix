@@ -86,7 +86,7 @@
     };
     theme = {
       enable = true; # enable theme module
-      active = "Cat Latte"; # active theme
+      active = "Gruvbox Retro"; # active theme
       themes = [
         "Catppuccin Mocha"
         "Rose Pine"
