@@ -115,7 +115,7 @@
      @lyBk _     _     @op   @ob   [     ]     @cb   @cp   _     _     _     _           pgup
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     @lyBk _     _     _     _     _     _     _     S-,   S-.   S-/   @rsft       _     pgdn
+     @lyBk _     _     _     _     _     _     _     S-,   S-.   S-/   @l2u       _     pgdn
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
      _     _     _                 _                 _     _     _           _     _     _
@@ -161,7 +161,7 @@
      @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     @lyBk _     _     _     _     _     _     _     _     _     _     @l2d        _     _
+     @l2d  _     _     _     _     _     _     _     _     _     _     @lyBk       _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
      _     _     _                 _                 _     _     _           _     _     _
@@ -184,7 +184,7 @@
      @lyBk _     _     _     _     _     _     _     _     _     _     _     _           _
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     _     _     _     _     _     _     _     _     _     _     _     @lu         _     _
+     _     _     _     _     _     _     _     _     _     _     _     @ld         _     _
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
      _     _     _                 _                 _     _     _           _     _     _
