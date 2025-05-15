@@ -7,6 +7,7 @@
     ./nixarr.nix
     ./docker.nix
     ./tailscale.nix
+    ./actual.nix
   ];
 
   environment.systemPackages = [
