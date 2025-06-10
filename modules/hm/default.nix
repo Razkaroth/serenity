@@ -31,13 +31,6 @@
       default = "nvim"; # default text editor
     };
     fastfetch.enable = true; # fastfetch configuration
-    firefox = {
-      enable = true; # enable firefox module
-      useHydeConfig = false; # use hyde firefox configuration and extensions
-      useUserChrome = true; # if useHydeConfig is true, apply hyde userChrome CSS customizations
-      useUserJs = true; # if useHydeConfig is true, apply hyde user.js preferences
-      useExtensions = true; # if useHydeConfig is true, install hyde firefox extensions
-    };
     git = {
       enable = true; # enable git module
       name = "razkaroth"; # git user name eg "John Doe"
@@ -57,8 +50,6 @@
       enable = true; # enable screenshots module
       grim.enable = true; # enable grim screenshot tool
       slurp.enable = true; # enable slurp region selection tool
-      satty.enable = true; # enable satty screenshot annotation tool
-      swappy.enable = false; # enable swappy screenshot editor
     };
     #wallpapers.enable = true; # enable wallpapers module
     shell = {
