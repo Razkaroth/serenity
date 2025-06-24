@@ -42,7 +42,6 @@
 
       export PATH=$HOME/.local/bin:$PATH
       eval "$(zoxide init zsh)"
-      eval $(thefuck --alias)
 
       if [ -n "$TMUX" ]; then                                                                               
         function refresh {                                                                                

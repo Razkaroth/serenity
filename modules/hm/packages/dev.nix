@@ -59,6 +59,6 @@
     eslint
     # very important stuff
     neofetch
-    thefuck
+    
   ];
 }
