@@ -41,6 +41,7 @@
 
 
       export PATH=$HOME/.local/bin:$PATH
+      export PATH="/home/raz/.cache/.bun/bin:$PATH"
       eval "$(zoxide init zsh)"
 
       if [ -n "$TMUX" ]; then                                                                               

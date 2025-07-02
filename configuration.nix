@@ -121,6 +121,7 @@ in
       "networkmanager" # For network management
       "video" # For display/graphics access
       "docker" # For docker access
+      "media" # For media access
       # Add other groups as needed
     ];
     shell = pkgs.zsh; # Change if you prefer a different shell
