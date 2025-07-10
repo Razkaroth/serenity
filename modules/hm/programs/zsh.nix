@@ -20,14 +20,15 @@
       alias ld='eza -lhD --icons=auto' # long list dirs
       alias lt='eza --icons=auto --tree' # list folder as tree
       alias vc='code' # gui code editor
-      alias n='~/.config/nvchad/kitty.sh' # kitty wrapper for nvim
-      alias nl='~/.config/nvim/kitty.sh' # kitty wrapper for nvim
+      alias nc='~/.config/nvchad/kitty.sh' # kitty wrapper for nvim
+      alias n='~/.config/nvim/kitty.sh' # kitty wrapper for nvim
       alias ta='tmux attach'
       alias t='tmux new-session -A -s scratch'
       alias lz='lazygit'
       alias dcu='docker compose up'
       alias dcd='docker compose down'
       alias dcr='docker compose restart'
+      
 
       # Directory navigation shortcuts
       alias ..='cd ..'

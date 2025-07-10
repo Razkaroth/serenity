@@ -77,7 +77,7 @@
     };
     theme = {
       enable = true; # enable theme module
-      active = "Gruvbox Retro"; # active theme
+      active = "Solarized Dark"; # default theme
       themes = [
         "Catppuccin Mocha"
         "Rose Pine"
@@ -88,8 +88,6 @@
         "Ever Blushing"
         "Another World"
         "Bad Blood"
-        "Cat Latte"
-        "Graphite Mono"
         "Gruvbox Retro"
         "Monokai"
         "Moonlight"

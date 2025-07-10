@@ -51,6 +51,7 @@
     gjs
     bun
     cargo
+    uv
     go
     gcc
     gnumake
