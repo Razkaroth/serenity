@@ -1,4 +1,4 @@
-{ pkgs, ...}:{
+{ pkgs, lib, ...}:{
   home.file = {
     ".config/hypr/userprefs.conf" = pkgs.lib.mkForce {
     source = ./hypr.conf;
@@ -6,10 +6,22 @@
       mutable = true;
     };
   };
-  home.activation = {
 
+  home.file = {
+    ".config/hypr/scripts/rofiBeats.sh" = {
+      source = ./rofiBeats.sh;
+      force = true;
+      mutable = true;
+    };
   };
-
+  home.activation = {
+    rofiBeats = lib.hm.dag.entryAfter [ "setTheme" ] ''
+    $DRY_RUN_CMD chmod u+rxw  $HOME/.config/hypr/scripts/rofiBeats.sh
+    # gsettings set org.gnome.desktop.interface cursor-theme 'Gruvbox-Retro'
+    # gsettings set org.gnome.desktop.interface cursor-size 30
+    # hyprctl setcursor Gruvbox-Retro 30
+    '';
+  };
 
     home.sessionVariables = {
       NIXPKGS_ALLOW_UNFREE = "1";
