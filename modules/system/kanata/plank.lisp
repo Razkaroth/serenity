@@ -138,7 +138,7 @@
      esc   a     s     d     f     g     h     j     k     l     ;     '     ret         home
 
 ;;   lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
-     @ld   z     x     c     v     b     n     m     ,     .     /     @lu         ▲     end
+     lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     end
 
 ;;   lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶
      lctl  lmet  lalt             spc               ralt  rmet  rctl         ◀     ▼     ▶

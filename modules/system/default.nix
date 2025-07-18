@@ -3,11 +3,12 @@
 {
   imports = [
     # ./example.nix - add your modules here
-    ./kanata
+    # ./kanata
     ./nixarr.nix
     ./docker.nix
     ./tailscale.nix
     ./actual.nix
+    ./via.nix
   ];
 
   environment.systemPackages = [
@@ -17,5 +18,6 @@
     pkgs.zip
     pkgs.unzip
     pkgs.nix-output-monitor
+    pkgs.vial
   ];
 }
