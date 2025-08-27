@@ -12,6 +12,8 @@
     #Cloud
     doctl
 
+    # Boot.dev
+    bootdev-cli
     # Tools
 
     aria2
