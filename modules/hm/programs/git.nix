@@ -8,7 +8,6 @@ programs.git = {
     extraConfig = {
     push = { autoSetupRemote = true; };
     pull = { rebase = false; };
-    # init = { defaultBranch = lib.mkForce "master"; };
     };
   };
 }

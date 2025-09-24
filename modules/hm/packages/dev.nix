@@ -37,6 +37,7 @@
     pandoc
     speedtest-cli
     stripe-cli
+    tree-sitter
     zoxide
     uutils-coreutils-noprefix
 

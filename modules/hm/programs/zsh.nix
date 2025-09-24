@@ -1,8 +1,12 @@
 {
-  pkgs,
   ...
 }:
 {
+  # default notebook set in zsh profile
+  programs.zk = {
+    enable = true;
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -43,6 +47,7 @@
 
       export PATH=$HOME/.local/bin:$PATH
       export PATH="/home/raz/.cache/.bun/bin:$PATH"
+      export ZK_NOTEBOOK_DIR="$HOME/vaults/codex-astartes/"
       eval "$(zoxide init zsh)"
 
       if [ -n "$TMUX" ]; then                                                                               

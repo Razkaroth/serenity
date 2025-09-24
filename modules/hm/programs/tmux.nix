@@ -57,7 +57,6 @@ in {
       # bind a to create a new window and A to create a new session
       bind a new-window
       bind A new-session
-
     '';
 
     plugins = with pkgs; [
