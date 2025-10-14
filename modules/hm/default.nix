@@ -54,11 +54,51 @@
     #wallpapers.enable = true; # enable wallpapers module
     shell = {
       enable = true; # enable shell module
-      zsh.enable = true; # enable zsh shell
+      zsh ={
+        enable = true; # enable zsh shell
+        configText = ''
+            alias l='eza -lh --icons=auto' # long list
+            alias ls='eza -1 --icons=auto' # short list
+            alias ll='eza -lha --icons=auto --sort=name --group-directories-first' # long list all
+            alias ld='eza -lhD --icons=auto' # long list dirs
+            alias lt='eza --icons=auto --tree' # list folder as tree
+            alias n='~/.config/nvim/kitty.sh' # kitty wrapper for nvim
+
+            alias ta='tmux attach'
+            alias t='tmux new-session -A -s scratch'
+            alias lz='lazygit'
+            alias dcu='docker compose up'
+            alias dcd='docker compose down'
+            alias dcr='docker compose restart'
+
+            # Google calendar
+            alias gcal='gcalcli'
+            alias gcq='gcalcli --calendar rocker.ikaros@gmail.com quick'
+
+            # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
+            alias mkdir='mkdir -p'
+
+
+            export PATH=$HOME/.local/bin:$PATH
+            export PATH="/home/raz/.cache/.bun/bin:$PATH"
+            export ZK_NOTEBOOK_DIR="$HOME/vaults/codex-astartes/"
+            eval "$(zoxide init zsh)"
+
+            if [ -n "$TMUX" ]; then                                                                               
+              function refresh {                                                                                
+                export $(tmux show-environment | grep "^KITTY_PID")
+                export $(tmux show-environment | grep "^KITTY_LISTEN_ON")
+              }                                                                                                 
+            else                                                                                                  
+              function refresh { }                                                                              
+            fi
+        '';
+    }; # enable zsh shell
       #  configText = ""; # zsh config text
       bash.enable = false; # enable bash shell
       fish.enable = false; # enable fish shell
       pokego.enable = false; # enable Pokemon ASCII art scripts
+      starship.enable = true;
     };
     # social = {
     #   enable = true; # enable social module
@@ -77,23 +117,32 @@
     };
     theme = {
       enable = true; # enable theme module
-      active = "Solarized Dark"; # default theme
+      active = "Cat Latte";
       themes = [
+        "AncientAliens"
+        "Graphite Mono"
         "Catppuccin Mocha"
-        "Rose Pine"
-        "Red Stone"
+        "Cat Latte"
+        "Rosé Pine"
         "Vanta Black"
         "Cosmic Blue"
         "Scarlet Night"
         "Ever Blushing"
-        "Another World"
-        "Bad Blood"
         "Gruvbox Retro"
         "Monokai"
         "Moonlight"
         "Tokyo Night"
-        "Sci fi"
+        "Sci-fi"
         "Solarized Dark"
+        "Green Lush"
+        "Grukai"
+        "Obisidian-Purple"
+        "Decay Green"
+        "AbyssGreen"
+        "Amethyst-Aura"
+        "Peace Of Mind"
+        "Synth Wave"
+        "Tundra"
       ]; # default enabled themes, full list in https://github.com/richen604/hydenix/tree/main/hydenix/sources/themes
     };
     waybar.enable = true; # enable waybar module

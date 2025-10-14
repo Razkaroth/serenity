@@ -32,6 +32,10 @@
       alias dcu='docker compose up'
       alias dcd='docker compose down'
       alias dcr='docker compose restart'
+
+      # Google calendar
+      alias gcal='gcalcli'
+      alias gcq='gcalcli --calendar rocker.ikaros@gmail.com quick'
       
 
       # Directory navigation shortcuts
@@ -49,6 +53,7 @@
       export PATH="/home/raz/.cache/.bun/bin:$PATH"
       export ZK_NOTEBOOK_DIR="$HOME/vaults/codex-astartes/"
       eval "$(zoxide init zsh)"
+      eval "$(direnv hook zsh)"
 
       if [ -n "$TMUX" ]; then                                                                               
         function refresh {                                                                                

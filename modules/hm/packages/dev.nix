@@ -11,6 +11,7 @@
 
     #Cloud
     doctl
+    ngrok
 
     # Boot.dev
     bootdev-cli

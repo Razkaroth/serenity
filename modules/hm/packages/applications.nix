@@ -7,7 +7,7 @@ in
     # --------------------------------------------------- // Applications
     firefox # browser
     bottles # wine manager
-    inputs.zen-browser.packages."${system}".default
+    inputs.zen-browser.packages."${system}".beta # zen-beta
     brave # browser
     chromium # browser
     google-chrome # browser
@@ -25,6 +25,41 @@ in
     signal-desktop # messaging client
     zoom-us # video conferencing
   ];
+
+  # Configure zen-beta as default browser
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "x-scheme-handler/http" = "zen-beta.desktop";
+      "x-scheme-handler/https" = "zen-beta.desktop";
+      "x-scheme-handler/chrome" = "zen-beta.desktop";
+      "text/html" = "zen-beta.desktop";
+      "application/x-extension-htm" = "zen-beta.desktop";
+      "application/x-extension-html" = "zen-beta.desktop";
+      "application/x-extension-shtml" = "zen-beta.desktop";
+      "application/xhtml+xml" = "zen-beta.desktop";
+      "application/x-extension-xhtml" = "zen-beta.desktop";
+      "application/x-extension-xht" = "zen-beta.desktop";
+      
+      # Keep other existing defaults
+      "application/javascript" = "nvim.desktop";
+      "application/json" = "nvim.desktop";
+      "application/x-shellscript" = "nvim.desktop";
+      "application/xml" = "nvim.desktop";
+      "inode/directory" = "org.kde.dolphin.desktop";
+      "text/css" = "nvim.desktop";
+      "text/markdown" = "nvim.desktop";
+      "text/plain" = "nvim.desktop";
+      "text/x-c++src" = "nvim.desktop";
+      "text/x-csrc" = "nvim.desktop";
+      "text/x-go" = "nvim.desktop";
+      "text/x-java-source" = "nvim.desktop";
+      "text/x-python" = "nvim.desktop";
+      "text/x-typescript" = "nvim.desktop";
+      "x-scheme-handler/about" = "org.kde.dolphin.desktop";
+      "x-scheme-handler/file" = "org.kde.dolphin.desktop";
+    };
+  };
 
   # Systemd user service for gcalcli reminders
   systemd.user.timers.gcalcli-reminders = {
