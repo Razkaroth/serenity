@@ -15,8 +15,8 @@
       url = "github:richen604/hydenix";
     };
 
-   nix-index-database = {
-      url = "github:nix-community/nix-index-database";
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -35,11 +35,12 @@
     let
       HOSTNAME = "serenity";
 
-      hydenixConfig = inputs.hydenix.inputs.hydenix-nixpkgs.lib.nixosSystem {
-        inherit (inputs.hydenix.lib) system;
-        specialArgs = {
-          inherit inputs;
-        };
+    system = "x86_64-linux";
+      hydenixConfig = inputs.nixpkgs.lib.nixosSystem {
+        inherit system;
+         specialArgs = {
+           inherit inputs;
+         };
         modules = [
         inputs.nixarr.nixosModules.default
 

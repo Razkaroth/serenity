@@ -19,7 +19,6 @@ in
     typora
     transmission_4-gtk
     libreoffice
-    libsForQt5.networkmanager-qt
     kdePackages.kalarm
     gcalcli # google calendar
     signal-desktop # messaging client

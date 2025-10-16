@@ -6,11 +6,12 @@ let
   # Package declaration
   # ---------------------
 
-  pkgs = import inputs.hydenix.inputs.hydenix-nixpkgs {
-    inherit (inputs.hydenix.lib) system;
+  system = "x86_64-linux";
+  pkgs = import inputs.nixpkgs {
+    inherit system;
     config.allowUnfree = true;
     overlays = [
-      inputs.hydenix.lib.overlays
+      inputs.hydenix.overlays.default
     ];
 
     # Include your own package set to be used eg. pkgs.userPkgs.bash
@@ -25,9 +26,9 @@ in
   nixpkgs.pkgs = pkgs;
 
   imports = [
-    inputs.hydenix.inputs.home-manager.nixosModules.home-manager
+    inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
-    inputs.hydenix.lib.nixOsModules
+    inputs.hydenix.nixosModules.default
     ./modules/system
 
     # === GPU-specific configurations ===
@@ -72,8 +73,7 @@ in
       { ... }:
       {
         imports = [
-          inputs.hydenix.lib.homeModules
-          inputs.nix-index-database.hmModules.nix-index
+          inputs.hydenix.homeModules.default
           ./modules/hm
         ];
       };
