@@ -23,6 +23,7 @@ in
     gcalcli # google calendar
     signal-desktop # messaging client
     zoom-us # video conferencing
+    zk
   ];
 
   # Configure zen-beta as default browser

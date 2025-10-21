@@ -23,6 +23,7 @@
     anydesk
     fd
     ripgrep
+    lsof
     fzf
     socat
     ffmpeg
