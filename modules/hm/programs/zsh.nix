@@ -54,6 +54,7 @@
         function refresh {                                                                                
           export $(tmux show-environment | grep "^KITTY_PID")
           export $(tmux show-environment | grep "^KITTY_LISTEN_ON")
+          clear
         }                                                                                                 
       else                                                                                                  
         function refresh { }                                                                              

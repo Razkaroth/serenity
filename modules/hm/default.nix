@@ -117,7 +117,7 @@
     };
     theme = {
       enable = true; # enable theme module
-      active = "Cat Latte";
+      active = "Monokai";
       themes = [
         "AncientAliens"
         "Graphite Mono"
