@@ -19,7 +19,7 @@
         };
         size.scale = 1;
       };
-      padding.scale = 0.5;
+      # padding.scale = 0.5;
       rounding.scale = 1;
       spacing.scale = 1;
       transparency = {
@@ -80,7 +80,7 @@
       };
     };
     background = {
-      desktopClock.enabled = true;
+      desktopClock.enabled = false;
       enabled = true;
       visualiser = {
         blur = true;
