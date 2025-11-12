@@ -11,6 +11,7 @@ in
     brave # browser
     chromium # browser
     google-chrome # browser
+    gnome-disk-utility
     vesktop # discord client
     pomodoro
     sunvox

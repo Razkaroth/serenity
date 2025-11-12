@@ -78,6 +78,19 @@
             # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
             alias mkdir='mkdir -p'
 
+            # a super touch command
+            touch() {
+              for f in "$@"; do
+                if [[ "$f" == */ ]]; then
+                  # Ends with a slash → make directory
+                  mkdir -p "$f"
+                else
+                  # Otherwise → make file (with parent dirs)
+                  install -D /dev/null "$f"
+                fi
+              done
+            }
+
 
             export PATH=$HOME/.local/bin:$PATH
             export PATH="/home/raz/.cache/.bun/bin:$PATH"

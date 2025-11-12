@@ -9,6 +9,7 @@
     ./tailscale.nix
     ./actual.nix
     ./via.nix
+    ./vm.nix
   ];
 
   environment.systemPackages = [

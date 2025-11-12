@@ -33,10 +33,11 @@
       ...
     }@inputs:
     let
-      HOSTNAME = "serenity";
+      SERENITY = "serenity";
+      ASCENCE = "ascence";
 
     system = "x86_64-linux";
-      hydenixConfig = inputs.nixpkgs.lib.nixosSystem {
+      hydenixSerenityConfig = inputs.nixpkgs.lib.nixosSystem {
         inherit system;
          specialArgs = {
            inherit inputs;
@@ -45,13 +46,25 @@
         inputs.nixarr.nixosModules.default
 
           # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
-          ./configuration.nix
+          ./serenity/configuration.nix
+        ];
+      };
+      hydenixAscenceConfig = inputs.nixpkgs.lib.nixosSystem {
+        inherit system;
+         specialArgs = {
+           inherit inputs;
+         };
+        modules = [
+
+          # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
+          ./ascence/configuration.nix
         ];
       };
 
     in
     {
-      nixosConfigurations.nixos = hydenixConfig;
-      nixosConfigurations.${HOSTNAME} = hydenixConfig;
+      nixosConfigurations.nixos = hydenixSerenityConfig;
+      nixosConfigurations.${SERENITY} = hydenixSerenityConfig;
+      nixosConfigurations.${ASCENCE} = hydenixAscenceConfig;
     };
 }

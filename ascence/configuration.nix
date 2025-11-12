@@ -27,9 +27,9 @@ in
 
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    ./hardware-configuration.nix
+    ./serenity-hardware.nix
     inputs.hydenix.nixosModules.default
-    ./modules/system
+    ./system
 
     # === GPU-specific configurations ===
 
@@ -122,6 +122,7 @@ in
       "video" # For display/graphics access
       "docker" # For docker access
       "media" # For media access
+      "libvirtd" # For virtualization access
       # Add other groups as needed
     ];
     shell = pkgs.zsh; # Change if you prefer a different shell
