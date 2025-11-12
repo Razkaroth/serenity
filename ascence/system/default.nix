@@ -4,7 +4,7 @@
   imports = [
     # ./example.nix - add your modules here
     # ./kanata
-    ./nixarr.nix
+    # ./nixarr.nix # - only on serenity
     ./docker.nix
     ./tailscale.nix
     ./actual.nix

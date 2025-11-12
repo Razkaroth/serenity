@@ -27,7 +27,7 @@ in
 
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    ./serenity-hardware.nix
+    ./ascence-hardware.nix
     inputs.hydenix.nixosModules.default
     ./system
 
@@ -37,27 +37,7 @@ in
       For drivers, we are leveraging nixos-hardware
       Most common drivers are below, but you can see more options here: https://github.com/NixOS/nixos-hardware
     */
-
-    #! EDIT THIS SECTION
-    # For NVIDIA setups
-    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia
-    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonmodeset
-
-    # For AMD setups
-    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd
-
-    # === CPU-specific configurations ===
-    # For AMD CPUs
-    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd
-    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
-
-    # For Intel CPUs
-    #inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel
-
-    # === Other common modules ===
-    #inputs.hydenix.inputs.nixos-hardware.nixosModules.common-pc
-    #inputs.hydenix.inputs.nixos-hardware.nixosModules.common-pc-ssd
-
+    inputs.hydenix.inputs.nixos-hardware.nixosModules.omen-14-fb0798ng
   ];
 
   home-manager = {

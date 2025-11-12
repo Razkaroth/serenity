@@ -130,32 +130,10 @@
     };
     theme = {
       enable = true; # enable theme module
-      active = "Monokai";
+      active = "Cat Latte";
       themes = [
-        "AncientAliens"
-        "Graphite Mono"
-        "Catppuccin Mocha"
         "Cat Latte"
-        "Rosé Pine"
-        "Vanta Black"
         "Cosmic Blue"
-        "Scarlet Night"
-        "Ever Blushing"
-        "Gruvbox Retro"
-        "Monokai"
-        "Moonlight"
-        "Tokyo Night"
-        "Sci-fi"
-        "Solarized Dark"
-        "Green Lush"
-        "Grukai"
-        "Obisidian-Purple"
-        "Decay Green"
-        "AbyssGreen"
-        "Amethyst-Aura"
-        "Peace Of Mind"
-        "Synth Wave"
-        "Tundra"
       ]; # default enabled themes, full list in https://github.com/richen604/hydenix/tree/main/hydenix/sources/themes
     };
     waybar.enable = true; # enable waybar module
