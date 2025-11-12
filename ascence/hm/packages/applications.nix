@@ -14,6 +14,7 @@ in
     google-chrome # browser
     gnome-disk-utility
     vesktop # discord client
+    thunar
     pomodoro
     sunvox
     obsidian

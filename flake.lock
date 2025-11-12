@@ -24,22 +24,6 @@
         "type": "github"
       }
     },
-    "caelestia-dots": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1760528061,
-        "narHash": "sha256-k4hCz9Y2a7KeS1cGiSdwNPanzbvIStJy1/W6Sd4l4xo=",
-        "ref": "refs/heads/main",
-        "rev": "ddc6948d3197a24dac9691b716507bfcb48548f4",
-        "revCount": 165,
-        "type": "git",
-        "url": "file:./ascence/hm/confs/caelestia"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:./ascence/hm/confs/caelestia"
-      }
-    },
     "caelestia-shell": {
       "inputs": {
         "caelestia-cli": "caelestia-cli",
@@ -447,7 +431,6 @@
     },
     "root": {
       "inputs": {
-        "caelestia-dots": "caelestia-dots",
         "caelestia-shell": "caelestia-shell",
         "home-manager": "home-manager",
         "hydenix": "hydenix",
