@@ -54,7 +54,7 @@ in
       {
         imports = [
           inputs.hydenix.homeModules.default
-          ./modules/hm
+          ./hm
         ];
       };
   };
