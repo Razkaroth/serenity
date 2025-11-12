@@ -19,7 +19,7 @@
         };
         size.scale = 1;
       };
-      padding.scale = 1;
+      padding.scale = 0.5;
       rounding.scale = 1;
       spacing.scale = 1;
       transparency = {
@@ -30,7 +30,7 @@
     };
     general = {
       apps = {
-        terminal = ["foot"];
+        terminal = ["kitty"];
         audio = ["pavucontrol"];
         playback = ["mpv"];
         explorer = ["thunar"];
@@ -80,11 +80,11 @@
       };
     };
     background = {
-      desktopClock.enabled = false;
+      desktopClock.enabled = true;
       enabled = true;
       visualiser = {
-        blur = false;
-        enabled = false;
+        blur = true;
+        enabled = true;
         autoHide = true;
         rounding = 1;
         spacing = 1;
@@ -104,7 +104,7 @@
         { id = "statusIcons"; enabled = true; }
         { id = "power"; enabled = true; }
       ];
-      persistent = true;
+      persistent = false;
       popouts = {
         activeWindow = true;
         statusIcons = true;
@@ -120,8 +120,8 @@
         showAudio = false;
         showBattery = true;
         showBluetooth = true;
-        showKbLayout = false;
-        showMicrophone = false;
+        showKbLayout = true;
+        showMicrophone = true;
         showNetwork = true;
         showLockStatus = true;
       };
@@ -177,7 +177,7 @@
         { name = "Sleep"; icon = "bedtime"; description = "Suspend then hibernate"; command = ["systemctl" "suspend-then-hibernate"]; enabled = true; dangerous = false; }
       ];
       dragThreshold = 50;
-      vimKeybinds = false;
+      vimKeybinds = true;
       enableDangerousActions = false;
       maxShown = 7;
       maxWallpapers = 9;
