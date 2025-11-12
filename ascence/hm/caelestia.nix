@@ -33,7 +33,7 @@
         terminal = ["kitty"];
         audio = ["pavucontrol"];
         playback = ["mpv"];
-        explorer = ["thunar"];
+        explorer = ["dolphin"];
       };
       battery = {
         warnLevels = [
