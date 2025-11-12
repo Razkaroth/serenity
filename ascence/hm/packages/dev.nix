@@ -20,6 +20,7 @@
     aria2
     bat
     btop
+    curl
     anydesk
     fd
     ripgrep

@@ -64,7 +64,7 @@ in
     enable = true; # Enable the Hydenix module
 
     #! EDIT THESE VALUES
-    hostname = "serenity"; # Change to your preferred hostname
+    hostname = "ascend"; # Change to your preferred hostname
     timezone = "America/Mexico_City"; # Change to your timezone
     locale = "en_US.UTF-8"; # Change to your preferred locale
 
