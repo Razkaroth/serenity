@@ -19,11 +19,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    caelestia-dots = {
-      flake = false;
-      url = "git+file:./ascence/hm/confs/caelestia";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
