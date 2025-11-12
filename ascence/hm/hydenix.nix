@@ -4,7 +4,7 @@
   # hydenix home-manager options go here
   hydenix.hm = {
     #! Important options
-    enable = true;
+    enable = false;
     comma.enable = true; # useful nix tool to run software without installing it first
     dolphin.enable = true; # file manager
     editors = {
@@ -17,22 +17,19 @@
       # vim.enable = true; # enable vim module
       default = "nvim"; # default text editor
     };
-    fastfetch.enable = true; # fastfetch configuration
+    fastfetch.enable = false; # fastfetch configuration
     git = {
       enable = true; # enable git module
       name = "razkaroth"; # git user name eg "John Doe"
       email = "rocker.ikaros@gmail.com"; # git user email eg "john.doe@example.com"
     };
     hyde.enable = false; # enable hyde module
-    hyprland.enable = true; # enable hyprland module
+    hyprland.enable = false; # enable hyprland module
     lockscreen = {
       enable = false; # enable lockscreen module
       hyprlock = false; # enable hyprlock lockscreen
       swaylock = false; # enable swaylock lockscreen
     };
-    notifications.enable = false; # enable notifications module
-    qt.enable = true; # enable qt module
-    rofi.enable = false; # enable rofi module
     screenshots = {
       enable = true; # enable screenshots module
       grim.enable = true; # enable grim screenshot tool
@@ -40,7 +37,7 @@
     };
     #wallpapers.enable = true; # enable wallpapers module
     shell = {
-      enable = true; # enable shell module
+      enable = false; # enable shell module
       zsh ={
         enable = true; # enable zsh shell
         configText = ''
@@ -98,7 +95,7 @@
       bash.enable = false; # enable bash shell
       fish.enable = false; # enable fish shell
       pokego.enable = false; # enable Pokemon ASCII art scripts
-      starship.enable = true;
+      starship.enable = false;
     };
     # social = {
     #   enable = true; # enable social module
@@ -107,9 +104,8 @@
     #   vesktop.enable = true; # enable vesktop module
     # };
     spotify.enable = true; # enable spotify module
-    swww.enable = true; # enable swww wallpaper daemon
     terminals = {
-      enable = true; # enable terminals module
+      enable = false; # enable terminals module
       kitty.enable = true; # enable kitty terminal
       kitty.configText = ''
         allow_remote_control yes
@@ -123,8 +119,5 @@
         "Cosmic Blue"
       ]; # default enabled themes, full list in https://github.com/richen604/hydenix/tree/main/hydenix/sources/themes
     };
-    waybar.enable = false; # enable waybar module
-    wlogout.enable = false; # enable wlogout module
-    xdg.enable = true; # enable xdg module
   };
 }

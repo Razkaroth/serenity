@@ -1,17 +1,58 @@
-{ pkgs, lib, ...}:{
+{ pkgs, lib, inputs, ... }:
+let
+  caelestia-dots = inputs.caelestia-dots;
+in
+{
   home.file = {
-    ".config/hypr/userprefs.conf" = pkgs.lib.mkForce {
+    ".config/caelestia/hypr-user.conf" = pkgs.lib.mkForce {
     source = ./hypr.conf;
       force = true;
       mutable = true;
     };
-  };
 
-  home.file = {
-    ".config/hypr/scripts/rofiBeats.sh" = {
-      source = ./rofiBeats.sh;
+    ".config/hypr" = {
+      source = "${caelestia-dots}/hypr";
       force = true;
       mutable = true;
+      recursive = true;
+    };
+
+    ".config/starship.toml" = {
+      source = "${caelestia-dots}/starship.toml";
+      force = true;
+      mutable = true;
+    };
+
+    ".config/fish" = {
+      source = "${caelestia-dots}/fish";
+      force = true;
+      recursive = true;
+    };
+
+    ".config/foot" = {
+      source = "${caelestia-dots}/foot";
+      force = true;
+      recursive = true;
+    };
+
+    ".config/fastfetch" = {
+      source = "${caelestia-dots}/fastfetch";
+      force = true;
+      recursive = true;
+    };
+
+    ".config/zen" = {
+      source = "${caelestia-dots}/zen";
+      force = true;
+      mutable = true;
+      recursive = true;
+    };
+
+    ".config/btop" = {
+      source = "${caelestia-dots}/btop";
+      force = true;
+      mutable = true;
+      recursive = true;
     };
   };
   home.activation = {

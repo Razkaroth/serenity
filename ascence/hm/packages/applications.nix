@@ -5,6 +5,7 @@ in
 {
   home.packages = with pkgs; [
     # --------------------------------------------------- // Applications
+    eza
     firefox # browser
     bottles # wine manager
     inputs.zen-browser.packages."${system}".beta # zen-beta
@@ -41,6 +42,11 @@ in
       "application/xhtml+xml" = "zen-beta.desktop";
       "application/x-extension-xhtml" = "zen-beta.desktop";
       "application/x-extension-xht" = "zen-beta.desktop";
+
+      # all images to satty
+      "image/png" = "satty.desktop";
+      "image/jpeg" = "satty.desktop";
+      "image/jpg" = "satty.desktop";
       
       # Keep other existing defaults
       "application/javascript" = "nvim.desktop";

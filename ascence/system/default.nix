@@ -10,6 +10,7 @@
     ./actual.nix
     ./via.nix
     ./vm.nix
+    ./hyprland.nix
   ];
 
   environment.systemPackages = [
@@ -20,5 +21,6 @@
     pkgs.unzip
     pkgs.nix-output-monitor
     pkgs.vial
+    pkgs.kitty
   ];
 }

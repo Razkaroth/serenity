@@ -8,7 +8,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     oh-my-zsh = {
-      enable = true;
+      enable = false;
     };
     initContent = ''
       # Helpful aliases
@@ -59,6 +59,8 @@
       else                                                                                                  
         function refresh { }                                                                              
       fi
+
+      eval "$(starship init zsh)"
 
     '';
   };
