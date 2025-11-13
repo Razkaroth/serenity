@@ -7,5 +7,6 @@
     ./vscode.nix
     ./direnv.nix
     ./foot.nix
+    ./kitty.nix
   ];
 }

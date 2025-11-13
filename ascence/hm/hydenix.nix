@@ -104,13 +104,6 @@
     #   vesktop.enable = true; # enable vesktop module
     # };
     spotify.enable = true; # enable spotify module
-    terminals = {
-      enable = false; # enable terminals module
-      kitty.enable = true; # enable kitty terminal
-      kitty.configText = ''
-        allow_remote_control yes
-        ''; # kitty config text
-    };
     theme = {
       enable = false; # enable theme module
       active = "Cat Latte";

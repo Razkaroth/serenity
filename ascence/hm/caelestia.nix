@@ -9,7 +9,7 @@
   };
   settings = {
     appearance = {
-      anim.durations.scale = 1;
+      anim.durations.scale = 0.3;
       font = {
         family = {
           clock = "Rubik";
@@ -211,7 +211,7 @@
     paths = {
       mediaGif = "root:/assets/bongocat.gif";
       sessionGif = "root:/assets/kurukuru.gif";
-      wallpaperDir = "~/Pictures/Wallpapers";
+      wallpaperDir = "~/Pictures/wallpaper";
     };
     services = {
       audioIncrement = 0.1;
