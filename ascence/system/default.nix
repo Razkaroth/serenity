@@ -21,5 +21,6 @@
     pkgs.unzip
     pkgs.nix-output-monitor
     pkgs.vial
+    pkgs.nerd-fonts.fonts.CaskaydiaCoveNF
   ];
 }
