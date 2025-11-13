@@ -6,5 +6,6 @@
     ./zsh.nix # Setup using hydenix defaults.
     ./vscode.nix
     ./direnv.nix
+    ./foot.nix
   ];
 }

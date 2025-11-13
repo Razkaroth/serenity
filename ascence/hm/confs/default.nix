@@ -26,12 +26,6 @@
       recursive = true;
     };
 
-    ".config/foot" = {
-      source = ./caelestia/foot;
-      force = true;
-      recursive = true;
-    };
-
     ".config/fastfetch" = {
       source = ./caelestia/fastfetch;
       force = true;
