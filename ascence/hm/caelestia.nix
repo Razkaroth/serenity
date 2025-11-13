@@ -19,7 +19,7 @@
         };
         size.scale = 1;
       };
-      # padding.scale = 0.5;
+      padding.scale = 1;
       rounding.scale = 1;
       spacing.scale = 1;
       transparency = {
