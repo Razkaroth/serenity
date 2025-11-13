@@ -15,7 +15,7 @@ in
     gnome-disk-utility
     vesktop # discord client
     pomodoro
-    konsole
+    kdePackages.konsole
     sunvox
     obsidian
     obs-studio
