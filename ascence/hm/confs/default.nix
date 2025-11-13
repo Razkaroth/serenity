@@ -1,12 +1,6 @@
 { pkgs, lib, inputs, ... }:
 {
   home.file = {
-    ".config/caelestia/hypr-user.conf" = pkgs.lib.mkForce {
-    source = ./hypr.conf;
-      force = true;
-      mutable = true;
-    };
-
     ".config/hypr" = {
       source = ./caelestia/hypr;
       force = true;
@@ -20,11 +14,11 @@
       recursive = true;
     };
 
-    ".config/fastfetch" = {
-      source = ./caelestia/fastfetch;
-      force = true;
-      recursive = true;
-    };
+    # ".config/fastfetch" = {
+    #   source = ./caelestia/fastfetch;
+    #   force = true;
+    #   recursive = true;
+    # };
 
     ".config/zen" = {
       source = ./caelestia/zen;

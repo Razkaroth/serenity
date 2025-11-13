@@ -13,6 +13,14 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  boot.plymouth = {
+    enable = true;
+    theme = "rings";
+    themePackages = with pkgs; [
+adi1090x-plymouth-themes
+    ];
+  };
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/a86a730c-d58d-46c1-87b4-d9095de6ee7c";
       fsType = "ext4";

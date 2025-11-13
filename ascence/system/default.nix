@@ -11,6 +11,7 @@
     ./via.nix
     ./vm.nix
     ./hyprland.nix
+    ./hamachi.nix
   ];
 
   environment.systemPackages = [
@@ -21,6 +22,10 @@
     pkgs.unzip
     pkgs.nix-output-monitor
     pkgs.vial
-    pkgs.nerd-fonts.CaskaydiaCoveNF
+    pkgs.nerd-fonts.caskaydia-cove
+    pkgs.nerd-fonts.caskaydia-mono
+    pkgs.nerd-fonts.iosevka
+    pkgs.nerd-fonts.iosevka-term-slab
+    pkgs.nerd-fonts.iosevka-term
   ];
 }

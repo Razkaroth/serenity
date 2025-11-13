@@ -103,6 +103,7 @@ in
       "docker" # For docker access
       "media" # For media access
       "libvirtd" # For virtualization access
+      "gamemode"
       # Add other groups as needed
     ];
     shell = pkgs.zsh; # Change if you prefer a different shell
