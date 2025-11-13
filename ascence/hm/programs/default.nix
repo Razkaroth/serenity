@@ -8,5 +8,6 @@
     ./direnv.nix
     ./foot.nix
     ./kitty.nix
+    ./starship.nix
   ];
 }

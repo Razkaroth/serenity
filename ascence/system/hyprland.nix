@@ -19,7 +19,6 @@
     foot
     fish
     fastfetch
-    starship
     socat
     imagemagick
     curl
