@@ -1,21 +1,44 @@
-# Hydenix Template
+# NixOS Multi-Host Configuration
 
-Welcome to the Hydenix template!
+Multi-host NixOS configuration with Hydenix desktop environment.
 
-This template is designed to help you get started with Hydenix. It includes a basic configuration for Hydenix and some common modules.
+## Hosts
 
-If you just templated this flake, you can follow these steps to get started:
+### serenity
+- **Type**: Primary desktop system
+- **Hardware**: Generic hardware configuration
+- **Theme**: Standard Hydenix configuration
+- **Config Path**: `./serenity/`
 
-1. edit `configuration.nix` with your preferences for hydenix
-   - options needing to be changed are marked with `! EDIT`
-   - (optional) in your template flake folder, review both `./configuration.nix` and `./modules/hm/default.nix` for more options
-2. run `sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix`
-3. `git init && git add .` (flakes have to be managed via git)
-4. run any of the packages in your new `flake.nix`
-    - for rebuild, use `sudo nixos-rebuild switch --flake .`
-5. DON'T FORGET: change your password for all users with `passwd` from initialPassword set in `configuration.nix`
+### ascence
+- **Type**: Laptop (HP Omen 14-fb0798ng)
+- **Hardware**: HP Omen specific optimizations via nixos-hardware
+- **Theme**: Caelestia shell integration (caelestia-dots/shell)
+- **Config Path**: `./ascence/`
+- **Special Features**: 
+  - Extensive Caelestia theming (VSCode, Firefox/Zen, Zed, Spicetify, Hyprland)
+  - Custom TypeScript extensions for browser/editor integration
+  - Rich configuration files in `./ascence/hm/confs/caelestia/`
 
-NOTE: After launching hydenix, you can run `hyde-shell reload` to generate cache for remaining themes if you want.
+## Quick Start
+
+```bash
+# Build serenity (standard Hydenix)
+sudo nixos-rebuild switch --flake ./#serenity
+
+# Build ascence (Caelestia theme)
+sudo nixos-rebuild switch --flake ./#ascence
+```
+
+### Initial Setup
+
+1. Edit host-specific `configuration.nix` (sections marked with `#! EDIT`)
+2. Generate hardware config: `sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix`
+3. Initialize git: `git init && git add .` (required for flakes)
+4. Build your host using commands above
+5. **IMPORTANT**: Change default password with `passwd`
+
+NOTE: Run `hyde-shell reload` after first boot to generate theme cache.
 
 All module options are documented [here](https://github.com/richen604/hydenix/blob/main/docs/faq.md#What-are-the-module-options).
 
