@@ -60,8 +60,6 @@
         function refresh { }                                                                              
       fi
 
-      eval "$(starship init zsh)"
-
     '';
   };
 }

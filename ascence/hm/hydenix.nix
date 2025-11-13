@@ -95,7 +95,6 @@
       bash.enable = false; # enable bash shell
       fish.enable = false; # enable fish shell
       pokego.enable = false; # enable Pokemon ASCII art scripts
-      starship.enable = false;
     };
     # social = {
     #   enable = true; # enable social module

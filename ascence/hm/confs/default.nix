@@ -14,12 +14,6 @@
       recursive = true;
     };
 
-    ".config/starship.toml" = {
-      source = ./caelestia/starship.toml;
-      force = true;
-      mutable = true;
-    };
-
     ".config/fish" = {
       source = ./caelestia/fish;
       force = true;
