@@ -14,5 +14,9 @@
       window_padding_width = 10; # Add padding
       font_features = "CaskaydiaCoveNerdFont-Regular +liga +calt"; # Enable ligatures
     };
+    extraConfig = ''
+      allow_remote_control yes
+      dynamic_background_opacity yes
+    '';
   };
 }
