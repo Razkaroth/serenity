@@ -32,6 +32,9 @@ adi1090x-plymouth-themes
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  # power
+  services.power-profiles-daemon.enable = true;
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

@@ -178,7 +178,7 @@
       ];
       dragThreshold = 50;
       vimKeybinds = true;
-      enableDangerousActions = false;
+      enableDangerousActions = true;
       maxShown = 7;
       maxWallpapers = 9;
       specialPrefix = "@";
@@ -214,7 +214,7 @@
       wallpaperDir = "~/Pictures/wallpaper";
     };
     services = {
-      audioIncrement = 0.1;
+      audioIncrement = 0.05;
       maxVolume = 1.0;
       defaultPlayer = "Spotify";
       gpuType = "";
