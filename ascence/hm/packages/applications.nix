@@ -27,6 +27,7 @@ in
     signal-desktop # messaging client
     zoom-us # video conferencing
     zk
+    gthumb
   ];
 
   # Configure zen-beta as default browser
@@ -44,10 +45,20 @@ in
       "application/x-extension-xhtml" = "zen-beta.desktop";
       "application/x-extension-xht" = "zen-beta.desktop";
 
-      # all images to satty
-      "image/png" = "satty.desktop";
-      "image/jpeg" = "satty.desktop";
-      "image/jpg" = "satty.desktop";
+      # all images to gthumb
+      "image/jpeg" = [ "gthumb.desktop" ];
+      "image/png" = [ "gthumb.desktop" ];
+      "image/gif" = [ "gthumb.desktop" ];
+      "image/bmp" = [ "gthumb.desktop" ];
+      "image/tiff" = [ "gthumb.desktop" ];
+      "image/x-bmp" = [ "gthumb.desktop" ];
+      "image/x-ico" = [ "gthumb.desktop" ];
+      "image/x-png" = [ "gthumb.desktop" ];
+      "image/x-tga" = [ "gthumb.desktop" ];
+      "image/x-tiff" = [ "gthumb.desktop" ];
+      "image/x-webp" = [ "gthumb.desktop" ];
+      "image/webp" = [ "gthumb.desktop" ];
+      "image/svg+xml" = [ "gthumb.desktop" ];
       
       # Keep other existing defaults
       "application/javascript" = "nvim.desktop";
