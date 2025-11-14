@@ -12,6 +12,7 @@
     ./vm.nix
     ./hyprland.nix
     ./hamachi.nix
+    ./audio.nix
   ];
 
   environment.systemPackages = [

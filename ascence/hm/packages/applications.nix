@@ -19,6 +19,7 @@ in
     sunvox
     obsidian
     obs-studio
+    rofi
     typora
     transmission_4-gtk
     libreoffice
