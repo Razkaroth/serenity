@@ -25,6 +25,7 @@ in
     libreoffice
     kdePackages.kalarm
     gcalcli # google calendar
+    todoist
     signal-desktop # messaging client
     zoom-us # video conferencing
     zk
