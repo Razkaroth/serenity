@@ -35,12 +35,12 @@
     };
   };
   home.activation = {
-    rofiBeats = lib.hm.dag.entryAfter [ "setTheme" ] ''
-    $DRY_RUN_CMD chmod u+rxw  $HOME/.config/hypr/scripts/rofiBeats.sh
-    # gsettings set org.gnome.desktop.interface cursor-theme 'Gruvbox-Retro'
-    # gsettings set org.gnome.desktop.interface cursor-size 30
-    # hyprctl setcursor Gruvbox-Retro 30
-    '';
+    # rofiBeats = lib.hm.dag.entryAfter [ "setTheme" ] ''
+    # $DRY_RUN_CMD chmod u+rxw  $HOME/.config/hypr/scripts/rofiBeats.sh
+    # # gsettings set org.gnome.desktop.interface cursor-theme 'Gruvbox-Retro'
+    # # gsettings set org.gnome.desktop.interface cursor-size 30
+    # # hyprctl setcursor Gruvbox-Retro 30
+    # '';
   };
 
     home.sessionVariables = {

@@ -30,6 +30,7 @@ in
     ./serenity-hardware.nix
     inputs.hydenix.nixosModules.default
     ./system
+    ./server.nix
 
     # === GPU-specific configurations ===
 
