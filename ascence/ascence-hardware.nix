@@ -8,34 +8,27 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  boot.plymouth = {
-    enable = true;
-    theme = "rings";
-    themePackages = with pkgs; [
-adi1090x-plymouth-themes
-    ];
-  };
-
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/a86a730c-d58d-46c1-87b4-d9095de6ee7c";
+    { device = "/dev/disk/by-uuid/aea26211-282c-4eb5-bc8a-cd8ffb346203";
       fsType = "ext4";
     };
 
+  boot.initrd.luks.devices."luks-09fcfc02-292d-4c14-9b7d-a3737854d8bd".device = "/dev/disk/by-uuid/09fcfc02-292d-4c14-9b7d-a3737854d8bd";
+
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/1657-28DF";
+    { device = "/dev/disk/by-uuid/0CD8-5269";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  # power
-  services.power-profiles-daemon.enable = true;
-
-  swapDevices = [ ];
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/937de79a-4e5b-4588-9856-d797064c06a0"; }
+    ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

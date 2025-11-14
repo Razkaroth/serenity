@@ -39,7 +39,16 @@ in
     */
     inputs.hydenix.inputs.nixos-hardware.nixosModules.omen-14-fb0798ng
   ];
-
+  
+  boot.initrd.luks.devices."luks-6b878746-03a6-414e-aa92-2105052ecf96".device = "/dev/disk/by-uuid/6b878746-03a6-414e-aa92-2105052ecf96";
+  boot.plymouth = {
+    enable = true;
+    theme = "rings";
+    themePackages = with pkgs; [
+adi1090x-plymouth-themes
+    ];
+  };
+    services.power-profiles-daemon.enable = true;
   home-manager = {
     useGlobalPkgs = true;
     backupFileExtension = "nixbak";
@@ -64,7 +73,7 @@ in
     enable = true; # Enable the Hydenix module
 
     #! EDIT THESE VALUES
-    hostname = "ascend"; # Change to your preferred hostname
+    hostname = "ascence"; # Change to your preferred hostname
     timezone = "America/Mexico_City"; # Change to your timezone
     locale = "en_US.UTF-8"; # Change to your preferred locale
 
@@ -80,9 +89,10 @@ in
         grubExtraConfig = ""; # additional GRUB configuration
         kernelPackages = pkgs.linuxPackages_zen; # default zen kernel
       };
+
+      network.enable = true; # enable network module
     /*
       hardware.enable = true; # enable hardware module
-      network.enable = true; # enable network module
       nix.enable = true; # enable nix module
       sddm = {
         enable = true; # enable sddm module

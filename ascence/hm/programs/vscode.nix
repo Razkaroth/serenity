@@ -20,6 +20,6 @@ let
 {
   programs.vscode = {
     enable = true;
-    package = insiders.fhs;
+    # package = insiders.fhs;
   };
 }
