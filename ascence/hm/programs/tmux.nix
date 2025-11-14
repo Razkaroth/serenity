@@ -70,10 +70,11 @@ in {
         plugin = tmuxPlugins.power-theme;
         extraConfig = ''
           # Theme
-          set -g @tmux_power_theme 'default'
+          set -g @tmux_power_theme 'snow'
           # 'L' for left only, 'R' for right only and 'LR' for both
           set -g @tmux_power_prefix_highlight_pos 'LR'
           # set -g status-right '𒀪: #{continuum_status}'
+            # set -g status-style "bg=terminal,fg=terminal" 
         '';
       }
       tmuxPlugins.prefix-highlight
