@@ -18,11 +18,14 @@
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # Not needed, but useful
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    play-nix.url = "github:TophC7/play.nix";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     nixarr.url = "github:rasmus-kirk/nixarr";
@@ -31,9 +34,11 @@
 
   outputs =
     { 
+      chaotic,
       nixos-hardware,
       nixarr,
       zen-browser,
+      play-nix,
       ...
     }@inputs:
     let
@@ -48,8 +53,7 @@
          };
         modules = [
         inputs.nixarr.nixosModules.default
-
-          # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
+        chaotic.nixosModules.default
           ./serenity/configuration.nix
         ];
       };
@@ -61,6 +65,7 @@
         modules = [
 
           # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
+          play-nix.nixosModules.play
           ./ascension/configuration.nix
         ];
       };

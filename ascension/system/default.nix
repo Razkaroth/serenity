@@ -13,9 +13,12 @@
     ./hyprland.nix
     ./hamachi.nix
     ./audio.nix
+    ./gaming.nix
   ];
 
   environment.systemPackages = [
+    pkgs.neovim
+    pkgs.tree-sitter
     pkgs.zip
     pkgs.unzip
     pkgs.nix-output-monitor

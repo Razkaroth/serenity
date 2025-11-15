@@ -77,12 +77,6 @@ in
     timezone = "America/Mexico_City"; # Change to your timezone
     locale = "en_US.UTF-8"; # Change to your preferred locale
 
-    /*
-      Optionally edit the below values, or leave to use hydenix defaults
-      visit ./modules/hm/default.nix for more options
-
-      audio.enable = true; # enable audio module
-*/
       boot = {
         enable = true; # enable boot module
         useSystemdBoot = false; # disable for GRUB
@@ -91,15 +85,8 @@ in
       };
 
       network.enable = true; # enable network module
-    /*
-      hardware.enable = true; # enable hardware module
-      nix.enable = true; # enable nix module
-      sddm = {
-        enable = true; # enable sddm module
-        theme = pkgs.hydenix.sddm-candy; # or pkgs.hydenix.sddm-corners
-      };
-      system.enable = true; # enable system module
-    */
+
+      gaming.enable = false;
   };
 
   #! EDIT THESE VALUES (must match users defined above)
