@@ -47,10 +47,26 @@
       alias gcal='gcalcli'
       alias gcq='gcalcli --calendar rocker.ikaros@gmail.com quick'
 
-      alias ascence='cd /home/raz/ascence && n .'
-      alias ascend='/home/raz/ascence/rebuild-ascence.sh'
+      alias ascension='cd /home/raz/ascension && n .'
+      alias ascend='/home/raz/ascension/rebuild-ascension.sh'
 
-      alias serenity='ssh raz@serenity'
+      alias sshS='ssh raz@serenity'
+      
+      enterSerenity() {
+        echo "Entering serenity..."
+        echo "Mounting serenity root..."
+        sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 raz@serenity:/ /serenity/root
+        echo "Mounting serenity home..."
+        sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 raz@serenity:/home/raz /serenity/home
+      }
+
+      exitSerenity() {
+        echo "Unmounting serenity root..."
+        fusermount -u /serenity/root
+        echo "Unmounting serenity home..."
+        fusermount -u /serenity/home
+        echo "Exiting serenity..."
+      }
 
 
       # a super touch command

@@ -40,6 +40,7 @@
     pandoc
     speedtest-cli
     stripe-cli
+    sshfs
     tree-sitter
     zoxide
     uutils-coreutils-noprefix

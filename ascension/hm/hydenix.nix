@@ -19,7 +19,7 @@
     };
     fastfetch.enable = false; # fastfetch configuration
     git = {
-      enable = true; # enable git module
+      enable = false; # enable git module
       name = "razkaroth"; # git user name eg "John Doe"
       email = "rocker.ikaros@gmail.com"; # git user email eg "john.doe@example.com"
     };

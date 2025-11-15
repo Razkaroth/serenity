@@ -172,7 +172,7 @@
         { name = "Dark"; icon = "dark_mode"; description = "Change the scheme to dark mode"; command = ["setMode" "dark"]; enabled = true; dangerous = false; }
         { name = "Shutdown"; icon = "power_settings_new"; description = "Shutdown the system"; command = ["systemctl" "poweroff"]; enabled = true; dangerous = true; }
         { name = "Reboot"; icon = "cached"; description = "Reboot the system"; command = ["systemctl" "reboot"]; enabled = true; dangerous = true; }
-        { name = "Logout"; icon = "exit_to_app"; description = "Log out of the current session"; command = ["loginctl" "terminate-user" ""]; enabled = true; dangerous = true; }
+        { name = "Logout"; icon = "exit_to_app"; description = "Log out of the current session"; command = ["hyprctl" "exit" ""]; enabled = true; dangerous = true; }
         { name = "Lock"; icon = "lock"; description = "Lock the current session"; command = ["loginctl" "lock-session"]; enabled = true; dangerous = false; }
         { name = "Sleep"; icon = "bedtime"; description = "Suspend then hibernate"; command = ["systemctl" "suspend-then-hibernate"]; enabled = true; dangerous = false; }
       ];
@@ -230,7 +230,7 @@
       enabled = true;
       vimKeybinds = false;
       commands = {
-        logout = ["loginctl" "terminate-user" ""];
+        logout = ["hyprctl" "exit" ""];
         shutdown = ["systemctl" "poweroff"];
         hibernate = ["systemctl" "hibernate"];
         reboot = ["systemctl" "reboot"];

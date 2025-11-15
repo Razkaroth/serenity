@@ -45,7 +45,7 @@ in
     enable = true;
     theme = "rings";
     themePackages = with pkgs; [
-adi1090x-plymouth-themes
+      adi1090x-plymouth-themes
     ];
   };
     services.power-profiles-daemon.enable = true;
