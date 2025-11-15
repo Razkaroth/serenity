@@ -27,7 +27,7 @@ in
 
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    ./ascence-hardware.nix
+    ./ascension-hardware.nix
     inputs.hydenix.nixosModules.default
     ./system
 
@@ -73,7 +73,7 @@ adi1090x-plymouth-themes
     enable = true; # Enable the Hydenix module
 
     #! EDIT THESE VALUES
-    hostname = "ascence"; # Change to your preferred hostname
+    hostname = "ascension"; # Change to your preferred hostname
     timezone = "America/Mexico_City"; # Change to your timezone
     locale = "en_US.UTF-8"; # Change to your preferred locale
 

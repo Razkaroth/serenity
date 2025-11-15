@@ -38,7 +38,7 @@
     }@inputs:
     let
       SERENITY = "serenity";
-      ASCENCE = "ascence";
+      ASCENSION = "ascension";
 
     system = "x86_64-linux";
       hydenixSerenityConfig = inputs.nixpkgs.lib.nixosSystem {
@@ -61,7 +61,7 @@
         modules = [
 
           # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
-          ./ascence/configuration.nix
+          ./ascension/configuration.nix
         ];
       };
 
@@ -69,6 +69,6 @@
     {
       nixosConfigurations.nixos = hydenixSerenityConfig;
       nixosConfigurations.${SERENITY} = hydenixSerenityConfig;
-      nixosConfigurations.${ASCENCE} = hydenixAscenceConfig;
+      nixosConfigurations.${ASCENSION} = hydenixAscenceConfig;
     };
 }

@@ -47,6 +47,11 @@
       alias gcal='gcalcli'
       alias gcq='gcalcli --calendar rocker.ikaros@gmail.com quick'
 
+      alias ascence='cd /home/raz/ascence && n .'
+      alias ascend='/home/raz/ascence/rebuild-ascence.sh'
+
+      alias serenity='ssh raz@serenity'
+
 
       # a super touch command
       touch() {

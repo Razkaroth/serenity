@@ -13,6 +13,7 @@
     ./hyprland.nix
     ./hamachi.nix
     ./audio.nix
+    # ./serenity-bridge.nix
   ];
 
   environment.systemPackages = [

@@ -1,4 +1,4 @@
-{ inputs, config, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
   imports = [
@@ -32,6 +32,14 @@
     # pkgs.vscode - hydenix's vscode version
     # pkgs.userPkgs.vscode - your personal nixpkgs version
   ];
+
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+    name = "Gruvbox-Retro";
+    package = pkgs.capitaine-cursors-themed;
+    size = 30;
+  };
   
   home.sessionVariables = {
     EDITOR = "nvim";

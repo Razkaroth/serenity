@@ -26,10 +26,12 @@ in
     kdePackages.kalarm
     gcalcli # google calendar
     todoist
+    todoist-electron
     signal-desktop # messaging client
     zoom-us # video conferencing
     zk
     gthumb
+    capitaine-cursors-themed
   ];
 
   # Configure zen-beta as default browser
