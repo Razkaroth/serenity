@@ -67,11 +67,11 @@
             timeout = 180;
             idleAction = "lock";
           }
-          {
-            timeout = 300;
-            idleAction = "dpms off";
-            returnAction = "dpms on";
-          }
+          # {
+          #   timeout = 300;
+          #   idleAction = "dpms off";
+          #   returnAction = "dpms on";
+          # }
           {
             timeout = 600;
             idleAction = ["systemctl" "suspend-then-hibernate"];
@@ -85,7 +85,7 @@
       visualiser = {
         blur = true;
         enabled = true;
-        autoHide = true;
+        autoHide = false;
         rounding = 1;
         spacing = 1;
       };
@@ -175,10 +175,11 @@
         { name = "Logout"; icon = "exit_to_app"; description = "Log out of the current session"; command = ["hyprctl" "exit" ""]; enabled = true; dangerous = true; }
         { name = "Lock"; icon = "lock"; description = "Lock the current session"; command = ["loginctl" "lock-session"]; enabled = true; dangerous = false; }
         { name = "Sleep"; icon = "bedtime"; description = "Suspend then hibernate"; command = ["systemctl" "suspend-then-hibernate"]; enabled = true; dangerous = false; }
+        { name = "Mount serenity"; icon = "storage"; description = "Mount serenity via sshfs"; command = ["enterSerenity"]; enabled = true; dangerous = false; }
       ];
       dragThreshold = 50;
       vimKeybinds = true;
-      enableDangerousActions = true;
+      enableDangerousActions = false;
       maxShown = 7;
       maxWallpapers = 9;
       specialPrefix = "@";
