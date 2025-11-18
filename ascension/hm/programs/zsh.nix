@@ -47,8 +47,8 @@
       alias gcal='gcalcli'
       alias gcq='gcalcli --calendar rocker.ikaros@gmail.com quick'
 
-      alias ascension='cd /home/raz/ascension && n .'
-      alias ascend='/home/raz/ascension/rebuild-ascension.sh'
+      alias ascension='cd /home/raz/ascension && n'
+      alias ascend='~/ascension/rebuild-ascension.sh'
 
       alias sshS='ssh raz@serenity'
       
