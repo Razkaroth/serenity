@@ -19,7 +19,12 @@ in {
 
   services.pass-secret-service = {
     inherit storePath;
+    enable = false;
+  };
+
+ services.gnome-keyring = {
     enable = true;
+    components = [ "secrets" "ssh" ];
   };
 
   home.packages = with pkgs; [
@@ -28,5 +33,11 @@ in {
     rofi-pass-wayland
     qrencode
     wtype
+    seahorse
   ];
+
+  # Ensure proper environment variables
+  home.sessionVariables = {
+    PASSWORD_STORE_DIR = storePath;
+  };
 }
