@@ -6,7 +6,7 @@
 
   virtualisation.docker = {
     enable = true;
-    storageDriver = "btrfs";
+    storageDriver = "overlay2";
     rootless = {
       enable = true;
       setSocketVariable = true;
