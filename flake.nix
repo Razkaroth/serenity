@@ -15,7 +15,7 @@
       url = "github:richen604/hydenix";
     };
     caelestia-shell = {
-      url = "github:caelestia-dots/shell";
+      url = "github:razkaroth/caelestia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # Not needed, but useful
