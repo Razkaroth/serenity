@@ -2,8 +2,11 @@
   description = "template for hydenix";
 
   inputs = {
-    # User's nixpkgs - for user packages
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # User's nixpkgs - locked to working revision for stability (especially NVIDIA drivers)
+    nixpkgs.url = "github:nixos/nixpkgs/9da7f1cf7f8a6e2a7cb3001b048546c92a8258b4";
+    
+    # Edge nixpkgs - latest unstable for selective package updates
+    nixpkgs-edge.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Hydenix and its nixpkgs - kept separate to avoid conflicts
     hydenix = {
@@ -39,6 +42,7 @@
       nixarr,
       zen-browser,
       play-nix,
+      nixpkgs-edge,
       ...
     }@inputs:
     let

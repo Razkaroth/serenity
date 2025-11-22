@@ -1,7 +1,9 @@
-{ pkgs, ... }:
-
-{
-  home.packages = with pkgs; [
+{ pkgs, pkgs-edge, ... }:
+let
+  stablePkgs = with pkgs; [
+    git-lfs
+  ];
+  edgePkgs = with pkgs-edge; [
     # --------------------------------------------------- // Software Development
 
     # k8s
@@ -30,7 +32,6 @@
     ffmpeg
     docker-compose
     jq
-    git-lfs
     lazygit
     github-cli
     jetbrains-toolbox
@@ -69,4 +70,7 @@
     neofetch
     
   ];
+in
+{
+  home.packages = stablePkgs ++ edgePkgs;
 }

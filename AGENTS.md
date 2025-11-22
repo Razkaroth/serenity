@@ -1,32 +1,44 @@
-# Agent Guidelines for NixOS Multi-Host Configuration
-
-## Hosts Overview
-- **serenity**: Standard Hydenix desktop (generic hardware)
-- **ascence**: HP Omen laptop with Caelestia shell theme integration
+# Agent Guidelines for NixOS Configuration
 
 ## Build Commands
-- **Serenity rebuild**: `sudo nixos-rebuild switch --flake ./#serenity`
-- **Ascence rebuild**: `sudo nixos-rebuild switch --flake ./#ascence`
-- **Test without switching**: `sudo nixos-rebuild test --flake ./#<host>`
-- **Update flake inputs**: `nix flake update` or `nix flake update <input-name>`
+- **Rebuild ascension (laptop)**: `./rebuild-ascension.sh` or `sudo nixos-rebuild switch --flake ./#ascension`
+- **Rebuild serenity (desktop)**: `./rebuild.sh` or `sudo nixos-rebuild switch --flake ./#serenity`
+- **Update edge packages only**: `nix flake update nixpkgs-edge` (keeps stable base locked)
+- **Update all inputs**: `nix flake update` or `nix flake update <input-name>`
 - **Check flake**: `nix flake check`
+- **Build without switching**: `sudo nixos-rebuild build --flake ./#<hostname>`
+
+## Structure
+- **Hosts**: `ascension/` (laptop with Caelestia theme), `serenity/` (desktop server)
+- **Host config**: `<host>/configuration.nix` - main host configuration
+- **System modules**: `<host>/system/` - system-level NixOS modules
+- **Home-Manager**: `<host>/hm/` - user configuration (packages, programs, dotfiles)
+- **Common**: `common/` - shared configuration (currently empty)
 
 ## Code Style
-- **Language**: Nix (declarative), Fish shell for scripts, TypeScript for Caelestia extensions
-- **Formatting**: 2-space indentation, no tabs
-- **Imports**: Use relative paths (`./module`), group system/home-manager imports separately
-- **Naming**: camelCase for Nix variables, kebab-case for hostnames/filenames
-- **Comments**: Mark user-editable sections with `#! EDIT`, use `/* */` for multi-line docs
-- **Structure**: Separate system (`./system/`) and home-manager (`./hm/`) per host
-- **Paths**: Absolute paths in Nix expressions, relative in imports
-- **Overlays**: Define in configuration.nix, apply via nixpkgs.overlays
+- **Imports**: Place imports at top in attribute set pattern: `{ inputs, pkgs, ... }:`
+- **Indentation**: 2 spaces, no tabs
+- **Let-in blocks**: Use for local variables, especially pkgs declarations
+- **Comments**: Use `#` for single-line, `/* */` for multi-line, `#!` prefix for required edits
+- **Attribute sets**: Use multiline format with proper indentation
+- **Lists**: Place each item on new line with proper indentation for readability
+- **Naming**: Use camelCase for variables, kebab-case for hostnames/module names
 
-## Host-Specific Notes
-- **Ascence only**: Caelestia configs in `./ascence/hm/confs/caelestia/` (browser extensions, themes, etc.)
-- **Ascence only**: Uses `caelestia-shell` flake input, configured in `./ascence/hm/caelestia.nix`
-- **Serenity**: Minimal config structure, standard Hydenix theming
+## Conventions
+- **AllowUnfree**: Already enabled in pkgs configuration
+- **Overlays**: Hydenix overlay applied in configuration.nix
+- **Package references**: 
+  - `pkgs.package-name` - stable locked nixpkgs (locked for NVIDIA driver compatibility)
+  - `pkgs-edge.package-name` - latest unstable nixpkgs (for selective updates)
+  - `pkgs.userPkgs.package-name` - alternative user nixpkgs
+- **Module options**: Always check if module.enable exists before setting options
+- **User config**: User "raz" defined in both hosts, shell is zsh
+- **Hardware**: Use nixos-hardware modules for device-specific optimizations
+- **Dual nixpkgs**: See EDGE-PACKAGES.md for using stable vs edge packages
 
-## Error Handling
-- Test changes with `nixos-rebuild test` before `switch`
-- Git commit changes before rebuilding (flakes require git tracking)
-- Clean backup files: `find ~/ -name "*.nixbak" -type f -delete`
+## Best Practices
+- **Flake changes**: Run `git add .` after modifying files (flakes require git tracking)
+- **Backup handling**: Rebuild scripts auto-remove `*.nixbak` files unless `-s` flag used
+- **specialArgs**: Use `inputs` for passing flake inputs to modules
+- **Module imports**: Prefer directory imports (./system) over explicit file lists
+- **Testing changes**: Use `nixos-rebuild build` first to catch errors before switching

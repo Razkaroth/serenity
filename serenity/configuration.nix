@@ -19,6 +19,13 @@ let
       config.allowUnfree = true;
     };
   };
+  
+  # Edge packages for latest unstable - use for selective updates
+  # Example usage: pkgs-edge.firefox, pkgs-edge.vscode
+  pkgs-edge = import inputs.nixpkgs-edge {
+    inherit system;
+    config.allowUnfree = true;
+  };
 in
 {
 
@@ -66,7 +73,7 @@ in
     backupFileExtension = "nixbak";
     useUserPackages = true;
     extraSpecialArgs = {
-      inherit inputs;
+      inherit inputs pkgs-edge;
     };
 
     #! EDIT THIS USER (must match users defined below)

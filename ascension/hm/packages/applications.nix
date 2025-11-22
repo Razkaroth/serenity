@@ -1,14 +1,12 @@
-{ pkgs,inputs, ... }:
+{ pkgs, pkgs-edge, inputs, ... }:
 let
   system = "x86_64-linux";
-in
-{
-  home.packages = with pkgs; [
-    # --------------------------------------------------- // Applications
+
+  stablePkgs = with pkgs; [];
+  edgePkgs = with pkgs-edge; [
     eza
     firefox # browser
     bottles # wine manager
-    inputs.zen-browser.packages."${system}".beta # zen-beta
     brave # browser
     chromium # browser
     google-chrome # browser
@@ -32,6 +30,11 @@ in
     zk
     gthumb
     capitaine-cursors-themed
+  ];
+in
+{
+  home.packages = stablePkgs ++ edgePkgs ++ [
+    inputs.zen-browser.packages."${system}".beta # zen-beta
   ];
 
   # Configure zen-beta as default browser
@@ -106,14 +109,14 @@ in
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.gcalcli}/bin/gcalcli remind";
+      ExecStart = "${pkgs-edge.gcalcli}/bin/gcalcli remind";
       Restart = "on-failure";
       RestartSec = "30";
       # Set working directory to user's home directory for OAuth2 config access
       WorkingDirectory = "%h";
       # Ensure proper environment for gcalcli and OAuth2
       Environment = [
-        "PATH=${pkgs.gcalcli}/bin:${pkgs.coreutils}/bin:/run/current-system/sw/bin"
+        "PATH=${pkgs-edge.gcalcli}/bin:${pkgs-edge.coreutils}/bin:/run/current-system/sw/bin"
         "HOME=%h"
         "XDG_CONFIG_HOME=%h/.config"
         "XDG_DATA_HOME=%h/.local/share"

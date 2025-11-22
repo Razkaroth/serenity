@@ -1,7 +1,7 @@
-{ pkgs, ... }:
-
-{
-  home.packages = with pkgs; [
+{ pkgs, pkgs-edge, ... }:
+let
+  stablePkgs = with pkgs; [];
+  edgePkgs = with pkgs-edge; [
     # --------------------------------------------------- // Gaming
     gamemode # daemon and library for game optimisations
     mangohud # system performance overlay
@@ -11,6 +11,7 @@
     android-tools # android platform tools
     protonup-ng # game launcher
   ];
-  
-
+in
+{
+  home.packages = stablePkgs ++ edgePkgs;
 }
