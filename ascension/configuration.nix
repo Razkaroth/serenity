@@ -40,13 +40,13 @@ in
     inputs.hydenix.inputs.nixos-hardware.nixosModules.omen-14-fb0798ng
   ];
   
-  # boot.plymouth = {
-  #   enable = true;
-  #   theme = "rings";
-  #   themePackages = with pkgs; [
-  #     adi1090x-plymouth-themes
-  #   ];
-  # };
+  boot.plymouth = {
+    enable = true;
+    theme = "rings";
+    themePackages = with pkgs; [
+      adi1090x-plymouth-themes
+    ];
+  };
     services.power-profiles-daemon.enable = true;
   home-manager = {
     useGlobalPkgs = true;

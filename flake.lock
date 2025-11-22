@@ -11,11 +11,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762480719,
-        "narHash": "sha256-TjTMNmndJJIxP/N6owC/CoAPiRuM99fNaQbZqHDtwLw=",
+        "lastModified": 1763172111,
+        "narHash": "sha256-QseFQKZgMq/kbHlrhfaNlwEyQ1H3J+UhnbgpAIEGpvA=",
         "owner": "caelestia-dots",
         "repo": "cli",
-        "rev": "9323fbf1b497204e17dff103cf412daf04a5c723",
+        "rev": "d89c438284311e99148ece61054cd6f9bc8e8cb7",
         "type": "github"
       },
       "original": {
@@ -33,16 +33,16 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1762651107,
-        "narHash": "sha256-V++8JREoP1TC6ROYByMAKx/cSyxza0tp1tUNOpq5Z4k=",
-        "owner": "caelestia-dots",
-        "repo": "shell",
-        "rev": "c0ea060ffecd3f38233652556d3085d094082400",
+        "lastModified": 1763747810,
+        "narHash": "sha256-bPHgSS+CLgJziBPq9ZvGzgUU38nE43Mn7R0hRE+Ewtg=",
+        "owner": "razkaroth",
+        "repo": "caelestia-shell",
+        "rev": "226132d627f6398c24386cd57901314bae16b258",
         "type": "github"
       },
       "original": {
-        "owner": "caelestia-dots",
-        "repo": "shell",
+        "owner": "razkaroth",
+        "repo": "caelestia-shell",
         "type": "github"
       }
     },
@@ -733,15 +733,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1761897390,
-        "narHash": "sha256-er4gYrIoThYLjlsOMTysoRfn67d1Gci+ZpqDrtQxrA0=",
+        "lastModified": 1763446574,
+        "narHash": "sha256-7Xu61mmAjQb1usfIg096VIh6f26fFYd0Z9e6tNdII0w=",
         "ref": "refs/heads/master",
-        "rev": "fc704e6b5d445899a1565955268c91942a4f263f",
-        "revCount": 700,
+        "rev": "1ddb355121484bcac70f49edd4bd006b1d3a753e",
+        "revCount": 707,
         "type": "git",
         "url": "https://git.outfoxxed.me/outfoxxed/quickshell"
       },
       "original": {
+        "rev": "1ddb355121484bcac70f49edd4bd006b1d3a753e",
         "type": "git",
         "url": "https://git.outfoxxed.me/outfoxxed/quickshell"
       }

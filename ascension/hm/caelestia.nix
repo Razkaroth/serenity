@@ -3,7 +3,7 @@
   programs.caelestia = {
   enable = true;
   systemd = {
-    enable = false; # if you prefer starting from your compositor
+    enable = true; # if you prefer starting from your compositor
     target = "graphical-session.target";
     environment = [];
   };
@@ -83,11 +83,11 @@
       desktopClock.enabled = false;
       enabled = true;
       visualiser = {
-        blur = true;
-        enabled = true;
-        autoHide = false;
-        rounding = 1;
-        spacing = 1;
+          enabled = false;
+          blur = true;
+          autoHide = false;
+          rounding = 1;
+          spacing = 1;
       };
     };
     bar = {
@@ -162,6 +162,7 @@
     launcher = {
       actionPrefix = ">";
       actions = [
+        { name = "Pass"; icon = "lock"; description = "Get a pass for a lock"; command = ["rofi-pass"]; enabled = true; dangerous = false; }
         { name = "Calculator"; icon = "calculate"; description = "Do simple math equations (powered by Qalc)"; command = ["autocomplete" "calc"]; enabled = true; dangerous = false; }
         { name = "Scheme"; icon = "palette"; description = "Change the current colour scheme"; command = ["autocomplete" "scheme"]; enabled = true; dangerous = false; }
         { name = "Wallpaper"; icon = "image"; description = "Change the current wallpaper"; command = ["autocomplete" "wallpaper"]; enabled = true; dangerous = false; }
@@ -231,7 +232,7 @@
       enabled = true;
       vimKeybinds = false;
       commands = {
-        logout = ["hyprctl" "exit" ""];
+        logout = ["systemctl" "--user" "exit"];
         shutdown = ["systemctl" "poweroff"];
         hibernate = ["systemctl" "hibernate"];
         reboot = ["systemctl" "reboot"];
