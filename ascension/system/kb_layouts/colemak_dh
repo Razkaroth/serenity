@@ -21,3 +21,11 @@ xkb_symbols "dh" {
     key <AD05> { [             b,             B,  enfilledcircbullet,          Greek_beta ] }; // QWE T Cmk G
     key <CAPS> { [    Escape,    Escape,       Escape,        Escape ] };
 };
+
+xkb_symbols "dh-intl" {
+    include "dh(dh)"
+    include "level3(ralt_switch)"
+    
+    key <TLDE> { [ dead_grave, dead_tilde, grave, asciitilde ] };
+    key <AC11> { [ dead_acute, dead_diaeresis, apostrophe, quotedbl ] };
+};

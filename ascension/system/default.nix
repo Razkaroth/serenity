@@ -14,6 +14,7 @@
     ./hamachi.nix
     ./audio.nix
     ./gaming.nix
+    ./kb_layouts
   ];
 
   environment.systemPackages = [

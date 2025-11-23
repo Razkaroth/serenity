@@ -2,7 +2,7 @@
 {
   services.xserver.xkb.extraLayouts.dh = {
     description = "Colemak-DH ergo";
-    languages = [ "eng" ];
+    languages = [ "eng" "spa" ];
     symbolsFile = ./colemak_dh;
   };
 
