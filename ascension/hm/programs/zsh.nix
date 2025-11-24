@@ -11,6 +11,9 @@
       enable = false;
     };
     initContent = ''
+      # Load Caelestia terminal colors
+      cat ~/.local/state/caelestia/sequences.txt 2>/dev/null
+
       # Helpful aliases
       alias c='clear' # clear terminal
       alias l='eza -lh --icons=auto' # long list

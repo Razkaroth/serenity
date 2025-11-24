@@ -7,6 +7,7 @@
 - **Update all inputs**: `nix flake update` or `nix flake update <input-name>`
 - **Check flake**: `nix flake check`
 - **Build without switching**: `sudo nixos-rebuild build --flake ./#<hostname>`
+- **IMPORTANT**: Agents should NEVER execute rebuild commands - only the user can trigger rebuilds due to sudo password requirements
 
 ## Structure
 - **Hosts**: `ascension/` (laptop with Caelestia theme), `serenity/` (desktop server)
