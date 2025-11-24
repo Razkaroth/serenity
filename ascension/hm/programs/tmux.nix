@@ -36,8 +36,24 @@ in {
     prefix = "M-s";
 
     extraConfig = ''
-      # exec-once = tmux setenv -g HYPRLAND_INSTANCE_SIGNATURE "$HYPRLAND_INSTANCE_SIGNATURE"
+
+ # Fix for terminal transparency with Kitty
+      set -g default-terminal "tmux-256color"
+      set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
+      set -as terminal-features ",xterm-256color:RGB"
+      
+      # CRITICAL: These settings fix the transparency issue
+      set -g status-style "bg=default,fg=default"
+      set -g window-style "bg=default"
+      set -g window-active-style "bg=default"
+      
+      # Allow passthrough for kitty
       set -gq allow-passthrough on
+      
+      # Update environment variables for Kitty integration
+      set -g update-environment "DISPLAY KITTY_PID KITTY_LISTEN_ON"
+
+      # exec-once = tmux setenv -g HYPRLAND_INSTANCE_SIGNATURE "$HYPRLAND_INSTANCE_SIGNATURE"
       bind-key -n Home send Escape "OH"
       bind-key -n End send Escape "OF"
       # tmux-sensible
