@@ -8,12 +8,6 @@
       recursive = true;
     };
 
-    ".config/fish" = {
-      source = ./caelestia/fish;
-      force = true;
-      recursive = true;
-    };
-
     # ".config/fastfetch" = {
     #   source = ./caelestia/fastfetch;
     #   force = true;
