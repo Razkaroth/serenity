@@ -43,6 +43,7 @@ let
     stripe-cli
     sshfs
     tree-sitter
+    tree
     zoxide
     uutils-coreutils-noprefix
 
