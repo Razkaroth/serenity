@@ -1,18 +1,14 @@
-;; Home row mods QWERTY example with more complexity.
-;; Some of the changes from the basic example:
-;; - when a home row mod activates tap, the home row mods are disabled
-;;   while continuing to type rapidly
-;; - tap-hold-release helps make the hold action more responsive
-;; - pressing another key on the same half of the keyboard
-;;   as the home row mod will activate an early tap action
+;; Home row mods with additional nav layer on space hold
 
 (defsrc
-  a   s   d   f   j   k   l   ;
+  esc   1    2    3    4    5    6    7    8    9    0    -    =    grv  bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \    del
+  caps  a    s    d    f    g    h    j    k    l    ;    '    ret       pgup
+  lsft  z    x    c    v    b    n    m    ,    .    /    rsft      ▲    pgdn
+  lctl  lmet lalt           spc            ralt rmet rctl      ◀    ▼    ▶
 )
+
 (defvar
-  ;; Note: consider using different time values for your different fingers.
-  ;; For example, your pinkies might be slower to release keys and index
-  ;; fingers faster.
   tap-time 200
   hold-time 150
 
@@ -27,16 +23,52 @@
     n m , . /
   )
 )
+
+;; Symbol aliases for the nav layer
+(defalias
+  ;; Parentheses
+  op S-9
+  cp S-0
+  ;; Curly braces
+  ob S-[
+  cb S-]
+  ;; Angle brackets
+  lt S-,
+  gt S-.
+  
+  ;; Space tap-hold for nav layer
+  spc (tap-hold 150 200 spc (layer-while-held nav))
+)
+
 (deflayer base
-  @a  @s  @d  @f  @j  @k  @l  @;
+  esc   1     2     3     4     5     6     7     8     9     0     -     =     grv   bspc
+  tab   q     w     e     r     t     y     u     i     o     p     [     ]     \     del
+  caps  @a    @s    @d    @f    g     h     @j    @k    @l    @;    '     ret         pgup
+  lsft  z     x     c     v     b     n     m     ,     .     /     rsft        ▲     pgdn
+  lctl  lmet  lalt              @spc              ralt  rmet  rctl        ◀     ▼     ▶
 )
 
 (deflayer nomods
-  a   s   d   f   j   k   l   ;
+  esc   1    2    3    4    5    6    7    8    9    0    -    =    grv  bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \    del
+  caps  a    s    d    f    g    h    j    k    l    ;    '    ret       pgup
+  lsft  z    x    c    v    b    n    m    ,    .    /    rsft      ▲    pgdn
+  lctl  lmet lalt           spc            ralt rmet rctl      ◀    ▼    ▶
 )
+
+;; Navigation and symbols layer activated by holding space
+(deflayer nav
+  _     _     _     _     _     _     _     _     [     ]     _     _     _     _     _
+  _     -     @lt   @gt   =     grv   \     @ob   @op   @cp   @cb   _     _     _     _
+  _     home  del  bspc  ret    end   ◀     ▼     ▲     ▶     _     _     _           _
+  _     _     _     _     _     _     _     _     _     _     _     _           _     _
+  _     _     _                 _                 _     _     _           _     _     _
+)
+
 (deffakekeys
   to-base (layer-switch base)
 )
+
 (defalias
   tap (multi
     (layer-switch nomods)
