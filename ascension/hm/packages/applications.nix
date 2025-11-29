@@ -4,6 +4,7 @@ let
 
   stablePkgs = with pkgs; [];
   edgePkgs = with pkgs-edge; [
+    yazi
     eza
     firefox # browser
     bottles # wine manager

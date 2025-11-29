@@ -67,11 +67,11 @@
             timeout = 180;
             idleAction = "lock";
           }
-          # {
-          #   timeout = 300;
-          #   idleAction = "dpms off";
-          #   returnAction = "dpms on";
-          # }
+          {
+            timeout = 300;
+            idleAction = "dpms off";
+            returnAction = "dpms on";
+          }
           {
             timeout = 600;
             idleAction = ["systemctl" "suspend-then-hibernate"];
@@ -176,7 +176,11 @@
         { name = "Logout"; icon = "exit_to_app"; description = "Log out of the current session"; command = ["hyprctl" "exit" ""]; enabled = true; dangerous = true; }
         { name = "Lock"; icon = "lock"; description = "Lock the current session"; command = ["loginctl" "lock-session"]; enabled = true; dangerous = false; }
         { name = "Sleep"; icon = "bedtime"; description = "Suspend then hibernate"; command = ["systemctl" "suspend-then-hibernate"]; enabled = true; dangerous = false; }
-        { name = "Mount serenity"; icon = "storage"; description = "Mount serenity via sshfs"; command = ["enterSerenity"]; enabled = true; dangerous = false; }
+        { name = "Mount serenity"; icon = "computer"; description = "Mount serenity via sshfs"; command = ["zsh" "-c" "enterSerenity"]; enabled = true; dangerous = false; }
+        { name = "Exit serenity"; icon = "computer_cancel"; description = "Exit serenity"; command = ["zsh" "-c" "exitSerenity"]; enabled = true; dangerous = false; }
+        { name = "Enable homerows"; icon = "shift_lock"; description = "Enable homerows"; command = ["systemctl" "start" "kanata-main.service"]; enabled = true; dangerous = false; }
+          { name = "Disable homerows"; icon = "shift_lock_off"; description = "Disable homerows"; command = ["systemctl" "stop" "kanata-main.service"]; enabled = true; dangerous = false; }
+
       ];
       dragThreshold = 50;
       vimKeybinds = true;
@@ -211,9 +215,11 @@
       hideDelay = 2000;
     };
     paths = {
-      mediaGif = "root:/assets/bongocat.gif";
-      sessionGif = "root:/assets/kurukuru.gif";
+      mediaGif = "root:/assets/gojo.gif";
+      sessionGif = "root:/assets/maid.gif";
       wallpaperDir = "~/Pictures/wallpaper";
+      gifDuration = 2.8;
+      beatsPerLoop = 8;
     };
     services = {
       audioIncrement = 0.05;
@@ -230,7 +236,7 @@
     session = {
       dragThreshold = 30;
       enabled = true;
-      vimKeybinds = false;
+      vimKeybinds = true;
       commands = {
         logout = ["systemctl" "--user" "exit"];
         shutdown = ["systemctl" "poweroff"];
