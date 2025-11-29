@@ -1,15 +1,9 @@
 { pkgs, ... }: {
-  
-  environment.systemPackages = with pkgs; [
-    libnotify
-    (pkgs.writeShellScriptBin "notify-session" ''
-      export XDG_RUNTIME_DIR=/run/user/1000
-      export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
-      exec ${pkgs.libnotify}/bin/notify-send -t 200 "$@"
-    '')
-  ];
 
-systemd.services.kanata-main.serviceConfig.User = "raz";
+  systemd.services.kanata-main = {
+    serviceConfig.User = "raz";
+    wantedBy = pkgs.lib.mkForce [ ];  # Disable auto-start
+  };
 
   services.kanata = {
     enable = true;
@@ -17,7 +11,7 @@ systemd.services.kanata-main.serviceConfig.User = "raz";
     keyboards = {
       main = {
         # config = (builtins.readFile ./kanataZen.lisp);
-        config = (builtins.readFile ./plank.lisp);
+        config = (builtins.readFile ./homeRow.lisp);
         extraDefCfg = ''
           process-unmapped-keys yes
           danger-enable-cmd yes

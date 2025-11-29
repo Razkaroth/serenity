@@ -3,8 +3,8 @@
 {
   imports = [
     # ./example.nix - add your modules here
-    # ./kanata
     # ./nixarr.nix # - only on serenity
+    ./kanata # - only targets laptop keyboard
     ./docker.nix
     ./tailscale.nix
     ./actual.nix
