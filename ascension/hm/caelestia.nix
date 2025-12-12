@@ -178,8 +178,9 @@
         { name = "Sleep"; icon = "bedtime"; description = "Suspend then hibernate"; command = ["systemctl" "suspend-then-hibernate"]; enabled = true; dangerous = false; }
         { name = "Mount serenity"; icon = "computer"; description = "Mount serenity via sshfs"; command = ["zsh" "-c" "enterSerenity"]; enabled = true; dangerous = false; }
         { name = "Exit serenity"; icon = "computer_cancel"; description = "Exit serenity"; command = ["zsh" "-c" "exitSerenity"]; enabled = true; dangerous = false; }
-        { name = "Enable homerows"; icon = "shift_lock"; description = "Enable homerows"; command = ["systemctl" "start" "kanata-main.service"]; enabled = true; dangerous = false; }
-          { name = "Disable homerows"; icon = "shift_lock_off"; description = "Disable homerows"; command = ["systemctl" "stop" "kanata-main.service"]; enabled = true; dangerous = false; }
+        { name = "Enable homerow"; icon = "shift_lock"; description = "Enable homerows"; command = ["systemctl" "start" "kanata-main.service"]; enabled = true; dangerous = false; }
+        { name = "Disable homerow"; icon = "shift_lock_off"; description = "Disable homerows"; command = ["systemctl" "stop" "kanata-main.service"]; enabled = true; dangerous = false; }
+        { name = "Restart caelestia"; icon = "cached"; description = "Restart caelestia"; command = ["systemctl" "--user" "restart" "caelestia.service"]; enabled = true; dangerous = false; }
 
       ];
       dragThreshold = 50;

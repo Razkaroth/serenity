@@ -31,6 +31,7 @@ let
     socat
     ffmpeg
     docker-compose
+    process-compose
     jq
     lazygit
     github-cli
