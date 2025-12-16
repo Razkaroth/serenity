@@ -6,6 +6,8 @@ let
   edgePkgs = with pkgs-edge; [
     # --------------------------------------------------- // Software Development
 
+    antigravity-fhs
+
     # k8s
     kubectl
     lens
@@ -57,7 +59,6 @@ let
 
     # langs
     nodejs
-    corepack
     gjs
     bun
     cargo
