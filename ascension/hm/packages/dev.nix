@@ -19,8 +19,12 @@ let
 
     # Boot.dev
     bootdev-cli
-    # Tools
 
+    # AI
+    lmstudio
+    n8n
+
+    # Tools
     aria2
     bat
     btop
