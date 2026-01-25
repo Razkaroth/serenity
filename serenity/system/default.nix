@@ -2,14 +2,8 @@
 
 {
   imports = [
-    # ./example.nix - add your modules here
-    # ./kanata
-    ./nixarr.nix
-    ./docker.nix
-    ./tailscale.nix
-    ./actual.nix
-    ./via.nix
-    ./vm.nix
+    ../../common/system
+    ../../common/system/nixarr.nix
   ];
 
   environment.systemPackages = [

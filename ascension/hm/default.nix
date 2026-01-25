@@ -2,9 +2,9 @@
 
 {
   imports = [
+    ../../common/hm
     inputs.caelestia-shell.homeManagerModules.default
-    ./packages
-    ./programs
+    # ./programs # Moved to common
     ./confs
     ./caelestia.nix
     ./hydenix.nix

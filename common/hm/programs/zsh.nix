@@ -1,6 +1,9 @@
-{
-  ...
-}:
+{ pkgs, config, lib, osConfig, ... }:
+let
+  hostname = osConfig.networking.hostName;
+  isAscension = hostname == "ascension";
+  isSerenity = hostname == "serenity";
+in
 {
   programs.zsh = {
     enable = true;
@@ -11,7 +14,7 @@
       enable = false;
     };
     initContent = ''
-      # Load Caelestia terminal colors
+      # Load Caelestia terminal colors if available
       cat ~/.local/state/caelestia/sequences.txt 2>/dev/null
 
       # Helpful aliases
@@ -32,11 +35,6 @@
       alias dcd='docker compose down'
       alias dcr='docker compose restart'
 
-      # Google calendar
-      alias gcal='gcalcli'
-      alias gcq='gcalcli --calendar rocker.ikaros@gmail.com quick'
-      
-
       # Directory navigation shortcuts
       alias ..='cd ..'
       alias ...='cd ../..'
@@ -44,16 +42,46 @@
       alias .4='cd ../../../..'
       alias .5='cd ../../../../..'
 
-      # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
+      # Always mkdir a path
       alias mkdir='mkdir -p'
 
       # Google calendar
       alias gcal='gcalcli'
       alias gcq='gcalcli --calendar rocker.ikaros@gmail.com quick'
 
+      # Super touch command
+      touch() {
+        for f in "$@"; do
+          if [[ "$f" == */ ]]; then
+            mkdir -p "$f"
+          else
+            install -D /dev/null "$f"
+          fi
+        done
+      }
+
+      export PATH=$HOME/.local/bin:$PATH
+      export PATH="/home/raz/.cache/.bun/bin:$PATH"
+      export ZK_NOTEBOOK_DIR="$HOME/vaults/codex-astartes/"
+      
+      eval "$(zoxide init zsh)"
+      eval "$(direnv hook zsh)"
+
+      if [ -n "$TMUX" ]; then                                                                               
+        function refresh {                                                                                
+          export $(tmux show-environment | grep "^KITTY_PID")
+          export $(tmux show-environment | grep "^KITTY_LISTEN_ON")
+          clear
+        }                                                                                                 
+      else                                                                                                  
+        function refresh { }                                                                              
+      fi
+
+      # --- Host Specific Configuration ---
+
+      ${lib.optionalString isAscension ''
       alias ascension='cd /home/raz/ascension && n'
       alias ascend='~/ascension/rebuild-ascension.sh'
-
       alias codex='cd /home/raz/vaults/codex-astartes/ && n'
 
       alias sshS='ssh raz@serenity'
@@ -73,38 +101,29 @@
         fusermount -u /serenity/home
         echo "Exiting serenity..."
       }
+      ''}
 
+      ${lib.optionalString isSerenity ''
+      alias ascend='~/ascension/rebuild.sh'
+      
+      alias sshA='ssh raz@ascension'
 
-      # a super touch command
-      touch() {
-        for f in "$@"; do
-          if [[ "$f" == */ ]]; then
-            # Ends with a slash → make directory
-            mkdir -p "$f"
-          else
-            # Otherwise → make file (with parent dirs)
-            install -D /dev/null "$f"
-          fi
-        done
+      enterAscension() {
+        echo "Entering ascension..."
+        echo "Mounting ascension root..."
+        sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 raz@ascension:/ /ascension/root
+        echo "Mounting ascension home..."
+        sshfs -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3 raz@ascension:/home/raz /ascension/home
       }
 
-
-      export PATH=$HOME/.local/bin:$PATH
-      export PATH="/home/raz/.cache/.bun/bin:$PATH"
-      export ZK_NOTEBOOK_DIR="$HOME/vaults/codex-astartes/"
-      eval "$(zoxide init zsh)"
-      eval "$(direnv hook zsh)"
-
-      if [ -n "$TMUX" ]; then                                                                               
-        function refresh {                                                                                
-          export $(tmux show-environment | grep "^KITTY_PID")
-          export $(tmux show-environment | grep "^KITTY_LISTEN_ON")
-          clear
-        }                                                                                                 
-      else                                                                                                  
-        function refresh { }                                                                              
-      fi
-
+      exitAscension() {
+        echo "Unmounting ascension root..."
+        fusermount -u /ascension/root
+        echo "Unmounting ascension home..."
+        fusermount -u /ascension/home
+        echo "Exiting ascension..."
+      }
+      ''}
     '';
   };
 }

@@ -1,12 +1,14 @@
-{ ...}:{
+{ ... }:
+{
   imports = [
     ./git.nix
-    ./pass.nix
     ./tmux.nix
-    ./zsh.nix # Setup using hydenix defaults.
-    ./vscode.nix
+    ./pass.nix
     ./direnv.nix
+    ./vscode.nix
+    ./zsh.nix
     ./kitty.nix
+    ./foot.nix
     ./starship.nix
   ];
 }

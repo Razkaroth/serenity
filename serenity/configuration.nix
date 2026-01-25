@@ -26,6 +26,10 @@ let
     inherit system;
     config.allowUnfree = true;
   };
+  pkgs-locked = import inputs.nixpkgs-locked {
+    inherit system;
+    config.allowUnfree = true;
+  };
 in
 {
 
@@ -73,7 +77,7 @@ in
     backupFileExtension = "nixbak";
     useUserPackages = true;
     extraSpecialArgs = {
-      inherit inputs pkgs-edge;
+      inherit inputs pkgs-edge pkgs-locked;
     };
 
     #! EDIT THIS USER (must match users defined below)

@@ -2,14 +2,8 @@
 
 {
   imports = [
-    # ./example.nix - add your modules here
-    # ./nixarr.nix # - only on serenity
+    ../../common/system
     ./kanata # - only targets laptop keyboard
-    ./docker.nix
-    ./tailscale.nix
-    ./actual.nix
-    ./via.nix
-    ./vm.nix
     ./hyprland.nix
     ./hamachi.nix
     ./audio.nix
