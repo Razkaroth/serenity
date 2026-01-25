@@ -33,6 +33,12 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  fileSystems."/c/beta" = {
+    device = "/dev/disk/by-uuid/0380e91e-0684-4d89-9d69-eff9254b9b64";
+    fsType = "ext4";
+    neededForBoot = false;
+  };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/91f8ab4c-3c28-492c-8fae-0534c0d78fe6"; }
     ];
