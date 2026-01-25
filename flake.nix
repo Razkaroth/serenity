@@ -3,8 +3,10 @@
 
   inputs = {
     # User's nixpkgs - locked to working revision for stability (especially NVIDIA drivers)
-    nixpkgs.url = "github:nixos/nixpkgs/9da7f1cf7f8a6e2a7cb3001b048546c92a8258b4";
-    
+    nixpkgs-locked.url = "github:nixos/nixpkgs/9da7f1cf7f8a6e2a7cb3001b048546c92a8258b4";
+    # nixpkgs.url = "github:nixos/nixpkgs/9da7f1cf7f8a6e2a7cb3001b048546c92a8258b4";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
     # Edge nixpkgs - latest unstable for selective package updates
     nixpkgs-edge.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -43,6 +45,7 @@
       zen-browser,
       play-nix,
       nixpkgs-edge,
+      nixpkgs-locked,
       ...
     }@inputs:
     let

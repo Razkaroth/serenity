@@ -1,7 +1,10 @@
-{ pkgs, pkgs-edge, inputs, ... }:
+{ pkgs, pkgs-edge, pkgs-locked, inputs, ... }:
 let
   system = "x86_64-linux";
 
+  lockedPkgs = with pkgs-locked; [
+    vesktop
+  ];
   stablePkgs = with pkgs; [];
   edgePkgs = with pkgs-edge; [
     yazi
@@ -12,7 +15,7 @@ let
     chromium # browser
     google-chrome # browser
     gnome-disk-utility
-    vesktop # discord client
+    # vesktop # discord client
     pomodoro
     kdePackages.konsole
     sunvox
@@ -34,7 +37,7 @@ let
   ];
 in
 {
-  home.packages = stablePkgs ++ edgePkgs ++ [
+  home.packages = stablePkgs ++ edgePkgs ++ lockedPkgs ++ [
     inputs.zen-browser.packages."${system}".beta # zen-beta
   ];
 

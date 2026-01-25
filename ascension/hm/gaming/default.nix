@@ -20,7 +20,7 @@
         width = 2880;
         height = 1800;
         refreshRate = 120;
-        hdr = true;
+        hdr = false;
         vrr = true;
       }
     ];
@@ -30,7 +30,7 @@
       enable = true;
       
       # Global defaults for all wrappers (can be overridden per-wrapper)
-      defaultHDR = null;      # null = auto-detect monitor HDR (default), true/false = force on/off
+      defaultHDR = false;      # null = auto-detect monitor HDR (default), true/false = force on/off
       defaultWSI = true;      # Global WSI (Wayland Surface Interface) setting
       defaultSystemd = false; # Global systemd-run setting
       
