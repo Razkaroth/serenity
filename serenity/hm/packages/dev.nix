@@ -52,7 +52,7 @@
 
     # langs
     nodejs
-    corepack
+    # corepack
     gjs
     bun
     cargo

@@ -113,16 +113,17 @@
       pokego.enable = false; # enable Pokemon ASCII art scripts
       starship.enable = true;
     };
-    # social = {
-    #   enable = true; # enable social module
-    #   # discord.enable = true; # enable discord module
-    #   # webcord.enable = true; # enable webcord module
-    #   vesktop.enable = true; # enable vesktop module
-    # };
-    spotify.enable = true; # enable spotify module
-    swww.enable = true; # enable swww wallpaper daemon
-    terminals = {
-      enable = true; # enable terminals module
+      social.enable = false;
+      # social = {
+      #   enable = true; # enable social module
+      #   # discord.enable = true; # enable discord module
+      #   # webcord.enable = true; # enable webcord module
+      #   vesktop.enable = true; # enable vesktop module
+      # };
+      spotify.enable = true; # enable spotify module
+      swww.enable = true; # enable swww wallpaper daemon
+      terminals = {
+        enable = true; # enable terminals module
       kitty.enable = true; # enable kitty terminal
       kitty.configText = ''
         allow_remote_control yes

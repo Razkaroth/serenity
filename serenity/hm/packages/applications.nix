@@ -12,7 +12,7 @@ in
     chromium # browser
     google-chrome # browser
     gnome-disk-utility
-    vesktop # discord client
+    # vesktop # discord client
     pomodoro
     sunvox
     obsidian
