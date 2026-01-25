@@ -66,6 +66,7 @@
       pokego.enable = false; 
       starship.enable = false;
     };
+    social.enable = false; # disable social module
     
     spotify.enable = true; # enable spotify module
     swww.enable = true; # enable swww wallpaper daemon
