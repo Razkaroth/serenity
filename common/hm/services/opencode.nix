@@ -1,21 +1,5 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
-let
-  opencodeScript = pkgs.writeShellScriptBin "opencode-service" ''
-    export PATH="/home/raz/.cache/.bun/bin:$PATH"
-    
-    if ! command -v opencode &> /dev/null; then
-      echo "opencode not found in PATH. Installing via bun..."
-      bun add -g opencode-ai
-    else
-      echo "opencode found: $(which opencode)"
-    fi
-    
-    echo "Starting opencode web service..."
-    # Launch in web mode on 0.0.0.0:4242
-    exec opencode web --hostname 0.0.0.0 --port 4242
-  '';
-in
 {
   systemd.user.services.opencode = {
     Unit = {
@@ -24,10 +8,11 @@ in
     };
     
     Service = {
-      ExecStart = "${opencodeScript}/bin/opencode-service";
+      # Run under zsh login shell to ensure environment variables (PATH, bun, node, etc.) are loaded correctly
+      # This fixes issues where opencode or its dependencies aren't found (error 127)
+      ExecStart = "${pkgs.zsh}/bin/zsh -l -c 'if ! command -v opencode &> /dev/null; then echo \"Installing opencode...\"; bun add -g opencode-ai; fi; exec opencode web --hostname 0.0.0.0 --port 4242'";
       Restart = "always";
       RestartSec = "10s";
-      Environment = "PATH=/home/raz/.cache/.bun/bin:${lib.makeBinPath [ pkgs.bun pkgs.bash pkgs.coreutils ]}:/usr/bin:/bin";
     };
 
     Install = {
