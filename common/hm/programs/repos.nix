@@ -11,6 +11,11 @@
         repo = "Razkaroth/lazychad";
         path = ".config/nvim";
       }
+      # Work repos
+      {
+        repo = "nordic-rune/starter";
+        path = "jale/nordic-rune/starter";
+      }
     ];
   };
 }
