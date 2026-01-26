@@ -137,6 +137,7 @@ in
       "libvirtd" # For virtualization access
       # Add other groups as needed
     ];
+    linger = true;
     shell = pkgs.zsh; # Change if you prefer a different shell
   };
 }
