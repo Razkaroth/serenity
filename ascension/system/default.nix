@@ -3,12 +3,10 @@
 {
   imports = [
     ../../common/system
-    ./kanata # - only targets laptop keyboard
     ./hyprland.nix
     ./hamachi.nix
     ./audio.nix
     ./gaming.nix
-    ./kb_layouts
   ];
 
   environment.systemPackages = [
