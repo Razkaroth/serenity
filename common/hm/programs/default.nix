@@ -10,5 +10,6 @@
     ./kitty.nix
     ./foot.nix
     ./starship.nix
+    ./repos.nix
   ];
 }
