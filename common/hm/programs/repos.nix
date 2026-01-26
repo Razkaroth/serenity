@@ -13,7 +13,7 @@
       }
       # Work repos
       {
-        repo = "nordic-rune/starter";
+        repo = "nordic/starter";
         path = "jale/nordic-rune/starter";
       }
     ];
