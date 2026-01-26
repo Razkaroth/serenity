@@ -16,11 +16,11 @@
   # hydenix home-manager options go here
   hydenix.hm = {
     #! Important options
-    enable = true;
+    enable = false;
     comma.enable = true; # useful nix tool to run software without installing it first
     dolphin.enable = true; # file manager
     editors = {
-      enable = true; # enable editors module
+      enable = false; # enable editors module
       # neovim.enable = true; # enable neovim module
       vscode = {
         enable = false; # enable vscode module
@@ -29,7 +29,7 @@
       # vim.enable = true; # enable vim module
       default = "nvim"; # default text editor
     };
-    fastfetch.enable = true; # fastfetch configuration
+    fastfetch.enable = false; # fastfetch configuration
     
     # Git configured via common module
     git = {
@@ -38,10 +38,10 @@
       email = "rocker.ikaros@gmail.com"; 
     };
     
-    hyde.enable = true; # enable hyde module
-    hyprland.enable = true; # enable hyprland module
+    hyde.enable = false; # enable hyde module
+    hyprland.enable = false; # enable hyprland module
     lockscreen = {
-      enable = true; # enable lockscreen module
+      enable = false; # enable lockscreen module
       hyprlock = true; # enable hyprlock lockscreen
       swaylock = false; # enable swaylock lockscreen
     };
@@ -66,7 +66,6 @@
       pokego.enable = false; 
       starship.enable = false;
     };
-    social.enable = false; # disable social module
     
     spotify.enable = true; # enable spotify module
     swww.enable = true; # enable swww wallpaper daemon
@@ -79,32 +78,9 @@
     
     theme = {
       enable = true; # enable theme module
-      active = "Monokai";
+      active = "Cosmic Blue";
       themes = [
-        "AncientAliens"
-        "Graphite Mono"
-        "Catppuccin Mocha"
-        "Cat Latte"
-        "Rosé Pine"
-        "Vanta Black"
         "Cosmic Blue"
-        "Scarlet Night"
-        "Ever Blushing"
-        "Gruvbox Retro"
-        "Monokai"
-        "Moonlight"
-        "Tokyo Night"
-        "Sci-fi"
-        "Solarized Dark"
-        "Green Lush"
-        "Grukai"
-        "Obisidian-Purple"
-        "Decay Green"
-        "AbyssGreen"
-        "Amethyst-Aura"
-        "Peace Of Mind"
-        "Synth Wave"
-        "Tundra"
       ]; 
     };
     waybar.enable = true; # enable waybar module

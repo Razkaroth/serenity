@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }: 
+{ pkgs, inputs, osConfig, lib, ... }: 
+let
+  hostname = osConfig.networking.hostName;
+  isAscension = hostname == "ascension";
+  isSerenity = hostname == "serenity";
+in
 { 
   programs.caelestia = {
   enable = true;
@@ -176,13 +181,17 @@
         { name = "Logout"; icon = "exit_to_app"; description = "Log out of the current session"; command = ["hyprctl" "exit" ""]; enabled = true; dangerous = true; }
         { name = "Lock"; icon = "lock"; description = "Lock the current session"; command = ["loginctl" "lock-session"]; enabled = true; dangerous = false; }
         { name = "Sleep"; icon = "bedtime"; description = "Suspend then hibernate"; command = ["systemctl" "suspend-then-hibernate"]; enabled = true; dangerous = false; }
+      ] ++ lib.optionals isAscension [
         { name = "Mount serenity"; icon = "computer"; description = "Mount serenity via sshfs"; command = ["zsh" "-c" "enterSerenity"]; enabled = true; dangerous = false; }
         { name = "Exit serenity"; icon = "computer_cancel"; description = "Exit serenity"; command = ["zsh" "-c" "exitSerenity"]; enabled = true; dangerous = false; }
         { name = "Enable homerow"; icon = "shift_lock"; description = "Enable homerows"; command = ["systemctl" "start" "kanata-main.service"]; enabled = true; dangerous = false; }
         { name = "Disable homerow"; icon = "shift_lock_off"; description = "Disable homerows"; command = ["systemctl" "stop" "kanata-main.service"]; enabled = true; dangerous = false; }
+      ] ++ lib.optionals isSerenity [
+        { name = "Mount ascension"; icon = "computer"; description = "Mount ascension via sshfs"; command = ["zsh" "-c" "enterAscension"]; enabled = true; dangerous = false; }
+        { name = "Exit ascension"; icon = "computer_cancel"; description = "Exit ascension"; command = ["zsh" "-c" "exitAscension"]; enabled = true; dangerous = false; }
+      ] ++ [
         { name = "Restart caelestia"; icon = "cached"; description = "Restart caelestia"; command = ["systemctl" "--user" "restart" "caelestia.service"]; enabled = true; dangerous = false; }
         { name = "Reload Hyprland"; icon = "cached"; description = "Reloads configuration twice"; command = ["hyprctl" "reload" "&&" "sleep" "3" "&&" "hyprctl" "reload"]; enabled = true; dangerous = false; }
-
       ];
       dragThreshold = 50;
       vimKeybinds = true;

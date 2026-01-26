@@ -3,10 +3,10 @@
 {
   imports = [
     ../../common/hm
-    inputs.caelestia-shell.homeManagerModules.default
+    # inputs.caelestia-shell.homeManagerModules.default # Moved to common
     # ./programs # Moved to common
     ./confs
-    ./caelestia.nix
+    # ./caelestia.nix # Moved to common
     ./hydenix.nix
     ./gaming
   ];
