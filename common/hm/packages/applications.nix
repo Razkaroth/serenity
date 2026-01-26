@@ -9,6 +9,7 @@ let
   edgePkgs = with pkgs-edge; [
     yazi
     eza
+    kitty
     firefox # browser
     bottles # wine manager
     brave # browser

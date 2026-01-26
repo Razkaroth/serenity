@@ -74,6 +74,7 @@ let
     typescript
     eslint
     # very important stuff
+    neovim
     neofetch
     
   ];
