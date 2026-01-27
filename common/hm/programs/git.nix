@@ -7,11 +7,9 @@
         name = "razkaroth";
         email = "rocker.ikaros@gmail.com";
       };
-    };
-    lfs.enable = true;
-    extraConfig = {
       push = { autoSetupRemote = true; };
       pull = { rebase = false; };
     };
+    lfs.enable = true;
   };
 }

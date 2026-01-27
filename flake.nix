@@ -31,6 +31,7 @@
     };
 
     play-nix.url = "github:TophC7/play.nix";
+    playwright.url = "github:pietdevries94/playwright-web-flake";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     nixarr.url = "github:rasmus-kirk/nixarr";
@@ -44,6 +45,7 @@
       nixarr,
       zen-browser,
       play-nix,
+      playwright,
       nixpkgs-edge,
       nixpkgs-locked,
       ...
@@ -52,25 +54,24 @@
       SERENITY = "serenity";
       ASCENSION = "ascension";
 
-    system = "x86_64-linux";
+      system = "x86_64-linux";
       hydenixSerenityConfig = inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
          specialArgs = {
            inherit inputs;
          };
         modules = [
+        { nixpkgs.hostPlatform = system; }
         inputs.nixarr.nixosModules.default
         chaotic.nixosModules.default
           ./serenity/configuration.nix
         ];
       };
       hydenixAscenceConfig = inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
          specialArgs = {
            inherit inputs;
          };
         modules = [
-
+          { nixpkgs.hostPlatform = system; }
           # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
           play-nix.nixosModules.play
           ./ascension/configuration.nix
