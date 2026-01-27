@@ -2,19 +2,11 @@
 
 {
   imports = [
-    # ./example.nix - add your modules here
-    # ./nixarr.nix # - only on serenity
-    ./kanata # - only targets laptop keyboard
-    ./docker.nix
-    ./tailscale.nix
-    ./actual.nix
-    ./via.nix
-    ./vm.nix
+    ../../common/system
     ./hyprland.nix
     ./hamachi.nix
     ./audio.nix
     ./gaming.nix
-    ./kb_layouts
   ];
 
   environment.systemPackages = [

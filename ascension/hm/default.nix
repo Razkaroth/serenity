@@ -2,11 +2,11 @@
 
 {
   imports = [
-    inputs.caelestia-shell.homeManagerModules.default
-    ./packages
-    ./programs
+    ../../common/hm
+    # inputs.caelestia-shell.homeManagerModules.default # Moved to common
+    # ./programs # Moved to common
     ./confs
-    ./caelestia.nix
+    # ./caelestia.nix # Moved to common
     ./hydenix.nix
     ./gaming
   ];
