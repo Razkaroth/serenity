@@ -4,6 +4,7 @@
   imports = [
     ../../common/system
     ../../common/system/nixarr.nix
+    ./zero-tier.nix
   ];
 
   environment.systemPackages = [
