@@ -30,68 +30,23 @@
       default = "nvim"; # default text editor
     };
     fastfetch.enable = false; # fastfetch configuration
-    
-    # Git configured via common module
     git = {
-      enable = false; 
-      name = "razkaroth"; 
-      email = "rocker.ikaros@gmail.com"; 
-    };
-    
+      enable = false; # enable git module
+      name = "razkaroth"; # git user name eg "John Doe"
+      email = "rocker.ikaros@gmail.com"; # git user email eg "john.doe@example.com"
+     };
     hyde.enable = false; # enable hyde module
     hyprland.enable = false; # enable hyprland module
     lockscreen = {
       enable = false; # enable lockscreen module
-      hyprlock = true; # enable hyprlock lockscreen
+      hyprlock = false; # enable hyprlock lockscreen
       swaylock = false; # enable swaylock lockscreen
     };
-    notifications.enable = true; # enable notifications module
-    qt.enable = true; # enable qt module
-    rofi.enable = true; # enable rofi module
     screenshots = {
       enable = true; # enable screenshots module
       grim.enable = true; # enable grim screenshot tool
       slurp.enable = true; # enable slurp region selection tool
     };
-    
-    # Shell configured via common module
-    shell = {
-      enable = false; 
-      zsh ={
-        enable = false; 
-        configText = "";
-    }; 
-      bash.enable = false; 
-      fish.enable = false; 
-      pokego.enable = false; 
-      starship.enable = false;
-    };
-      social.enable = false;
-      # social = {
-      #   enable = true; # enable social module
-      #   # discord.enable = true; # enable discord module
-      #   # webcord.enable = true; # enable webcord module
-      #   vesktop.enable = true; # enable vesktop module
-      # };
-      spotify.enable = true; # enable spotify module
-      swww.enable = true; # enable swww wallpaper daemon
-      terminals = {
-        enable = true; # enable terminals module
-      kitty.enable = true; # enable kitty terminal
-      kitty.configText = ''
-        allow_remote_control yes
-        ''; # kitty config text
-    };
-    
-    theme = {
-      enable = true; # enable theme module
-      active = "Cosmic Blue";
-      themes = [
-        "Cosmic Blue"
-      ]; 
-    };
-    waybar.enable = true; # enable waybar module
-    wlogout.enable = true; # enable wlogout module
-    xdg.enable = true; # enable xdg module
+    spotify.enable = true; # enable spotify module
   };
 }
