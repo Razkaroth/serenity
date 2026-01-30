@@ -4,7 +4,6 @@
   imports = [
     ../../common/system
     ./hyprland.nix
-    ./hamachi.nix
     ./audio.nix
     ./gaming.nix
   ];
