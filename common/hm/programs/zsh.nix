@@ -31,13 +31,14 @@ in
       alias ta='tmux attach'
       alias t='tmux new-session -A -s scratch'
       alias lz='lazygit'
+      alias y='yazi'
       alias dcu='docker compose up'
       alias dcd='docker compose down'
       alias dcr='docker compose restart'
 
       # Directory navigation shortcuts
       alias ..='cd ..'
-      alias ...='cd ../..'
+      alias .2='cd ../..'
       alias .3='cd ../../..'
       alias .4='cd ../../../..'
       alias .5='cd ../../../../..'

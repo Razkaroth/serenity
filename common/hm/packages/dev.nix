@@ -65,6 +65,7 @@ let
     nodejs
     # corepack
     gjs
+    just
     bun
     cargo
     uv

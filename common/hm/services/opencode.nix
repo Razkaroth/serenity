@@ -4,12 +4,13 @@ let
   env_vars = {
     PATH = "$HOME/.local/share/uv/tools/beads-mcp/bin:$PATH";
     PLANNOTATOR_REMOTE = "1";
+    LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib/";
   };
 
   env_script = pkgs.lib.concatStringsSep "; " 
     (pkgs.lib.mapAttrsToList (name: value: "export ${name}=${value}") env_vars);
 
-  command = "nix run github:anomalyco/opencode/7c0067d59d318bfd6ecd473c36a9e673a4f68ff9 -- web --hostname 0.0.0.0 --port 4242";
+  command = "nix run github:anomalyco/opencode/579902ace6e9fb925f50b7d9fdf11a6b47895307 -- web --hostname 0.0.0.0 --port 4242";
 
   execStart = "${pkgs.zsh}/bin/zsh -c 'source $HOME/.zshrc; ${env_script}; ${command}'";
 in
