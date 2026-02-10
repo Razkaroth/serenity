@@ -63,6 +63,7 @@ in
 
       export PATH=$HOME/.local/bin:$PATH
       export PATH="/home/raz/.cache/.bun/bin:$PATH"
+      export PATH="$PATH:$HOME/go/bin"
       export ZK_NOTEBOOK_DIR="$HOME/vaults/codex-astartes/"
       
       eval "$(zoxide init zsh)"
