@@ -58,6 +58,7 @@ in {
       bind-key -n End send Escape "OF"
       # tmux-sensible
       set -g mouse on
+      unbind -n C-\\
       # open panes in current directory
       bind '"' split-window -c '#{pane_current_path}'
       bind % split-window -h -c '#{pane_current_path}'
