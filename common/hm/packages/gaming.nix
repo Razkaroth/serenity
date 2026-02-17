@@ -1,7 +1,6 @@
 { pkgs, pkgs-edge, ... }:
 let
-  stablePkgs = with pkgs; [];
-  edgePkgs = with pkgs-edge; [
+  stablePkgs = with pkgs; [
     # --------------------------------------------------- // Gaming
     gamemode # daemon and library for game optimisations
     mangohud # system performance overlay
@@ -10,6 +9,8 @@ let
     sidequest # sideload apps and games to Oculus Quest
     android-tools # android platform tools
     protonup-ng # game launcher
+  ];
+  edgePkgs = with pkgs-edge; [
   ];
 in
 {

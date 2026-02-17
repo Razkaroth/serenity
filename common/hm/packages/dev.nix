@@ -2,11 +2,7 @@
 let
   stablePkgs = with pkgs; [
     git-lfs
-  ];
-  edgePkgs = with pkgs-edge; [
-    # --------------------------------------------------- // Software Development
 
-    antigravity-fhs
 
     # k8s
     kubectl
@@ -40,8 +36,6 @@ let
     process-compose
     jq
     lazygit
-    github-cli
-    jetbrains-toolbox
     code-cursor
     postman
     insomnia
@@ -69,6 +63,7 @@ let
     bun
     cargo
     uv
+    python3
     go
     gcc
     gnumake
@@ -76,8 +71,13 @@ let
     typescript
     eslint
     # very important stuff
-    neovim
     neofetch
+  ];
+  edgePkgs = with pkgs-edge; [
+    
+    github-cli
+    jetbrains-toolbox
+    neovim
     
   ];
 in

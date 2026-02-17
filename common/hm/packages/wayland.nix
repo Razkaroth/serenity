@@ -1,9 +1,10 @@
 { pkgs, pkgs-edge, ... }:
 let
-  stablePkgs = with pkgs; [];
-  edgePkgs = with pkgs-edge; [
+  stablePkgs = with pkgs; [
     wlsunset
     kde-gruvbox
+  ];
+  edgePkgs = with pkgs-edge; [
   ];
 in
 {

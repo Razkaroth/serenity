@@ -3,10 +3,8 @@ let
   system = "x86_64-linux";
 
   lockedPkgs = with pkgs-locked; [
-    vesktop
   ];
-  stablePkgs = with pkgs; [];
-  edgePkgs = with pkgs-edge; [
+  stablePkgs = with pkgs; [
     yazi
     eza
     kitty
@@ -35,6 +33,10 @@ let
     zk
     gthumb
     capitaine-cursors-themed
+  ];
+  edgePkgs = with pkgs-edge; [
+
+    vesktop
   ];
 in
 {

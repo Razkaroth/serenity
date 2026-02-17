@@ -1,7 +1,6 @@
 { pkgs, pkgs-edge, ... }:
 let
-  stablePkgs = with pkgs; [];
-  edgePkgs = with pkgs-edge; [
+  stablePkgs = with pkgs; [
     # --------------------------------------------------- // Music
     cava # audio visualizer
     # spicetify-cli # cli to customize spotify client
@@ -14,6 +13,8 @@ let
     rtaudio
     # --------------------------------------------------- // Books
     calibre
+  ];
+  edgePkgs = with pkgs-edge; [
   ];
 in
 {
