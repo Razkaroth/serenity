@@ -5,6 +5,7 @@ let
   lockedPkgs = with pkgs-locked; [
   ];
   stablePkgs = with pkgs; [
+    bagels
     yazi
     eza
     kitty
@@ -13,6 +14,7 @@ let
     brave # browser
     chromium # browser
     google-chrome # browser
+    satty
     gnome-disk-utility
     # vesktop # discord client
     pomodoro
@@ -50,6 +52,10 @@ in
     defaultApplications = {
       "x-scheme-handler/http" = "zen-beta.desktop";
       "x-scheme-handler/https" = "zen-beta.desktop";
+      "x-scheme-handler/ftp" = "zen-beta.desktop";
+      "x-scheme-handler/about" = "zen-beta.desktop";
+      "x-scheme-handler/unknown" = "zen-beta.desktop";
+      "x-scheme-handler/webcal" = "zen-beta.desktop";
       "x-scheme-handler/chrome" = "zen-beta.desktop";
       "text/html" = "zen-beta.desktop";
       "application/x-extension-htm" = "zen-beta.desktop";
@@ -59,21 +65,29 @@ in
       "application/x-extension-xhtml" = "zen-beta.desktop";
       "application/x-extension-xht" = "zen-beta.desktop";
 
-      # all images to gthumb
-      "image/jpeg" = [ "gthumb.desktop" ];
-      "image/png" = [ "gthumb.desktop" ];
-      "image/gif" = [ "gthumb.desktop" ];
-      "image/bmp" = [ "gthumb.desktop" ];
-      "image/tiff" = [ "gthumb.desktop" ];
-      "image/x-bmp" = [ "gthumb.desktop" ];
-      "image/x-ico" = [ "gthumb.desktop" ];
-      "image/x-png" = [ "gthumb.desktop" ];
-      "image/x-tga" = [ "gthumb.desktop" ];
-      "image/x-tiff" = [ "gthumb.desktop" ];
-      "image/x-webp" = [ "gthumb.desktop" ];
-      "image/webp" = [ "gthumb.desktop" ];
-      "image/svg+xml" = [ "gthumb.desktop" ];
-      
+      # all images to satty, except SVG which opens in Zen
+      "image/avif" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/bmp" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/gif" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/heic" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/heif" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/jpeg" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/jxl" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/png" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/tiff" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/webp" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/x-bmp" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/x-ico" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/x-png" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/x-tga" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/x-tiff" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/x-webp" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+
+      # SVG/PDF in browser (Zen)
+      "image/svg+xml" = "zen-beta.desktop";
+      "application/pdf" = "zen-beta.desktop";
+      "application/x-pdf" = "zen-beta.desktop";
+
       # Keep other existing defaults
       "application/javascript" = "nvim.desktop";
       "application/json" = "nvim.desktop";
@@ -89,9 +103,13 @@ in
       "text/x-java-source" = "nvim.desktop";
       "text/x-python" = "nvim.desktop";
       "text/x-typescript" = "nvim.desktop";
-      "x-scheme-handler/about" = "org.kde.dolphin.desktop";
       "x-scheme-handler/file" = "org.kde.dolphin.desktop";
     };
+  };
+
+  home.sessionVariables = {
+    BROWSER = "zen-beta";
+    DEFAULT_BROWSER = "zen-beta";
   };
 
   # Systemd user service for gcalcli reminders

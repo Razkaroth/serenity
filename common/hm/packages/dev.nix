@@ -45,6 +45,7 @@ let
     sshfs
     tree-sitter
     tree
+    typst
     zoxide
     uutils-coreutils-noprefix
 

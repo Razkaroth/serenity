@@ -4,6 +4,8 @@
     ".config/hypr" = {
       source = ./caelestia/hypr;
       # recursive = true; # Recursive is needed to allow host-specific overrides
+      mutable = true;
+      force = true;
       recursive = true;
     };
 
