@@ -1,4 +1,4 @@
-{ pkgs, pkgs-edge, ... }:
+{ pkgs, pkgs-edge, inputs, ... }:
 let
   stablePkgs = with pkgs; [
     git-lfs
@@ -55,6 +55,7 @@ let
     mongodb-compass
     mongodb-tools
 
+    inputs.spacetimedb.packages.${pkgs.system}.default
 
     # langs
     nodejs

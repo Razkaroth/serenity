@@ -31,7 +31,12 @@
     };
 
     play-nix.url = "github:TophC7/play.nix";
-    playwright.url = "github:pietdevries94/playwright-web-flake";
+    #playwright.url = "github:pietdevries94/playwright-web-flake";
+    
+  spacetimedb = {
+      url = "github:clockworklabs/SpacetimeDB/b391d7333d07d7dc955553db65ea5206fa97165d";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     nixarr.url = "github:rasmus-kirk/nixarr";
@@ -44,8 +49,9 @@
       nixos-hardware,
       nixarr,
       zen-browser,
+      spacetimedb,
       play-nix,
-      playwright,
+    #playwright,
       nixpkgs-edge,
       nixpkgs-locked,
       ...

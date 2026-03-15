@@ -84,7 +84,7 @@ in
       ${lib.optionalString isAscension ''
       alias ascension='cd /home/raz/ascension && n'
       alias ascend='~/ascension/rebuild-ascension.sh'
-      alias codex='cd /home/raz/vaults/codex-astartes/ && n'
+      # alias codex='cd /home/raz/vaults/codex-astartes/ && n'
 
       alias sshS='ssh raz@serenity'
       
