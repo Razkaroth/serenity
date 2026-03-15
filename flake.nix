@@ -30,7 +30,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    play-nix.url = "github:TophC7/play.nix";
+    play-nix.url = "github:TophC7/play.nix/034de59808387ffa9e5d677860c96cceffa570f9";
     #playwright.url = "github:pietdevries94/playwright-web-flake";
     
   spacetimedb = {

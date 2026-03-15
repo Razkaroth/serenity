@@ -236,9 +236,10 @@ in
       audioIncrement = 0.05;
       maxVolume = 1.0;
       defaultPlayer = "Spotify";
-      gpuType = "";
+      gpuType = "NVIDIA GeForce RTX 4060 Studio";
       playerAliases = [{ from = "com.github.th_ch.youtube_music"; to = "YT Music"; }];
       weatherLocation = "";
+      useFahrenheitPerformance = false;
       useFahrenheit = false;
       useTwelveHourClock = false;
       smartScheme = true;

@@ -2,7 +2,6 @@
   # Audio
 
   environment.systemPackages = with pkgs; [
-    helvum
     easyeffects
     qjackctl
     rtaudio

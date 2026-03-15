@@ -7,7 +7,6 @@ let
     # spotify # spotify client
     (mpv.override { scripts = [ mpvScripts.mpris ]; })
     # Audio
-    helvum
     easyeffects
     qjackctl
     rtaudio

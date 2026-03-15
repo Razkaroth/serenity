@@ -72,7 +72,7 @@
       };
 
       lutris-gamescope = {
-        enable = true;
+        enable = false;
         package = osConfig.play.lutris.package; # play.nix provides readonly packages
         
         # Per-wrapper configuration

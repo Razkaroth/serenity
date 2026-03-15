@@ -72,8 +72,6 @@ let
     cmakeMinimal
     typescript
     eslint
-    # very important stuff
-    neofetch
   ];
   edgePkgs = with pkgs-edge; [
     
