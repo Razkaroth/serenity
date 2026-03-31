@@ -12,5 +12,6 @@
     ./starship.nix
     ./repos.nix
     ./playwright.nix
+    ./spotiflac.nix
   ];
 }

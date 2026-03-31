@@ -13,10 +13,13 @@
 
   wayland.windowManager.hyprland = {
     enable = true; # enable Hyprland
+    extraConfig = ''
+      source = ~/.config/hypr/main.conf
+    '';
     settings = {
       "$mod" = "Super";
       bind = [
-       "$mod, T, exec, $TERMINAL"
+        "$mod, T, exec, $TERMINAL"
     ];
     };
 

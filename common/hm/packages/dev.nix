@@ -20,6 +20,10 @@ let
     lmstudio
     n8n
 
+    # Docmunents
+    websocat
+    tinymist
+
     # Tools
     aria2
     bat
