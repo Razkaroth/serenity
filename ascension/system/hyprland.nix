@@ -1,6 +1,7 @@
 { pkgs, config, lib, modulesPath, ... }:
 {
   programs.hyprland.enable = true;
+  services.udisks2.enable = true;
 
   environment.systemPackages = with pkgs; [
       # Not sure if all these dependencies are necessary or not
