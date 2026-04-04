@@ -1,7 +1,5 @@
 { pkgs, pkgs-edge, pkgs-locked, inputs, ... }:
 let
-  system = "x86_64-linux";
-
   lockedPkgs = with pkgs-locked; [
   ];
   stablePkgs = with pkgs; [
@@ -43,7 +41,7 @@ let
 in
 {
   home.packages = stablePkgs ++ edgePkgs ++ lockedPkgs ++ [
-    inputs.zen-browser.packages."${system}".beta # zen-beta
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta # zen-beta
   ];
 
   # Configure zen-beta as default browser

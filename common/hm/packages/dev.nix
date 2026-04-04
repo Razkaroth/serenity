@@ -59,7 +59,7 @@ let
     mongodb-compass
     mongodb-tools
 
-    inputs.spacetimedb.packages.${pkgs.system}.default
+    inputs.spacetimedb.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # langs
     nodejs
