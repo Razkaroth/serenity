@@ -12,6 +12,7 @@ let
     brave # browser
     chromium # browser
     google-chrome # browser
+    ferdium # chat
     satty
     gnome-disk-utility
     # vesktop # discord client
