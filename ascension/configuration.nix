@@ -61,7 +61,7 @@ in
     services.power-profiles-daemon.enable = true;
   home-manager = {
     useGlobalPkgs = true;
-    backupFileExtension = "nixbak";
+    # backupFileExtension = "nixbak"; # Removed: mutable+force=true handles overwrites; backup extension causes rebuild failures when .nixbak already exists
     useUserPackages = true;
     extraSpecialArgs = {
       inherit inputs pkgs-edge pkgs-locked;
