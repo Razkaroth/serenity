@@ -16,12 +16,6 @@
     extraConfig = ''
       source = ~/.config/hypr/main.conf
     '';
-    settings = {
-      "$mod" = "Super";
-      bind = [
-        "$mod, T, exec, $TERMINAL"
-    ];
-    };
 
     # use os module packages
     package = null;
