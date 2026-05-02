@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./affinity.nix
     ./git.nix
     ./tmux.nix
     ./pass.nix
