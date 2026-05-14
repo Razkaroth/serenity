@@ -8,7 +8,7 @@ let
     eza
     kitty
     firefox # browser
-    bottles # wine manager
+    # bottles # wine manager
     brave # browser
     chromium # browser
     google-chrome # browser
