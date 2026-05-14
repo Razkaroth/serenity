@@ -30,7 +30,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    play-nix.url = "github:TophC7/play.nix/034de59808387ffa9e5d677860c96cceffa570f9";
     #playwright.url = "github:pietdevries94/playwright-web-flake";
     
   spacetimedb = {
@@ -50,7 +49,6 @@
       nixarr,
       zen-browser,
       spacetimedb,
-      play-nix,
     #playwright,
       nixpkgs-edge,
       nixpkgs-locked,
@@ -79,7 +77,6 @@
         modules = [
           { nixpkgs.hostPlatform = system; }
           # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"
-          play-nix.nixosModules.play
           ./ascension/configuration.nix
         ];
       };

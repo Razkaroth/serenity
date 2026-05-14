@@ -112,6 +112,7 @@ in
         grubExtraConfig = ""; # additional GRUB configuration
         kernelPackages = pkgs.linuxPackages_zen; # default zen kernel
       };
+      gaming.enable = false;
     /*
       hardware.enable = true; # enable hardware module
       network.enable = true; # enable network module

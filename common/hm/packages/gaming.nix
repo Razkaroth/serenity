@@ -4,7 +4,7 @@ let
     # --------------------------------------------------- // Gaming
     gamemode # daemon and library for game optimisations
     mangohud # system performance overlay
-    # gamescope # micro-compositor for gaming (Managed by play-nix on Ascension, added manually on Serenity)
+    # gamescope # micro-compositor for gaming (managed at system level per host)
     # lutris # gaming platform
     sidequest # sideload apps and games to Oculus Quest
     android-tools # android platform tools
