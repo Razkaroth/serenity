@@ -8,7 +8,6 @@
     ./confs
     # ./caelestia.nix # Moved to common
     ./hydenix.nix
-    ./gaming
   ];
 
   wayland.windowManager.hyprland = {

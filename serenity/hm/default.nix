@@ -8,7 +8,7 @@
 
   # home-manager options go here
   home.packages = [
-    pkgs-edge.gamescope # Removed from common/gaming due to conflict with play-nix on Ascension
+    pkgs-edge.gamescope
     # pkgs.vscode - hydenix's vscode version
     # pkgs.userPkgs.vscode - your personal nixpkgs version
   ];
