@@ -4,7 +4,6 @@
   imports = [
     ../../common/system
     ../../common/system/nixarr.nix
-    ./gaming.nix
     ./zero-tier.nix
   ];
 

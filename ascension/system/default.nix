@@ -125,7 +125,6 @@ in
     ../../common/system
     ./hyprland.nix
     ./audio.nix
-    ./nvidia.nix
     ./gaming.nix
   ];
 
