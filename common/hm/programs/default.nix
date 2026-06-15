@@ -4,6 +4,7 @@
     ./affinity.nix
     ./git.nix
     ./tmux.nix
+    ./tuxedo.nix
     ./pass.nix
     ./direnv.nix
     ./vscode.nix

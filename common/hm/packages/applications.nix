@@ -3,6 +3,8 @@ let
   lockedPkgs = with pkgs-locked; [
   ];
   stablePkgs = with pkgs; [
+    rmpc
+    mpd
     bagels
     yazi
     eza

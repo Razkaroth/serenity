@@ -233,7 +233,7 @@ in
       beatsPerLoop = 8;
     };
     services = {
-      audioIncrement = 0.05;
+      audioIncrement = 0.02;
       maxVolume = 1.0;
       defaultPlayer = "Spotify";
       gpuType = "NVIDIA GeForce RTX 4060 Studio";

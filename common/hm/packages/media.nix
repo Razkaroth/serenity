@@ -10,8 +10,10 @@ let
     easyeffects
     qjackctl
     rtaudio
+    nicotine-plus
     # --------------------------------------------------- // Books
     calibre
+
   ];
   edgePkgs = with pkgs-edge; [
   ];

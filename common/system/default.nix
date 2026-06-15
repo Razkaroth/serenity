@@ -2,6 +2,7 @@
 {
   imports = [
     ./tailscale.nix
+    ./mpd.nix
     ./actual.nix
     ./via.nix
     ./vm.nix
