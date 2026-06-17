@@ -12,6 +12,7 @@ let
     config.allowUnfree = true;
     overlays = [
       inputs.hydenix.overlays.default
+      inputs.nixos-rocksmith.overlays.default
     ];
 
     # Include your own package set to be used eg. pkgs.userPkgs.bash
@@ -40,6 +41,7 @@ in
     inputs.home-manager.nixosModules.home-manager
     ./ascension-hardware.nix
     inputs.hydenix.nixosModules.default
+    inputs.nixos-rocksmith.nixosModules.default
     ./system
 
     # === GPU-specific configurations ===

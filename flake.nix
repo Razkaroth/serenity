@@ -30,6 +30,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-rocksmith = {
+      url = "github:re1n0/nixos-rocksmith";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     #playwright.url = "github:pietdevries94/playwright-web-flake";
     
   spacetimedb = {
