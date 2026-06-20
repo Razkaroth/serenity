@@ -1,6 +1,10 @@
 { pkgs, ... }: {
   # Audio
 
+  hardware.enableRedistributableFirmware = true;
+
+  boot.kernelModules = [ "snd_sof_pci_intel_mtl" ];
+
   environment.systemPackages = with pkgs; [
     easyeffects
     qjackctl
