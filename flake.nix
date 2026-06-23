@@ -38,7 +38,7 @@
     #playwright.url = "github:pietdevries94/playwright-web-flake";
     
   spacetimedb = {
-      url = "github:clockworklabs/SpacetimeDB/b391d7333d07d7dc955553db65ea5206fa97165d";
+      url = "github:clockworklabs/SpacetimeDB/31fd1c8c3346dfec38dfcc2e89c2ecf457cf26ff";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
