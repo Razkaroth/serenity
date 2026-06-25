@@ -39,7 +39,6 @@ in {
     lidarr.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
-    readarr.enable = true;
     sonarr.enable = true;
   };
 
