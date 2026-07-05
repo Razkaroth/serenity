@@ -5,6 +5,7 @@
       inherit inputs;
       hostName = "serenity";
       homeModule = ./hm;
+      hydenixConfig.gaming.enable = false;
       userConfig.linger = true;
     })
     ./serenity-hardware.nix
