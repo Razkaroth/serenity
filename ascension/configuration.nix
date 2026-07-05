@@ -13,6 +13,7 @@ let
     overlays = [
       inputs.hydenix.overlays.default
       inputs.nixos-rocksmith.overlays.default
+      inputs.anifetch.overlays.default
     ];
 
     # Include your own package set to be used eg. pkgs.userPkgs.bash

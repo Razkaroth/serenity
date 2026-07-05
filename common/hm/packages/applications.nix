@@ -4,6 +4,7 @@ let
   ];
   stablePkgs = with pkgs; [
     rmpc
+    mpc
     mpd
     bagels
     yazi

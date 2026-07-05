@@ -101,7 +101,8 @@ in {
           set -g @resurrect-strategy-vim 'session'
              set -g @resurrect-strategy-nvim 'session'
 
-             set -g @resurrect-capture-pane-contents 'on'
+             set -g @resurrect-capture-pane-contents 'off'
+             set -g @resurrect-processes ""
 
              set -g @resurrect-dir ${resurrectDirPath}
              set -g @resurrect-hook-post-save-all 'sed "s| --cmd .*-vim-pack-dir||g; s|/etc/profiles/per-user/${usr}/bin/||g; s|/home/${usr}/.nix-profile/bin/||g" ${resurrectDirPath}/last | sponge ${resurrectDirPath}/last'        '';

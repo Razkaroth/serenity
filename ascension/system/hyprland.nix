@@ -20,6 +20,7 @@
     foot
     fish
     fastfetch
+    anifetch
     socat
     imagemagick
     curl

@@ -16,13 +16,15 @@ in
     appearance = {
       anim.durations.scale = 0.3;
       font = {
-        family = {
-          clock = "Rubik";
-          material = "Material Symbols Rounded";
-          mono = "CaskaydiaCove NF";
-          sans = "Rubik";
-        };
-        size.scale = 1;
+        scale = 1;
+        clock = "Rubik";
+        workspaces = "Rubik";
+        headline.family = "Rubik";
+        title.family = "Rubik";
+        body.family = "Rubik";
+        label.family = "Rubik";
+        mono.family = "CaskaydiaCove NF";
+        icon.family = "Material Symbols Rounded";
       };
       padding.scale = 1;
       rounding.scale = 1;
@@ -88,7 +90,7 @@ in
       desktopClock.enabled = false;
       enabled = true;
       visualiser = {
-          enabled = false;
+          enabled = true;
           blur = true;
           autoHide = false;
           rounding = 1;
@@ -168,6 +170,7 @@ in
       actionPrefix = ">";
       actions = [
         { name = "Pass"; icon = "lock"; description = "Get a pass for a lock"; command = ["rofi-pass"]; enabled = true; dangerous = false; }
+        { name = "Music"; icon = "music_note"; description = "Open rmpc MPD client"; command = ["kitty" "-e" "rmpc"]; enabled = true; dangerous = false; }
         { name = "Calculator"; icon = "calculate"; description = "Do simple math equations (powered by Qalc)"; command = ["autocomplete" "calc"]; enabled = true; dangerous = false; }
         { name = "Scheme"; icon = "palette"; description = "Change the current colour scheme"; command = ["autocomplete" "scheme"]; enabled = true; dangerous = false; }
         { name = "Wallpaper"; icon = "image"; description = "Change the current wallpaper"; command = ["autocomplete" "wallpaper"]; enabled = true; dangerous = false; }
@@ -231,13 +234,17 @@ in
     services = {
       audioIncrement = 0.02;
       maxVolume = 1.0;
-      defaultPlayer = "Spotify";
-      gpuType = "NVIDIA GeForce RTX 4060 Studio";
-      playerAliases = [{ from = "com.github.th_ch.youtube_music"; to = "YT Music"; }];
+      defaultPlayer = "MPD";
+      gpuType = "NVIDIA";
+      playerAliases = [
+        { from = "com.github.th_ch.youtube_music"; to = "YT Music"; }
+        { from = "mpd"; to = "MPD"; }
+        { from = "Music Player Daemon"; to = "MPD"; }
+      ];
       weatherLocation = "";
       useFahrenheitPerformance = false;
       useFahrenheit = false;
-      useTwelveHourClock = false;
+      useTwelveHourClock = true;
       smartScheme = true;
       visualiserBars = 45;
     };

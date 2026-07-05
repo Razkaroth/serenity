@@ -17,5 +17,6 @@
     ./pencil.nix
     ./responsively.nix
     ./spotiflac.nix
+    ./rmpc.nix
   ];
 }
