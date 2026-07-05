@@ -7,5 +7,6 @@
     ./services
     ./packages
     ./caelestia.nix
+    ./hyprland.nix
   ];
 }

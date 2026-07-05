@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -9,20 +9,6 @@
     # ./caelestia.nix # Moved to common
     ./hydenix.nix
   ];
-
-  wayland.windowManager.hyprland = {
-    enable = true; # enable Hyprland
-    extraConfig = ''
-      source = ~/.config/hypr/main.conf
-    '';
-
-    # use os module packages
-    package = null;
-    portalPackage = null;
-    systemd.variables = [ "--all" ];
-  };
-
-  xdg.configFile."uwsm/env".source = "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh"; 
 
   # home-manager options go here
   home.packages = [
