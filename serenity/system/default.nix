@@ -3,7 +3,7 @@
 {
   imports = [
     ../../common/system
-    ../../common/system/nixarr.nix
+    ./nixarr.nix
     ./zero-tier.nix
   ];
 

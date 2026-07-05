@@ -1,4 +1,4 @@
-{...}:
+{ ... }:
 {
   services.xserver.xkb.extraLayouts.dh = {
     description = "Colemak-DH ergo";
@@ -6,8 +6,8 @@
     symbolsFile = ./colemak_dh;
   };
 
-  services.xserver.xkb ={
-    layout = "us,dh";
+  services.xserver.xkb = {
+    layout = "dh,dh,us";
+    variant = ",dh-intl,intl";
   };
-  
 }

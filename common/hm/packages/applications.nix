@@ -45,6 +45,7 @@ let
 in
 {
   home.packages = stablePkgs ++ edgePkgs ++ lockedPkgs ++ [
+    inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.herdr
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta # zen-beta
   ];
 

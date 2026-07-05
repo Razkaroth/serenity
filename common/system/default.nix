@@ -4,13 +4,13 @@
     ./tailscale.nix
     ./mpd.nix
     ./actual.nix
+    ./audio.nix
     ./via.nix
     ./vm.nix
     ./docker.nix
     ./kb_layouts
     ./kanata
     ./hamachi.nix
-    # nixarr.nix is common but not imported by default
   ];
   nix.settings = {
     substituters = [

@@ -6,5 +6,5 @@
 
   # Host specific Hyprland config
   home.file.".config/hypr/hyprland/monitors.conf".source = ./caelestia/hypr/hyprland/monitors.conf;
-  home.file.".config/hypr/hyprland/input.conf".source = ./caelestia/hypr/hyprland/input.conf;
+  home.file.".config/hypr/hyprland/devices.conf".source = ./caelestia/hypr/hyprland/devices.conf;
 }

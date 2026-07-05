@@ -10,9 +10,4 @@
     mutable = true;
     force = true;
   };
-   home.file.".config/hypr/hyprland/input.conf" = lib.mkForce {
-    source = ./caelestia/hypr/hyprland/input.conf;
-    mutable = true;
-    force = true;
-  };
 }

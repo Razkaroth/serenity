@@ -124,7 +124,7 @@ in
   imports = [
     ../../common/system
     ./hyprland.nix
-    ./audio.nix
+    ./intel-audio.nix
     ./nvidia.nix
     ./gaming.nix
   ];

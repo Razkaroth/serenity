@@ -1,9 +1,6 @@
-{ pkgs, ... }: {
-
-  systemd.services.kanata-main = {
-    serviceConfig.User = "raz";
-    wantedBy = pkgs.lib.mkForce [ ];  # Disable auto-start
-  };
+{ pkgs, ... }:
+{
+  systemd.services.kanata-main.serviceConfig.User = "raz";
 
   services.kanata = {
     enable = true;
