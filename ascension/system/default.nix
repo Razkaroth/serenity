@@ -126,7 +126,6 @@ in
     ./hyprland.nix
     ./intel-audio.nix
     ./nvidia.nix
-    ./gaming.nix
   ];
 
   environment.systemPackages = [

@@ -6,17 +6,14 @@
       hostName = "ascension";
       homeModule = ./hm;
       extraOverlays = [
-        inputs.nixos-rocksmith.overlays.default
         inputs.anifetch.overlays.default
       ];
-      extraGroups = [ "gamemode" ];
       hydenixConfig = {
         network.enable = true;
         gaming.enable = false;
       };
     })
     ./ascension-hardware.nix
-    inputs.nixos-rocksmith.nixosModules.default
     ./system
 
     # GPU-specific configuration for the OMEN 14 laptop.

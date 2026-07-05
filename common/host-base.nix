@@ -14,6 +14,7 @@ let
     config.allowUnfree = true;
     overlays = [
       inputs.hydenix.overlays.default
+      inputs.nixos-rocksmith.overlays.default
     ] ++ extraOverlays;
 
     userPkgs = import inputs.nixpkgs {
@@ -37,6 +38,7 @@ let
     "networkmanager"
     "video"
     "docker"
+    "gamemode"
     "media"
     "libvirtd"
   ];
