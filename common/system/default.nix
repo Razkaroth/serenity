@@ -9,6 +9,7 @@
     ./vm.nix
     ./docker.nix
     ./gaming.nix
+    ./hermes.nix
     ./kb_layouts
     ./kanata
     ./hamachi.nix
