@@ -60,7 +60,7 @@ in
 
       model = {
         provider = "custom:opencode-go";
-        default = "glm-5.2";
+        default = "deepseek-v4-pro";
       };
 
       toolsets = [ "all" ];
