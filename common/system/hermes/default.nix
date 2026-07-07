@@ -65,7 +65,6 @@ let
       torch
       torchaudio
       torchao
-      torchtune
       transformers
       vectorQuantizePytorch
     ];
