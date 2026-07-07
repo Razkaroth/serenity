@@ -1,0 +1,7 @@
+name: cartesia-tts
+version: "0.1.0"
+description: Cartesia Sonic TTS backend for Hermes Agent
+kind: backend
+
+requires_env:
+  - CARTESIA_API_KEY

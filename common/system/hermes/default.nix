@@ -1,5 +1,15 @@
 { pkgs, ... }:
 
+let
+  cartesiaTtsPlugin = pkgs.runCommand "cartesia-tts" { } ''
+    mkdir -p "$out"
+    cp ${./plugins/cartesia-tts/plugin.yaml} "$out/plugin.yaml"
+    cp ${./plugins/cartesia-tts/__init__.py} "$out/__init__.py"
+  '';
+  neuttsRefText = pkgs.writeText "neutts-reference-text.txt" ''
+    Morning. Four tasks: finish the landing page by end of day, review the Márquez contract, fix nexus permissions, renew the SSL cert. Meeting at 2 PM with design. Saturday is Emilio's thing — bring food. And no, the contract review can't move to tomorrow. It's been sitting since Monday and Márquez is waiting.
+  '';
+in
 {
   security.sudo.extraRules = [
     {
@@ -27,11 +37,19 @@
       ];
     };
 
+    extraPlugins = [
+      cartesiaTtsPlugin
+    ];
+
     environmentFiles = [
       "/home/raz/.config/hermes/hermes.env"
     ];
 
     settings = {
+      plugins.enabled = [
+        "cartesia-tts"
+      ];
+
       custom_providers = [
         {
           name = "opencode-go";
@@ -49,6 +67,16 @@
 
       discord = {
         reply_to_mode = "off";
+      };
+
+      tts = {
+        provider = "neutts";
+        neutts = {
+          ref_audio = "/data/.hermes/tts/voice-message.wav";
+          ref_text = "${neuttsRefText}";
+          model = "neuphonic/neutts-air-q4-gguf";
+          device = "cpu";
+        };
       };
 
       terminal = {
@@ -71,6 +99,7 @@
       bashInteractive
       coreutils
       curl
+      espeak-ng
       ffmpeg
       git
       nodejs_22
