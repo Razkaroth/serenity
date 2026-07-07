@@ -1,5 +1,9 @@
 { pkgs, lib, inputs, ... }:
 {
+  imports = [
+    ./herder.nix
+  ];
+
   home.file = {
     ".config/hypr" = {
       source = ./caelestia/hypr;

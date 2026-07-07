@@ -4,7 +4,7 @@ let
 
   insiders = (pkgs.vscode.override { 
     isInsiders = true;
-    commandLineArgs = "--password-store='kwalletd6'";
+    commandLineArgs = "--password-store=gnome-libsecret";
   }).overrideAttrs (oldAttrs: rec {
   src = (builtins.fetchTarball {
     url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";

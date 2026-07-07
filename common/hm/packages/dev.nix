@@ -50,6 +50,7 @@ let
     tree-sitter
     tree
     typst
+    worktrunk
     zoxide
     uutils-coreutils-noprefix
 
