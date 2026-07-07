@@ -1,144 +1,56 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 let
-  pythonPackages = pkgs.python312Packages;
-
-  replacePythonPackage = pname: replacement: packages:
-    builtins.map (package:
-      if (package.pname or null) == pname then replacement else package
-    ) packages;
-
-  pythonDependencies = old: old.propagatedBuildInputs or old.dependencies or [ ];
-
-  einopsNoCheck = pythonPackages.einops.overridePythonAttrs (_old: {
-    doCheck = false;
-    doInstallCheck = false;
-    nativeCheckInputs = [ ];
-  });
-
-  hyperConnectionsNoCheck = pythonPackages.hyper-connections.overridePythonAttrs (old: {
-    doCheck = false;
-    doInstallCheck = false;
-    nativeCheckInputs = [ ];
-    dependencies = replacePythonPackage "einops" einopsNoCheck (pythonDependencies old);
-    propagatedBuildInputs = replacePythonPackage "einops" einopsNoCheck (pythonDependencies old);
-  });
-
-  localAttentionNoCheck = pythonPackages.local-attention.overridePythonAttrs (old: {
-    doCheck = false;
-    doInstallCheck = false;
-    nativeCheckInputs = [ ];
-    dependencies = replacePythonPackage "hyper-connections" hyperConnectionsNoCheck (
-      replacePythonPackage "einops" einopsNoCheck (pythonDependencies old)
-    );
-    propagatedBuildInputs = replacePythonPackage "hyper-connections" hyperConnectionsNoCheck (
-      replacePythonPackage "einops" einopsNoCheck (pythonDependencies old)
-    );
-  });
-
   cartesiaTtsPlugin = pkgs.runCommand "cartesia-tts" { } ''
     mkdir -p "$out"
     cp ${./plugins/cartesia-tts/plugin.yaml} "$out/plugin.yaml"
     cp ${./plugins/cartesia-tts/__init__.py} "$out/__init__.py"
   '';
 
-  vectorQuantizePytorch = pythonPackages.buildPythonPackage rec {
-    pname = "vector-quantize-pytorch";
-    version = "1.17.8";
-    format = "wheel";
-    dontBuild = true;
-
-    src = pkgs.fetchurl {
-      url = "https://files.pythonhosted.org/packages/fb/2e/58e1dae68baea6e55caf78be53b0d6fb3ff800f70df950a3a1462242cbbd/vector_quantize_pytorch-${version}-py3-none-any.whl";
-      hash = "sha256-Y/2GtdlRqOfctwtJmormhKUewFpP/o8sCRLBr0hIrng=";
-    };
-
-    propagatedBuildInputs = with pythonPackages; [
-      einopsNoCheck
-      einx
-      torch
-    ];
-
-    doCheck = false;
-  };
-
-  resemblePerth = pythonPackages.buildPythonPackage rec {
-    pname = "resemble-perth";
-    version = "1.0.1";
-    format = "wheel";
-    dontBuild = true;
-
-    src = pkgs.fetchurl {
-      url = "https://files.pythonhosted.org/packages/77/cc/73226dd776f8e9c2975f64f4efc22988fb37e5b185ba5cccd6f2e7196954/resemble_perth-${version}-py3-none-any.whl";
-      hash = "sha256-ZenDdTGxoSikpWImt13s5FIWg882EbCypf/iNPAMk0I=";
-    };
-
-    propagatedBuildInputs = with pythonPackages; [
-      librosa
-      numpy
-      soundfile
-      torch
-    ];
-
-    doCheck = false;
-  };
-
-  neucodec = pythonPackages.buildPythonPackage rec {
-    pname = "neucodec";
-    version = "0.0.4";
-    format = "wheel";
-    dontBuild = true;
-    pythonRemoveDeps = [ "torchtune" ];
-    nativeBuildInputs = [ pythonPackages.pythonRelaxDepsHook ];
-
-    src = pkgs.fetchurl {
-      url = "https://files.pythonhosted.org/packages/54/3e/af493b15fd54da38cc32e9b8f0979b73c11290ef4674c180427232b509d6/neucodec-${version}-py3-none-any.whl";
-      hash = "sha256-nHydN02eqSsgaZU5BlcMdIvrlelp5ALGxqR/iO1sF/Q=";
-    };
-
-    propagatedBuildInputs = with pythonPackages; [
-      librosa
-      localAttentionNoCheck
-      numpy
-      torch
-      torchaudio
-      torchao
-      transformers
-      vectorQuantizePytorch
-    ];
-
-    doCheck = false;
-  };
-
-  neutts = pythonPackages.buildPythonPackage rec {
-    pname = "neutts";
-    version = "1.2.1";
-    format = "wheel";
-    dontBuild = true;
-
-    src = pkgs.fetchurl {
-      url = "https://files.pythonhosted.org/packages/eb/a5/c029b77ad4d35b61df0541dda418a10e201fb7667a9c8d7d1842e0f14799/neutts-${version}-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl";
-      hash = "sha256-+XyrmoUTbw9AOoJC6DL6NXmxDYQKiqxRS4pFBcUKzg8=";
-    };
-
-    propagatedBuildInputs = with pythonPackages; [
-      librosa
-      llama-cpp-python
-      neucodec
-      numpy
-      onnxruntime
-      phonemizer
-      resemblePerth
-      soundfile
-      torch
-      transformers
-    ];
-
-    doCheck = false;
-  };
-
   neuttsRefText = pkgs.writeText "neutts-reference-text.txt" ''
     Morning. Four tasks: finish the landing page by end of day, review the Márquez contract, fix nexus permissions, renew the SSL cert. Meeting at 2 PM with design. Saturday is Emilio's thing — bring food. And no, the contract review can't move to tomorrow. It's been sitting since Monday and Márquez is waiting.
+  '';
+
+  neuttsDockerImage = "hermes-neutts:latest";
+
+  neuttsDockerProvider = pkgs.writeShellScriptBin "hermes-neutts-docker" ''
+    set -euo pipefail
+
+    if [ "$#" -ne 2 ]; then
+      echo "usage: hermes-neutts-docker INPUT_TEXT_PATH OUTPUT_AUDIO_PATH" >&2
+      exit 64
+    fi
+
+    input_path="$1"
+    output_path="$2"
+    state_root="/var/lib/hermes/.hermes"
+    work_root="$state_root/tts/docker-work"
+    cache_root="$state_root/cache/huggingface"
+    run_dir="$work_root/$(date +%s)-$$"
+
+    mkdir -p "$run_dir" "$cache_root" "$(dirname "$output_path")"
+    trap 'rm -rf "$run_dir"' EXIT
+
+    cp "$input_path" "$run_dir/input.txt"
+    cp ${neuttsRefText} "$run_dir/ref.txt"
+
+    ${pkgs.docker-client}/bin/docker run --rm \
+      --user "$(${pkgs.coreutils}/bin/id -u):$(${pkgs.coreutils}/bin/id -g)" \
+      --volume "$run_dir:/work:rw" \
+      --volume "$cache_root:/cache:rw" \
+      --volume "$state_root/tts:/voice:ro" \
+      --env HF_HOME=/cache \
+      --env NUMBA_CACHE_DIR=/tmp/numba-cache \
+      --env TORCHINDUCTOR_CACHE_DIR=/tmp/torch-cache \
+      ${neuttsDockerImage} \
+      --text-file /work/input.txt \
+      --out /work/output.wav \
+      --ref-audio /voice/voice-message.wav \
+      --ref-text /work/ref.txt \
+      --model neuphonic/neutts-air-q4-gguf \
+      --device cpu
+
+    cp "$run_dir/output.wav" "$output_path"
   '';
 in
 {
@@ -165,6 +77,8 @@ in
       extraVolumes = [
         "/home/raz/.agents:/home/raz/.agents:rw"
         "/home/raz/nexus:/home/raz/nexus:rw"
+        "/var/lib/hermes:/var/lib/hermes:rw"
+        "/var/run/docker.sock:/var/run/docker.sock:rw"
       ];
     };
 
@@ -201,12 +115,16 @@ in
       };
 
       tts = {
-        provider = "neutts";
-        neutts = {
-          ref_audio = "/data/.hermes/tts/voice-message.wav";
-          ref_text = "${neuttsRefText}";
-          model = "neuphonic/neutts-air-q4-gguf";
-          device = "cpu";
+        provider = "neutts-docker";
+        providers = {
+          neutts-docker = {
+            type = "command";
+            command = "${pkgs.lib.getExe neuttsDockerProvider} {input_path} {output_path}";
+            output_format = "wav";
+            timeout = 300;
+            voice_compatible = true;
+            max_text_length = 2000;
+          };
         };
       };
 
@@ -233,23 +151,47 @@ in
       espeak-ng
       ffmpeg
       git
+      neuttsDockerProvider
       nodejs_22
       ripgrep
       uv
     ];
 
-    extraPythonPackages = [
-      neutts
-    ];
+    extraPythonPackages = [ ];
   };
 
   # Hermes hardens its env/auth parent with chmod 0700 at startup, but the NixOS
   # module exposes that state to hostUsers via ~/.hermes -> /var/lib/hermes/.hermes.
   # Restore group traversal after service start so raz can run the host CLI.
-  systemd.services.hermes-agent.postStart = ''
-    sleep 2
-    chmod 2770 /var/lib/hermes /var/lib/hermes/.hermes
-    chown hermes:hermes /var/lib/hermes /var/lib/hermes/.hermes
-  '';
+  systemd.services.hermes-agent = {
+    preStart = lib.mkBefore ''
+      if [ -S /var/run/docker.sock ]; then
+        ${pkgs.acl}/bin/setfacl -m u:hermes:rw /var/run/docker.sock
+      fi
+    '';
+
+    postStart = ''
+      sleep 2
+      chmod 2770 /var/lib/hermes /var/lib/hermes/.hermes
+      chown hermes:hermes /var/lib/hermes /var/lib/hermes/.hermes
+    '';
+  };
+
+  systemd.services.hermes-neutts-image = {
+    description = "Build Hermes NeuTTS Docker image";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "docker.service" ];
+    requires = [ "docker.service" ];
+    path = [ pkgs.docker-client ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+
+    script = ''
+      docker build -t ${neuttsDockerImage} ${./neutts-docker}
+    '';
+  };
 
 }
