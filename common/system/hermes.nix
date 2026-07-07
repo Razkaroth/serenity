@@ -78,4 +78,13 @@
       uv
     ];
   };
+
+  # Hermes hardens its env/auth parent with chmod 0700 at startup, but the NixOS
+  # module exposes that state to hostUsers via ~/.hermes -> /var/lib/hermes/.hermes.
+  # Restore group traversal after service start so raz can run the host CLI.
+  systemd.services.hermes-agent.postStart = ''
+    sleep 2
+    chmod 2770 /var/lib/hermes /var/lib/hermes/.hermes
+    chown hermes:hermes /var/lib/hermes /var/lib/hermes/.hermes
+  '';
 }
