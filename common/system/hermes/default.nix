@@ -89,6 +89,7 @@ let
     format = "wheel";
     dontBuild = true;
     pythonRemoveDeps = [ "torchtune" ];
+    nativeBuildInputs = [ pythonPackages.pythonRelaxDepsHook ];
 
     src = pkgs.fetchurl {
       url = "https://files.pythonhosted.org/packages/54/3e/af493b15fd54da38cc32e9b8f0979b73c11290ef4674c180427232b509d6/neucodec-${version}-py3-none-any.whl";
