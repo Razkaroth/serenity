@@ -3,6 +3,33 @@
 let
   pythonPackages = pkgs.python312Packages;
 
+  replacePythonPackage = pname: replacement: packages:
+    builtins.map (package:
+      if (package.pname or null) == pname then replacement else package
+    ) packages;
+
+  einopsNoCheck = pythonPackages.einops.overridePythonAttrs (_old: {
+    doCheck = false;
+    doInstallCheck = false;
+    nativeCheckInputs = [ ];
+  });
+
+  hyperConnectionsNoCheck = pythonPackages.hyper-connections.overridePythonAttrs (old: {
+    doCheck = false;
+    doInstallCheck = false;
+    nativeCheckInputs = [ ];
+    propagatedBuildInputs = replacePythonPackage "einops" einopsNoCheck old.propagatedBuildInputs;
+  });
+
+  localAttentionNoCheck = pythonPackages.local-attention.overridePythonAttrs (old: {
+    doCheck = false;
+    doInstallCheck = false;
+    nativeCheckInputs = [ ];
+    propagatedBuildInputs = replacePythonPackage "hyper-connections" hyperConnectionsNoCheck (
+      replacePythonPackage "einops" einopsNoCheck old.propagatedBuildInputs
+    );
+  });
+
   cartesiaTtsPlugin = pkgs.runCommand "cartesia-tts" { } ''
     mkdir -p "$out"
     cp ${./plugins/cartesia-tts/plugin.yaml} "$out/plugin.yaml"
@@ -20,7 +47,7 @@ let
     };
 
     propagatedBuildInputs = with pythonPackages; [
-      einops
+      einopsNoCheck
       einx
       torch
     ];
@@ -60,7 +87,7 @@ let
 
     propagatedBuildInputs = with pythonPackages; [
       librosa
-      local-attention
+      localAttentionNoCheck
       numpy
       torch
       torchaudio
