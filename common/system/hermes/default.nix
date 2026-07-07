@@ -8,6 +8,8 @@ let
       if (package.pname or null) == pname then replacement else package
     ) packages;
 
+  pythonDependencies = old: old.propagatedBuildInputs or old.dependencies or [ ];
+
   einopsNoCheck = pythonPackages.einops.overridePythonAttrs (_old: {
     doCheck = false;
     doInstallCheck = false;
@@ -18,15 +20,19 @@ let
     doCheck = false;
     doInstallCheck = false;
     nativeCheckInputs = [ ];
-    propagatedBuildInputs = replacePythonPackage "einops" einopsNoCheck old.propagatedBuildInputs;
+    dependencies = replacePythonPackage "einops" einopsNoCheck (pythonDependencies old);
+    propagatedBuildInputs = replacePythonPackage "einops" einopsNoCheck (pythonDependencies old);
   });
 
   localAttentionNoCheck = pythonPackages.local-attention.overridePythonAttrs (old: {
     doCheck = false;
     doInstallCheck = false;
     nativeCheckInputs = [ ];
+    dependencies = replacePythonPackage "hyper-connections" hyperConnectionsNoCheck (
+      replacePythonPackage "einops" einopsNoCheck (pythonDependencies old)
+    );
     propagatedBuildInputs = replacePythonPackage "hyper-connections" hyperConnectionsNoCheck (
-      replacePythonPackage "einops" einopsNoCheck old.propagatedBuildInputs
+      replacePythonPackage "einops" einopsNoCheck (pythonDependencies old)
     );
   });
 
@@ -40,6 +46,7 @@ let
     pname = "vector-quantize-pytorch";
     version = "1.17.8";
     format = "wheel";
+    dontBuild = true;
 
     src = pkgs.fetchurl {
       url = "https://files.pythonhosted.org/packages/fb/2e/58e1dae68baea6e55caf78be53b0d6fb3ff800f70df950a3a1462242cbbd/vector_quantize_pytorch-${version}-py3-none-any.whl";
@@ -59,6 +66,7 @@ let
     pname = "resemble-perth";
     version = "1.0.1";
     format = "wheel";
+    dontBuild = true;
 
     src = pkgs.fetchurl {
       url = "https://files.pythonhosted.org/packages/77/cc/73226dd776f8e9c2975f64f4efc22988fb37e5b185ba5cccd6f2e7196954/resemble_perth-${version}-py3-none-any.whl";
@@ -79,6 +87,8 @@ let
     pname = "neucodec";
     version = "0.0.4";
     format = "wheel";
+    dontBuild = true;
+    pythonRemoveDeps = [ "torchtune" ];
 
     src = pkgs.fetchurl {
       url = "https://files.pythonhosted.org/packages/54/3e/af493b15fd54da38cc32e9b8f0979b73c11290ef4674c180427232b509d6/neucodec-${version}-py3-none-any.whl";
@@ -103,6 +113,7 @@ let
     pname = "neutts";
     version = "1.2.1";
     format = "wheel";
+    dontBuild = true;
 
     src = pkgs.fetchurl {
       url = "https://files.pythonhosted.org/packages/eb/a5/c029b77ad4d35b61df0541dda418a10e201fb7667a9c8d7d1842e0f14799/neutts-${version}-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl";
