@@ -3,10 +3,6 @@
 let
   neuttsDockerImage = "hermes-neutts:latest";
 
-  neuttsRefText = pkgs.writeText "neutts-reference-text.txt" ''
-    Morning. Four tasks: finish the landing page by end of day, review the Márquez contract, fix nexus permissions, renew the SSL cert. Meeting at 2 PM with design. Saturday is Emilio's thing — bring food. And no, the contract review can't move to tomorrow. It's been sitting since Monday and Márquez is waiting.
-  '';
-
   neuttsDockerProvider = pkgs.writeShellScriptBin "hermes-neutts-docker" ''
     set -euo pipefail
 
@@ -26,20 +22,20 @@ let
     trap 'rm -rf "$run_dir"' EXIT
 
     cp "$input_path" "$run_dir/input.txt"
-    cp ${neuttsRefText} "$run_dir/ref.txt"
+    cp ${./neutts/C2-voicea/text.txt} "$run_dir/ref.txt"
+    cp ${./neutts/C2-voicea/audio.wav} "$run_dir/ref.wav"
 
     ${pkgs.docker-client}/bin/docker run --rm \
       --user "$(${pkgs.coreutils}/bin/id -u):$(${pkgs.coreutils}/bin/id -g)" \
       --volume "$run_dir:/work:rw" \
       --volume "$cache_root:/cache:rw" \
-      --volume "$state_root/tts:/voice:ro" \
       --env HF_HOME=/cache \
       --env NUMBA_CACHE_DIR=/tmp/numba-cache \
       --env TORCHINDUCTOR_CACHE_DIR=/tmp/torch-cache \
       ${neuttsDockerImage} \
       --text-file /work/input.txt \
       --out /work/output.wav \
-      --ref-audio /voice/voice-message.wav \
+      --ref-audio /work/ref.wav \
       --ref-text /work/ref.txt \
       --model neuphonic/neutts-air-q4-gguf \
       --device cpu
