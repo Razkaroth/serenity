@@ -1,16 +1,11 @@
 { pkgs, ... }:
 
-let
-  cartesiaTtsPlugin = pkgs.runCommand "cartesia-tts" { } ''
-    mkdir -p "$out"
-    cp ${./plugins/cartesia-tts/plugin.yaml} "$out/plugin.yaml"
-    cp ${./plugins/cartesia-tts/__init__.py} "$out/__init__.py"
-  '';
-  neuttsRefText = pkgs.writeText "neutts-reference-text.txt" ''
-    Morning. Four tasks: finish the landing page by end of day, review the Márquez contract, fix nexus permissions, renew the SSL cert. Meeting at 2 PM with design. Saturday is Emilio's thing — bring food. And no, the contract review can't move to tomorrow. It's been sitting since Monday and Márquez is waiting.
-  '';
-in
 {
+  imports = [
+    ./plugins.nix
+    ./tts-neutts-docker.nix
+  ];
+
   security.sudo.extraRules = [
     {
       users = [ "raz" ];
@@ -37,19 +32,11 @@ in
       ];
     };
 
-    extraPlugins = [
-      cartesiaTtsPlugin
-    ];
-
     environmentFiles = [
       "/home/raz/.config/hermes/hermes.env"
     ];
 
     settings = {
-      plugins.enabled = [
-        "cartesia-tts"
-      ];
-
       custom_providers = [
         {
           name = "opencode-go";
@@ -60,23 +47,13 @@ in
 
       model = {
         provider = "custom:opencode-go";
-        default = "glm-5.2";
+        default = "deepseek-v4-pro";
       };
 
       toolsets = [ "all" ];
 
       discord = {
         reply_to_mode = "off";
-      };
-
-      tts = {
-        provider = "neutts";
-        neutts = {
-          ref_audio = "/data/.hermes/tts/voice-message.wav";
-          ref_text = "${neuttsRefText}";
-          model = "neuphonic/neutts-air-q4-gguf";
-          device = "cpu";
-        };
       };
 
       terminal = {
@@ -108,12 +85,13 @@ in
     ];
   };
 
-  # Hermes hardens its env/auth parent with chmod 0700 at startup, but the NixOS
-  # module exposes that state to hostUsers via ~/.hermes -> /var/lib/hermes/.hermes.
-  # Restore group traversal after service start so raz can run the host CLI.
+  # Hermes hardens its env/auth parent with chmod 0700 at startup, but the
+  # NixOS module exposes that state to hostUsers via ~/.hermes ->
+  # /var/lib/hermes/.hermes. Restore group traversal for host CLI access.
   systemd.services.hermes-agent.postStart = ''
     sleep 2
     chmod 2770 /var/lib/hermes /var/lib/hermes/.hermes
     chown hermes:hermes /var/lib/hermes /var/lib/hermes/.hermes
   '';
+
 }
