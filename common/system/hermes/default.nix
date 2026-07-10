@@ -6,6 +6,8 @@
     ./tts-neutts-docker.nix
   ];
 
+  # The host CLI uses sudo -n docker to enter the root-owned Hermes container.
+  # This does not grant the Hermes container Docker socket access.
   security.sudo.extraRules = [
     {
       users = [ "raz" ];
