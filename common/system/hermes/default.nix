@@ -54,6 +54,8 @@
 
       toolsets = [ "all" ];
 
+      web.backend = "exa";
+
       discord = {
         reactions = false;
         reply_to_mode = "off";
