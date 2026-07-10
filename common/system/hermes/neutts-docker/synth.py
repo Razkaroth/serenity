@@ -98,10 +98,29 @@ class NeuTTSEngine:
                     f"({len(chunk)} chars, {boundary})",
                     flush=True,
                 )
-                chunk_wav = np.asarray(
-                    self.tts.infer(chunk, self.ref_codes, self.ref_text),
-                    dtype=np.float32,
-                )
+                for attempt in range(1, self.args.hum_retries + 2):
+                    chunk_wav = np.asarray(
+                        self.tts.infer(chunk, self.ref_codes, self.ref_text),
+                        dtype=np.float32,
+                    )
+
+                    # Kept dormant until real hum samples establish thresholds.
+                    # A hum has unusually stable volume, spectral centroid, and
+                    # dominant-frequency energy across its short-time frames.
+                    if not self.args.detect_hum or not is_probable_hum(chunk_wav):
+                        break
+
+                    print(
+                        f"Rejecting probable hum in chunk {index}, "
+                        f"attempt {attempt}/{self.args.hum_retries + 1}",
+                        flush=True,
+                    )
+                else:
+                    raise RuntimeError(
+                        f"Chunk {index} remained a probable hum after "
+                        f"{self.args.hum_retries + 1} attempts"
+                    )
+
                 print(
                     f"Chunk {index} duration: {len(chunk_wav) / 24000:.2f}s",
                     flush=True,
@@ -123,6 +142,48 @@ class NeuTTSEngine:
         output = io.BytesIO()
         sf.write(output, wav, 24000, format="WAV")
         return output.getvalue()
+
+
+def is_probable_hum(wav) -> bool:
+    """Return true for a likely steady, narrowband artifact.
+
+    Thresholds are intentionally conservative placeholders. Keep this detector
+    disabled until good and bad NeuTTS chunks are available for calibration.
+    """
+    import numpy as np
+
+    sample_rate = 24000
+    frame_size = int(sample_rate * 0.04)
+    hop_size = int(sample_rate * 0.02)
+    if len(wav) < frame_size:
+        return False
+
+    frames = np.lib.stride_tricks.sliding_window_view(wav, frame_size)[::hop_size]
+    frame_rms = np.sqrt(np.mean(np.square(frames), axis=1))
+    voiced = frame_rms > 1e-4
+    if np.count_nonzero(voiced) < 3:
+        return False
+
+    # Hum volume barely changes. Speech has changing syllable energy and pauses.
+    rms_db = 20 * np.log10(np.maximum(frame_rms[voiced], 1e-8))
+
+    window = np.hanning(frame_size)
+    spectrum = np.abs(np.fft.rfft(frames[voiced] * window, axis=1)) ** 2
+    frequencies = np.fft.rfftfreq(frame_size, 1 / sample_rate)
+    spectral_energy = np.sum(spectrum, axis=1)
+    centroids = np.sum(spectrum * frequencies, axis=1) / np.maximum(
+        spectral_energy, 1e-12
+    )
+
+    # A pure or near-pure tone concentrates energy in one FFT bin. Speech spreads
+    # energy over harmonics, formants, and consonants.
+    dominant_energy = np.max(spectrum, axis=1) / np.maximum(spectral_energy, 1e-12)
+
+    return (
+        np.std(rms_db) < 2.0
+        and np.std(centroids) < 120.0
+        and np.median(dominant_energy) > 0.65
+    )
 
 
 def make_handler(engine: NeuTTSEngine, max_text_length: int):
@@ -192,10 +253,23 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--sentence-pause-ms", type=int, default=250)
     parser.add_argument("--word-pause-ms", type=int, default=30)
     parser.add_argument("--warmup-text", default="The voice is ready.")
+    parser.add_argument(
+        "--detect-hum",
+        action="store_true",
+        help="Reject and regenerate chunks matching experimental hum heuristics",
+    )
+    parser.add_argument(
+        "--hum-retries",
+        type=int,
+        default=2,
+        help="Additional synthesis attempts after a detected hum",
+    )
     args = parser.parse_args()
 
     if args.text_file and not args.out:
         parser.error("--out is required with --text-file")
+    if args.hum_retries < 0:
+        parser.error("--hum-retries must be non-negative")
 
     return args
 
