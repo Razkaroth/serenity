@@ -68,7 +68,7 @@ in
         --name hermes-neutts \
         --network host \
         --read-only \
-        --tmpfs /tmp:rw,nosuid,nodev \
+        --tmpfs /tmp:rw,exec,nosuid,nodev \
         --volume /var/lib/hermes-neutts/cache:/cache:rw \
         --volume ${./neutts/C2-voicea/audio.wav}:/voice/audio.wav:ro \
         --volume ${./neutts/C2-voicea/text.txt}:/voice/text.txt:ro \
