@@ -10,7 +10,7 @@ let
   env_script = pkgs.lib.concatStringsSep "; " 
     (pkgs.lib.mapAttrsToList (name: value: "export ${name}=${value}") env_vars);
 
-  command = "nix run github:anomalyco/opencode/9d57a83a75acccf02d0046f210a35936569cee90 -- web --hostname 0.0.0.0 --port 4242";
+  command = "nix run github:anomalyco/opencode/v1.17.18 -- web --hostname 0.0.0.0 --port 4242";
 
   execStart = "${pkgs.zsh}/bin/zsh -c 'source $HOME/.zshrc; ${env_script}; ${command}'";
 in

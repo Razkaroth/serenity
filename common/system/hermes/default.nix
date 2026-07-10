@@ -46,13 +46,14 @@
       ];
 
       model = {
-        provider = "custom:opencode-go";
-        default = "deepseek-v4-pro";
+        provider = "openai-codex";
+        default = "gpt-5.6-terra";
       };
 
       toolsets = [ "all" ];
 
       discord = {
+        reactions = false;
         reply_to_mode = "off";
       };
 
