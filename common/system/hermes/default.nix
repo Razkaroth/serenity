@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./camofox-docker.nix
     ./plugins.nix
     ./tts-neutts-docker.nix
   ];
@@ -55,6 +56,12 @@
       toolsets = [ "all" ];
 
       web.backend = "exa";
+
+      browser.camofox = {
+        managed_persistence = true;
+        rewrite_loopback_urls = true;
+        loopback_host_alias = "host.docker.internal";
+      };
 
       discord = {
         reactions = false;
