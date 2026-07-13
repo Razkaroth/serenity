@@ -67,6 +67,11 @@ let
       ' || true
     fi
 
+    # Gateway platform adapters use lock files here. Previous root-owned
+    # directories prevent the unprivileged Hermes process from reconnecting.
+    mkdir -p "$target_home/.local/state/hermes/gateway-locks"
+    chown -R "$HERMES_UID:$HERMES_GID" "$target_home/.local/state/hermes"
+
     if [ -d "$target_home/.venv/bin" ]; then
       export PATH="$target_home/.venv/bin:$PATH"
     fi
