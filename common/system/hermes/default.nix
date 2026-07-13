@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./alters.nix
     ./camofox-docker.nix
     ./plugins.nix
     ./tts-neutts-docker.nix
@@ -49,8 +50,8 @@
       ];
 
       model = {
-        provider = "openai-codex";
-        default = "gpt-5.6-terra";
+        provider = "opencode-go";
+        default = "deepseek-v4-pro";
       };
 
       toolsets = [ "all" ];
@@ -96,6 +97,14 @@
       ripgrep
       uv
     ];
+  };
+
+  services.hermes-alters = {
+    enable = true;
+    instances.gai-sensei = {
+      enable = true;
+      envFile = "/home/raz/.config/hermes/.env.gai-sensei";
+    };
   };
 
   # Hermes hardens its env/auth parent with chmod 0700 at startup, but the
