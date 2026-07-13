@@ -116,9 +116,9 @@
 
   services.hermes-alters = {
     enable = true;
-    instances.goku = {
+    instances.dr-bruce = {
       enable = true;
-      envFile = "/home/raz/.config/hermes/.env.goku";
+      envFile = "/home/raz/.config/hermes/.env.dr-bruce";
     };
   };
 

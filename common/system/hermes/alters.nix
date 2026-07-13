@@ -5,6 +5,7 @@ let
 
   cfg = config.services.hermes-alters;
   hermesPackage = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  voiceUpdateSkill = ./alter-skills/voice-update/SKILL.md;
   containerEntrypoint = pkgs.writeShellScript "hermes-alter-container-entrypoint" ''
     set -eu
 
@@ -308,7 +309,13 @@ let
             ${stateDir}/.hermes/cron \
             ${stateDir}/.hermes/sessions \
             ${stateDir}/.hermes/logs \
-            ${stateDir}/.hermes/memories
+            ${stateDir}/.hermes/memories \
+            ${stateDir}/.hermes/skills/voice-update
+          if [ ! -e ${stateDir}/.hermes/skills/voice-update/SKILL.md ]; then
+            install -o ${userName} -g ${userName} -m 0640 \
+              ${voiceUpdateSkill} \
+              ${stateDir}/.hermes/skills/voice-update/SKILL.md
+          fi
           install -o ${userName} -g ${userName} -m 0640 ${configFile} ${stateDir}/.hermes/config.yaml
           install -o ${userName} -g ${userName} -m 0640 /dev/null ${stateDir}/.hermes/.env
           cat ${lib.escapeShellArg alter.envFile} >> ${stateDir}/.hermes/.env
@@ -397,6 +404,6 @@ in
     };
   };
 
-  config = mkIf (cfg.enable && cfg.instances.goku.enable)
-    (mkAlter "goku" cfg.instances.goku);
+  config = mkIf (cfg.enable && cfg.instances.dr-bruce.enable)
+    (mkAlter "dr-bruce" cfg.instances.dr-bruce);
 }
