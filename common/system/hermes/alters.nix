@@ -82,7 +82,7 @@ let
       }
     ];
     model = {
-      provider = "opencode-go";
+      provider = "opencode-zen";
       default = "deepseek-v4-pro";
     };
     toolsets = [ "all" ];
