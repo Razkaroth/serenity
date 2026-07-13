@@ -315,6 +315,6 @@ in
     };
   };
 
-  config = mkIf (cfg.enable && cfg.instances.gai-sensei.enable)
-    (mkAlter "gai-sensei" cfg.instances.gai-sensei);
+  config = mkIf (cfg.enable && cfg.instances.goku.enable)
+    (mkAlter "goku" cfg.instances.goku);
 }

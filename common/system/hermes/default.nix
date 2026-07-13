@@ -116,9 +116,9 @@
 
   services.hermes-alters = {
     enable = true;
-    instances.gai-sensei = {
+    instances.goku = {
       enable = true;
-      envFile = "/home/raz/.config/hermes/.env.gai-sensei";
+      envFile = "/home/raz/.config/hermes/.env.goku";
     };
   };
 
