@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 import json
+import os
 import sys
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 
-ENDPOINT = "http://127.0.0.1:8765/synthesize"
+ENDPOINT = os.getenv("NEUTTS_ENDPOINT", "http://127.0.0.1:8765/synthesize")
 
 
 def main() -> None:

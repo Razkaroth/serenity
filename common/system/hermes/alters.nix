@@ -115,12 +115,33 @@ let
       serviceName = "hermes-alter-${name}";
       commandName = "hermes-${name}";
       camofoxServiceName = "hermes-camofox-${name}";
+      neuttsServiceName = "hermes-neutts-${name}";
       networkName = serviceName;
       userName = "hermes-${name}";
       stateDir = "/var/lib/hermes-${name}";
       camofoxStateDir = "/var/lib/hermes-camofox-${name}";
+      neuttsStateDir = "/var/lib/hermes-neutts-${name}";
+      neuttsHttpBridge = pkgs.writeShellApplication {
+        name = "${serviceName}-neutts-http";
+        runtimeInputs = [ pkgs.python3 ];
+        text = ''
+          NEUTTS_ENDPOINT=http://${neuttsServiceName}:8765/synthesize \
+            exec python ${./neutts-http-bridge.py} "$@"
+        '';
+      };
       settings = lib.recursiveUpdate commonSettings (lib.recursiveUpdate {
         browser.camofox.user_id = userName;
+        tts = {
+          provider = "neutts-http";
+          providers.neutts-http = {
+            type = "command";
+            command = "${pkgs.lib.getExe neuttsHttpBridge} {input_path} {output_path}";
+            output_format = "wav";
+            timeout = 300;
+            voice_compatible = true;
+            max_text_length = 2000;
+          };
+        };
       } alter.settings);
       configFile = pkgs.writeText "${serviceName}-config.yaml" (builtins.toJSON settings);
       identity = builtins.hashString "sha256" (builtins.toJSON {
@@ -200,6 +221,65 @@ let
         };
       };
 
+      systemd.services."${serviceName}-neutts-sample" = {
+        description = "Seed editable NeuTTS sample for Hermes alter ${name}";
+        path = [ pkgs.coreutils ];
+        serviceConfig.Type = "oneshot";
+        script = ''
+          install -d -o ${userName} -g ${userName} -m 0750 ${stateDir}/neutts
+          if [ ! -e ${stateDir}/neutts/audio.wav ]; then
+            install -o ${userName} -g ${userName} -m 0640 ${./neutts/C2-voicea/audio.wav} ${stateDir}/neutts/audio.wav
+          fi
+          if [ ! -e ${stateDir}/neutts/text.txt ]; then
+            install -o ${userName} -g ${userName} -m 0640 ${./neutts/C2-voicea/text.txt} ${stateDir}/neutts/text.txt
+          fi
+        '';
+      };
+
+      systemd.services.${neuttsServiceName} = {
+        description = "Dedicated NeuTTS service for Hermes alter ${name}";
+        wantedBy = [ "multi-user.target" ];
+        after = [
+          "docker.service"
+          "hermes-neutts-image.service"
+          "${networkName}-network.service"
+          "${serviceName}-neutts-sample.service"
+        ];
+        requires = [
+          "docker.service"
+          "hermes-neutts-image.service"
+          "${networkName}-network.service"
+          "${serviceName}-neutts-sample.service"
+        ];
+        path = [ pkgs.docker-client ];
+        preStart = ''
+          docker rm --force ${neuttsServiceName} 2>/dev/null || true
+        '';
+        script = ''
+          exec docker run --rm \
+            --name ${neuttsServiceName} \
+            --network ${networkName} \
+            --read-only \
+            --tmpfs /tmp:rw,exec,nosuid,nodev \
+            --volume ${neuttsStateDir}/cache:/cache:rw \
+            --volume ${stateDir}/neutts:/voice:ro \
+            --env HF_HOME=/cache \
+            --env NUMBA_CACHE_DIR=/tmp/numba-cache \
+            --env TORCHINDUCTOR_CACHE_DIR=/tmp/torch-cache \
+            hermes-neutts:latest \
+            --serve 0.0.0.0:8765 \
+            --ref-audio /voice/audio.wav \
+            --ref-text /voice/text.txt \
+            --model neuphonic/neutts-air-q4-gguf \
+            --device cpu
+        '';
+        serviceConfig = {
+          Restart = "on-failure";
+          RestartSec = 10;
+          StateDirectory = "hermes-neutts-${name}";
+        };
+      };
+
       systemd.services.${serviceName} = {
         description = "Hermes agent alter ${name}";
         wantedBy = [ "multi-user.target" ];
@@ -207,11 +287,13 @@ let
           "docker.service"
           "${networkName}-network.service"
           "${camofoxServiceName}.service"
+          "${neuttsServiceName}.service"
         ];
         requires = [
           "docker.service"
           "${networkName}-network.service"
           "${camofoxServiceName}.service"
+          "${neuttsServiceName}.service"
         ];
         path = [ pkgs.docker-client pkgs.coreutils pkgs.nix ];
         preStart = ''

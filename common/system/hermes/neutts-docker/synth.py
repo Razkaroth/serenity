@@ -68,19 +68,35 @@ class NeuTTSEngine:
         from neutts import NeuTTS
 
         self.args = args
-        self.ref_text = Path(args.ref_text).read_text(encoding="utf-8").strip()
+        self.ref_audio_path = Path(args.ref_audio)
+        self.ref_text_path = Path(args.ref_text)
+        self.reference_mtime: tuple[int, int] | None = None
         self.tts = NeuTTS(
             backbone_repo=args.model,
             backbone_device=args.device,
             codec_repo="neuphonic/neucodec",
             codec_device=args.device,
         )
-        self.ref_codes = self.tts.encode_reference(args.ref_audio)
         self.lock = threading.Lock()
+        self.reload_reference()
 
         if args.warmup_text:
             print("Warming up NeuTTS inference", flush=True)
             self.tts.infer(args.warmup_text, self.ref_codes, self.ref_text)
+
+    def reload_reference(self) -> None:
+        """Refresh reference data when the alter updates its sample files."""
+        mtime = (
+            self.ref_audio_path.stat().st_mtime_ns,
+            self.ref_text_path.stat().st_mtime_ns,
+        )
+        if mtime == self.reference_mtime:
+            return
+
+        self.ref_text = self.ref_text_path.read_text(encoding="utf-8").strip()
+        self.ref_codes = self.tts.encode_reference(str(self.ref_audio_path))
+        self.reference_mtime = mtime
+        print("Reloaded NeuTTS reference sample", flush=True)
 
     def synthesize(self, text: str) -> bytes:
         import numpy as np
@@ -91,6 +107,7 @@ class NeuTTSEngine:
             raise ValueError("No text to synthesize")
 
         with self.lock:
+            self.reload_reference()
             wavs = []
             for index, (chunk, boundary) in enumerate(chunks, start=1):
                 print(
