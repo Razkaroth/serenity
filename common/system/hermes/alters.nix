@@ -221,7 +221,12 @@ let
           }
 
           install -d -o ${userName} -g ${userName} -m 0750 ${stateDir}/home ${stateDir}/workspace
-          install -d -o ${userName} -g ${userName} -m 0750 ${stateDir}/.hermes
+          install -d -o ${userName} -g ${userName} -m 0750 \
+            ${stateDir}/.hermes \
+            ${stateDir}/.hermes/cron \
+            ${stateDir}/.hermes/sessions \
+            ${stateDir}/.hermes/logs \
+            ${stateDir}/.hermes/memories
           install -o ${userName} -g ${userName} -m 0640 ${configFile} ${stateDir}/.hermes/config.yaml
           install -o ${userName} -g ${userName} -m 0640 /dev/null ${stateDir}/.hermes/.env
           cat ${lib.escapeShellArg alter.envFile} >> ${stateDir}/.hermes/.env
