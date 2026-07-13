@@ -33,12 +33,21 @@
       extraVolumes = [
         "/home/raz/.agents:/home/raz/.agents:rw"
         "/home/raz/nexus:/home/raz/nexus:rw"
+        "/home/raz/serenity/common/system/hermes:/home/raz/serenity/common/system/hermes:ro"
+        "${pkgs.gws}/bin/gws:/usr/local/bin/gws:ro"
       ];
     };
 
     environmentFiles = [
       "/home/raz/.config/hermes/hermes.env"
     ];
+
+    environment = {
+      # Keep gws OAuth state in Hermes's persistent state volume rather than
+      # the container's ephemeral /home/hermes.
+      GOOGLE_WORKSPACE_CLI_CONFIG_DIR = "/data/.hermes/gws";
+      GOOGLE_WORKSPACE_CLI_KEYRING_BACKEND = "file";
+    };
 
     settings = {
       custom_providers = [
@@ -55,6 +64,11 @@
       };
 
       toolsets = [ "all" ];
+
+      mcp_servers.linear = {
+        url = "https://mcp.linear.app/mcp";
+        auth = "oauth";
+      };
 
       web.backend = "exa";
 
@@ -93,6 +107,7 @@
       espeak-ng
       ffmpeg
       git
+      gws
       nodejs_22
       ripgrep
       uv
