@@ -59,7 +59,7 @@
       ];
 
       model = {
-        provider = "opencode-go";
+        provider = "custom:opencode-go";
         default = "deepseek-v4-pro";
       };
 
