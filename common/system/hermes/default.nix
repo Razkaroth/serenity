@@ -5,6 +5,7 @@
     ./alters.nix
     ./camofox-docker.nix
     ./plugins.nix
+    ./spawn-hermes.nix
     ./tts-neutts-docker.nix
   ];
 
