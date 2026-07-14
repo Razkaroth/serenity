@@ -25,8 +25,11 @@ let
       }
 
       selectFile() {
-        local prompt=$1 allowNew=$2 choice name
-        mapfile -t envFiles < <(compgen -G "$envDir/.env*" || true)
+        local prompt=$1 allowNew=$2 choice name file
+        envFiles=()
+        for file in "$envDir"/.env*; do
+          [ -f "$file" ] && envFiles+=("$file")
+        done
         if [ "''${#envFiles[@]}" -eq 0 ]; then
           echo "No environment files in $envDir." >&2
           exit 1
