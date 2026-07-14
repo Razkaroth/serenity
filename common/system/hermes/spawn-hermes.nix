@@ -54,7 +54,7 @@ let
       }
 
       selectEntries() {
-        local prompt=$1 selected id
+        local prompt=$1 selected entry id
         shift
         local -a keys=("$@") choices=()
         for id in "''${!keys[@]}"; do
@@ -62,7 +62,9 @@ let
         done
         selected=$(printf '%s\n' "''${choices[@]}" | fzf --multi --delimiter=$'\t' --with-nth=2.. --prompt="$prompt" || true)
         [ -n "$selected" ] || return 1
-        while IFS=$'\t' read -r id; do
+        while IFS= read -r entry; do
+          id="''${entry%%$'\t'*}"
+          [[ $id =~ ^[0-9]+$ ]] || continue
           printf '%s\n' "$id"
         done <<< "$selected"
       }
@@ -158,6 +160,10 @@ let
           knownSelection=$(printf '%s\n' "''${choices[@]}" | fzf --delimiter=$'\t' --with-nth=2.. --prompt="Known variable: " || true)
           [ -n "$knownSelection" ] || exit 0
           id="''${knownSelection%%$'\t'*}"
+          [[ $id =~ ^[0-9]+$ ]] || {
+            echo "Invalid known-variable selection." >&2
+            exit 1
+          }
           additions=("''${knownLines[$id]}")
           confirmWrite "$target" "append" "''${knownKeys[$id]}"
           ;;
