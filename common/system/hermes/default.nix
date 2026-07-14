@@ -125,6 +125,11 @@
       enable = true;
       envFile = "/home/raz/.config/hermes/.env.morrison";
     };
+
+    instances.jarvis = {
+      enable = true;
+      envFile = "/home/raz/.config/hermes/.env.jarvis";
+    };
   };
 
   # Hermes hardens its env/auth parent with chmod 0700 at startup, but the
