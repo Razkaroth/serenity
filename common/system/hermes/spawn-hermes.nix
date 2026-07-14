@@ -77,10 +77,10 @@ let
         for key in "$@"; do
           echo "  $key"
         done
-        read -r -p "Type REVIEW to continue: " answer
-        [ "$answer" = REVIEW ] || exit 0
-        read -r -p "Type $(basename "$target") to write: " answer
-        [ "$answer" = "$(basename "$target")" ] || exit 0
+        read -r -p "Apply these changes? [y/N] " answer
+        [[ $answer =~ ^[Yy]$ ]] || exit 0
+        read -r -p "Confirm write to $(basename "$target")? [y/N] " answer
+        [[ $answer =~ ^[Yy]$ ]] || exit 0
       }
 
       writeTarget() {
