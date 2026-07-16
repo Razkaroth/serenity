@@ -60,8 +60,9 @@
       ];
 
       model = {
-        provider = "custom:opencode-go";
-        default = "deepseek-v4-pro";
+        # provider = "custom:opencode-go";
+        provider = "openai-codex";
+        default = "gpt-5.6-sol";
       };
 
       toolsets = [ "all" ];
