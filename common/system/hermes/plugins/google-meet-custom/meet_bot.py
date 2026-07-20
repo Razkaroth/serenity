@@ -31,6 +31,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import shutil
 import signal
 import subprocess
 import sys
@@ -53,6 +54,15 @@ MEET_URL_RE = re.compile(
 # Filenames the bot reads/writes in ``HERMES_MEET_OUT_DIR``.
 SAY_QUEUE_FILENAME = "say_queue.jsonl"
 SAY_PCM_FILENAME = "speaker.pcm"
+
+
+def _log(event: str, **fields) -> None:
+    """Write compact structured diagnostics to the bot's redirected stderr."""
+    print(
+        json.dumps({"event": event, "ts": time.time(), **fields}, ensure_ascii=False),
+        file=sys.stderr,
+        flush=True,
+    )
 
 
 def _is_safe_meet_url(url: str) -> bool:
@@ -110,6 +120,8 @@ class _BotState:
         self.leave_reason: Optional[str] = None
         self.language = os.environ.get("HERMES_MEET_LANGUAGE", "es-MX")
         self.language_verified = False
+        self.phase = "launching"
+        self.auth_mode = "unknown"
         self._active_caption: Optional[dict] = None
         out_dir.mkdir(parents=True, exist_ok=True)
         self.transcript_path = out_dir / "transcript.txt"
@@ -173,6 +185,8 @@ class _BotState:
             "transcriptJsonlPath": str(self.transcript_jsonl_path),
             "language": self.language,
             "languageVerified": self.language_verified,
+            "phase": self.phase,
+            "authMode": self.auth_mode,
             "error": self.error,
             "exited": self.exited,
             "pid": os.getpid(),
@@ -361,6 +375,41 @@ def _prepare_fake_video(profile_dir: Path) -> Optional[Path]:
         return target
     except (FileNotFoundError, subprocess.CalledProcessError):
         return None
+
+
+def _start_xvfb(headed: bool) -> Optional[subprocess.Popen]:
+    """Create one private display for headed Meet; never touch another X server."""
+    if not headed or os.environ.get("DISPLAY"):
+        return None
+    xvfb = shutil.which("Xvfb")
+    if not xvfb:
+        raise RuntimeError("Xvfb is unavailable; install xorg.xorgserver or use headed=false")
+    for number in range(99, 110):
+        display = f":{number}"
+        if Path(f"/tmp/.X{number}-lock").exists():
+            continue
+        process = subprocess.Popen(
+            [xvfb, display, "-screen", "0", "1280x800x24"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        time.sleep(0.25)
+        if process.poll() is None:
+            os.environ["DISPLAY"] = display
+            _log("xvfb_started", display=display, pid=process.pid)
+            return process
+    raise RuntimeError("could not allocate an Xvfb display")
+
+
+def _stop_xvfb(process: Optional[subprocess.Popen]) -> None:
+    if process is None:
+        return
+    process.terminate()
+    try:
+        process.wait(timeout=3)
+    except subprocess.TimeoutExpired:
+        process.kill()
 def _start_realtime_speaker(
     *,
     rt: dict,
@@ -543,6 +592,35 @@ def _mac_audio_device_index(device_name: str) -> str:
     return "0"
 
 
+def _launch_meet_context(
+    *,
+    chromium,
+    headed: bool,
+    profile_dir: Path,
+    auth_state: str,
+    chrome_args: list[str],
+    context_args: dict,
+):
+    """Launch a Meet context and return ``(context, browser_or_none)``.
+
+    Playwright's persistent-context API does not accept ``storage_state``.
+    Loading only its cookies is not equivalent: it discards origin state and
+    mixes the supplied session with stale profile data. Use Playwright's native
+    storage-state restoration whenever an auth file is available.
+    """
+    if auth_state and Path(auth_state).is_file():
+        browser = chromium.launch(headless=not headed, args=chrome_args)
+        context = browser.new_context(storage_state=auth_state, **context_args)
+        return context, browser
+    context = chromium.launch_persistent_context(
+        user_data_dir=str(profile_dir),
+        headless=not headed,
+        args=chrome_args,
+        **context_args,
+    )
+    return context, None
+
+
 def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
     url = os.environ.get("HERMES_MEET_URL", "").strip()
     out_dir_env = os.environ.get("HERMES_MEET_OUT_DIR", "").strip()
@@ -561,13 +639,24 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
     realtime_instructions = os.environ.get("HERMES_MEET_REALTIME_INSTRUCTIONS", "")
     realtime_api_key = os.environ.get("HERMES_MEET_REALTIME_KEY") or os.environ.get("OPENAI_API_KEY", "")
 
+    _log(
+        "bot_started",
+        headed=headed,
+        language=language,
+        mode=mode,
+        profile_dir=profile_dir_env or None,
+        has_auth_state=bool(auth_state),
+    )
+
     if not url or not _is_safe_meet_url(url):
+        _log("invalid_url", url=url)
         sys.stderr.write(
             "google_meet bot: refusing to launch — HERMES_MEET_URL must be a "
             "meet.google.com URL. got: %r\n" % url
         )
         return 2
     if not out_dir_env:
+        _log("missing_output_directory")
         sys.stderr.write("google_meet bot: HERMES_MEET_OUT_DIR is required\n")
         return 2
 
@@ -617,6 +706,7 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
     try:
         from playwright.sync_api import sync_playwright
     except ImportError as e:
+        _log("playwright_unavailable", error=str(e))
         state.set(error=f"playwright not installed: {e}", exited=True)
         sys.stderr.write(
             "google_meet bot: playwright is not installed. Run "
@@ -625,6 +715,13 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
         if rt["bridge"]:
             rt["bridge"].teardown()
         return 3
+
+    try:
+        xvfb_process = _start_xvfb(headed)
+    except RuntimeError as e:
+        _log("xvfb_start_failed", error=str(e))
+        state.set(error=str(e), exited=True)
+        return 5
 
     # Chrome env: if realtime is live on Linux, point PULSE_SOURCE at the
     # virtual source so Chrome's fake mic reads the audio we generate.
@@ -660,31 +757,43 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
                 ),
                 "permissions": ["microphone", "camera"],
             }
-            context = pw.chromium.launch_persistent_context(
-                user_data_dir=str(profile_dir), headless=not headed, args=chrome_args, **context_args
+            context, browser = _launch_meet_context(
+                chromium=pw.chromium,
+                headed=headed,
+                profile_dir=profile_dir,
+                auth_state=auth_state,
+                chrome_args=chrome_args,
+                context_args=context_args,
             )
-            if auth_state and Path(auth_state).is_file():
-                # Bootstrap cookie auth once into persistent profile. Local storage
-                # cannot be safely inferred from opaque Google preference blobs.
-                try:
-                    storage = json.loads(Path(auth_state).read_text(encoding="utf-8"))
-                    cookies = storage.get("cookies", [])
-                    if cookies:
-                        context.add_cookies(cookies)
-                except (OSError, ValueError, TypeError) as e:
-                    state.set(error=f"auth bootstrap failed: {e}")
+            _log(
+                "browser_launched",
+                headless=not headed,
+                chrome_args=chrome_args,
+                storage_state_loaded=browser is not None,
+            )
             page = context.new_page()
 
             try:
                 page.goto(url, wait_until="domcontentloaded", timeout=30_000)
             except Exception as e:
+                _log("navigation_failed", error=str(e))
                 state.set(error=f"navigate failed: {e}", exited=True)
+                context.close()
+                if browser is not None:
+                    browser.close()
+                _stop_xvfb(xvfb_process)
                 return 4
+            _log("meeting_page_loaded", title=page.title())
 
-            # Guest-mode: Meet shows a name field before "Ask to join". When
-            # we're authed, we instead see "Join now".
-            _try_guest_name(page, guest_name)
-            _click_join(page, state)
+            state.set(phase="prejoin")
+            joined, join_error, lobby_waiting = _click_join(page, state, guest_name)
+            if not joined:
+                state.set(phase="blocked", error=join_error, exited=True)
+                context.close()
+                if browser is not None:
+                    browser.close()
+                _stop_xvfb(xvfb_process)
+                return 6
 
             # Install before captions are enabled; observer attaches lazily.
             try:
@@ -695,7 +804,12 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
             # Note: in_call=False until admission is confirmed (we detect
             # either the Leave button or the caption region, signalling we
             # made it past the lobby).
-            state.set(captioning=True, join_attempted_at=time.time())
+            state.set(
+                captioning=True,
+                join_attempted_at=time.time(),
+                lobby_waiting=lobby_waiting,
+                phase="lobby" if lobby_waiting else "requesting_access",
+            )
 
             # v2 realtime: start the speaker thread reading from the
             # plugin-side say queue. The thread reads JSONL lines written by
@@ -741,10 +855,12 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
                     last_admission_check = now
                     admitted = _detect_admission(page)
                     if admitted:
+                        _log("admission_confirmed")
                         state.set(
                             in_call=True,
                             lobby_waiting=False,
                             joined_at=now,
+                            phase="in_call",
                         )
                         try:
                             _configure_captions(page, state, language, translated_captions, translation_target)
@@ -753,18 +869,22 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
                         except Exception as e:
                             state.set(error=f"caption configuration failed: {e}")
                     elif now > lobby_deadline:
+                        _log("lobby_timeout")
                         state.set(
                             error=(
                                 "lobby timeout — host never admitted the bot "
                                 f"within {int(lobby_deadline - state.join_attempted_at) if state.join_attempted_at else 0}s"
                             ),
                             leave_reason="lobby_timeout",
+                            phase="blocked",
                         )
                         break
                     elif _detect_denied(page):
+                        _log("admission_denied")
                         state.set(
                             error="host denied admission",
                             leave_reason="denied",
+                            phase="blocked",
                         )
                         break
 
@@ -831,6 +951,8 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
                 pass
 
             context.close()
+            if browser is not None:
+                browser.close()
             # v2: teardown PCM pump, speaker thread, and audio bridge.
             if rt.get("pcm_pump"):
                 try:
@@ -860,22 +982,89 @@ def run_bot() -> int:  # noqa: C901 — orchestration, explicit branches
                     pass
             state.finalize_caption()
             state.set(in_call=False, captioning=False, exited=True)
+            _stop_xvfb(xvfb_process)
             return 0
 
     except Exception as e:
+        _log("bot_crashed", error=str(e))
         state.set(error=f"unhandled: {e}", exited=True)
+        _stop_xvfb(xvfb_process)
         return 1
 
 
-def _try_guest_name(page, guest_name: str) -> None:
-    """If Meet is showing a guest-name input, type *guest_name* into it."""
+def _detect_auth_mode(page) -> str:
+    """Return ``guest``, ``authenticated``, or ``unknown`` from positive DOM evidence.
+
+    Absence of the guest-name input is not authentication evidence: Meet renders
+    pre-join controls asynchronously, so treating a not-yet-rendered input as an
+    authenticated session creates a race and misleading status.
+    """
+    probe = r"""
+    () => {
+      const visible = element => {
+        if (!element) return false;
+        const style = window.getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.visibility !== 'hidden' && style.display !== 'none'
+          && rect.width > 0 && rect.height > 0;
+      };
+      const guestInputs = document.querySelectorAll([
+        'input[placeholder="Your name"]',
+        'input[placeholder*="nombre" i]',
+        'input[aria-label*="name" i]',
+        'input[aria-label*="nombre" i]'
+      ].join(','));
+      if ([...guestInputs].some(visible)) return 'guest';
+
+      const controls = [...document.querySelectorAll('a, button')].filter(visible);
+      const text = element => (
+        element.getAttribute('aria-label') || element.innerText || ''
+      ).trim().toLowerCase();
+      if (controls.some(element => /^(sign in|iniciar sesi[oó]n)$/.test(text(element)))) {
+        return 'guest';
+      }
+
+      const account = document.querySelector([
+        '[aria-label*="Google Account" i]',
+        '[aria-label*="Cuenta de Google" i]',
+        'a[href*="SignOutOptions"]',
+        '[data-ogsr-up]'
+      ].join(','));
+      if (visible(account)) return 'authenticated';
+      return null;
+    }
+    """
     try:
-        # Meet's guest name input has placeholder "Your name".
-        locator = page.locator('input[aria-label*="name" i]').first
-        if locator.count() and locator.is_visible():
-            locator.fill(guest_name, timeout=2_000)
+        mode = page.evaluate(probe)
+        return mode if mode in {"guest", "authenticated"} else "unknown"
     except Exception:
-        pass
+        return "unknown"
+
+
+def _try_guest_name(page, guest_name: str) -> tuple[bool, str]:
+    """Fill and verify current Meet guest-name control without hiding failures."""
+    selectors = (
+        ("role", lambda: page.get_by_role("textbox", name=re.compile("name", re.I)).first),
+        ("placeholder", lambda: page.locator('input[placeholder="Your name"]').first),
+        ("aria-label", lambda: page.locator('input[aria-label*="name" i]').first),
+    )
+    failures = []
+    for selector_name, get_locator in selectors:
+        try:
+            locator = get_locator()
+            if not locator.count() or not locator.is_visible():
+                continue
+            locator.fill(guest_name, timeout=5_000)
+            if locator.input_value(timeout=2_000) != guest_name:
+                failures.append(f"{selector_name}: value did not persist")
+                continue
+            _log("guest_name_filled", selector=selector_name)
+            return True, ""
+        except Exception as e:
+            failures.append(f"{selector_name}: {e}")
+    detail = "; ".join(failures) or "no supported guest-name input found"
+    _log("guest_name_fill_failed", error=detail)
+    return False, f"guest name could not be filled: {detail}"
 
 
 def _detect_admission(page) -> bool:
@@ -943,22 +1132,94 @@ def _looks_like_human_speaker(speaker: str, bot_guest_name: str) -> bool:
     return True
 
 
-def _click_join(page, state: _BotState) -> None:
-    """Click 'Join now' or 'Ask to join' if either button is visible.
+def _click_join(page, state: _BotState, guest_name: str) -> tuple[bool, str, bool]:
+    """Wait for and click an enabled Meet admission control.
 
-    Flags ``lobby_waiting`` when we hit the "waiting for host to admit you"
-    state so the agent can surface that in status.
+    Returns ``(clicked, error, lobby_waiting)``. Disabled controls are never
+    clicked because Meet ignores them and leaves the bot in a false lobby.
     """
-    for label in ("Join now", "Ask to join"):
+    labels = (
+        "Join now",
+        "Ask to join",
+        "Switch here",
+        "Unirse ahora",
+        "Solicitar unirse",
+        "Cambiar aquí",
+    )
+    deadline = time.monotonic() + 15
+    last_buttons: Optional[list] = None
+    last_guest_error = ""
+    while time.monotonic() < deadline:
+        auth_mode = _detect_auth_mode(page)
+        if auth_mode in {"guest", "authenticated"} and state.auth_mode != auth_mode:
+            state.set(auth_mode=auth_mode)
+        if auth_mode == "guest":
+            filled, fill_error = _try_guest_name(page, guest_name)
+            if not filled:
+                # Meet creates the guest input before it becomes visible/fillable.
+                # Keep polling within the existing pre-join deadline instead of
+                # converting that transient render state into a terminal failure.
+                last_guest_error = fill_error
+                time.sleep(0.5)
+                continue
         try:
-            btn = page.get_by_role("button", name=label, exact=False).first
-            if btn.count() and btn.is_visible():
-                btn.click(timeout=3_000)
-                if label == "Ask to join":
-                    state.set(lobby_waiting=True)
-                break
-        except Exception:
-            continue
+            got_it = page.get_by_role("button", name="Got it", exact=False).first
+            if got_it.count() and got_it.is_visible() and got_it.is_enabled():
+                got_it.click(timeout=2_000)
+                _log("prejoin_notice_dismissed")
+        except Exception as e:
+            _log("prejoin_notice_dismiss_failed", error=str(e))
+        try:
+            visible_buttons = page.locator("button:visible").evaluate_all(
+                "buttons => buttons.map(button => ({label: button.getAttribute('aria-label') || button.innerText, disabled: button.disabled || button.getAttribute('aria-disabled') === 'true'})).filter(button => button.label)"
+            )
+            if visible_buttons != last_buttons:
+                _log("join_controls_seen", buttons=visible_buttons)
+                last_buttons = visible_buttons
+        except Exception as e:
+            _log("join_controls_inspection_failed", error=str(e))
+
+        try:
+            clicked = page.evaluate(
+                """labels => {
+                  const normalize = value => (value || '').trim().toLowerCase();
+                  for (const button of document.querySelectorAll('button')) {
+                    const label = button.getAttribute('aria-label') || button.innerText;
+                    const matched = labels.find(candidate => normalize(label).includes(normalize(candidate)));
+                    if (matched && !button.disabled && button.getAttribute('aria-disabled') !== 'true') {
+                      button.click();
+                      return matched;
+                    }
+                  }
+                  return null;
+                }""",
+                list(labels),
+            )
+            if clicked:
+                _log("join_control_clicked", label=clicked, method="dom")
+                return True, "", clicked in {"Ask to join", "Solicitar unirse"}
+        except Exception as e:
+            _log("join_control_dom_click_failed", error=str(e))
+
+        for label in labels:
+            try:
+                btn = page.get_by_role("button", name=label, exact=False).first
+                if btn.count() and btn.is_visible() and btn.is_enabled():
+                    btn.click(timeout=3_000)
+                    _log("join_control_clicked", label=label, method="role")
+                    return True, "", label in {"Ask to join", "Solicitar unirse"}
+            except Exception as e:
+                _log("join_control_attempt_failed", label=label, error=str(e))
+        time.sleep(0.5)
+    disabled = [button["label"] for button in (last_buttons or []) if button.get("disabled")]
+    if disabled:
+        error = f"join control remained disabled: {', '.join(disabled)}"
+    elif last_guest_error:
+        error = last_guest_error
+    else:
+        error = "no supported enabled join control found"
+    _log("join_control_missing", error=error)
+    return False, error, False
 
 
 def _parse_duration(raw: str) -> Optional[float]:

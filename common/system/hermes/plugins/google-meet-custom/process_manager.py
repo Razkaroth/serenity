@@ -85,7 +85,7 @@ def start(
     url: str,
     *,
     out_dir: Optional[Path] = None,
-    headed: bool = False,
+    headed: bool = True,
     auth_state: Optional[str] = None,
     guest_name: str = "Hermes Agent",
     duration: Optional[str] = None,

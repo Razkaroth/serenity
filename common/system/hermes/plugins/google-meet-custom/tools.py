@@ -120,9 +120,10 @@ MEET_JOIN_SCHEMA: Dict[str, Any] = {
             },
             "headed": {
                 "type": "boolean",
+                "default": True,
                 "description": (
-                    "Run Chromium headed instead of headless (debug only). "
-                    "Default false."
+                    "Run Chromium under an isolated Xvfb display. Default true "
+                    "because Meet's pre-join page is more reliable headed."
                 ),
             },
             "node": {
@@ -293,7 +294,7 @@ def handle_meet_join(args: Dict[str, Any], **_kw) -> str:
                 url=url,
                 guest_name=str(args.get("guest_name") or "Hermes Agent"),
                 duration=str(args.get("duration")) if args.get("duration") else None,
-                headed=bool(args.get("headed", False)),
+                headed=bool(args.get("headed", True)),
                 mode=mode,
                 language=language,
                 translated_captions=translated,
@@ -312,7 +313,7 @@ def handle_meet_join(args: Dict[str, Any], **_kw) -> str:
         )
     res = pm.start(
         url=url,
-        headed=bool(args.get("headed", False)),
+        headed=bool(args.get("headed", True)),
         guest_name=str(args.get("guest_name") or "Hermes Agent"),
         duration=str(args.get("duration")) if args.get("duration") else None,
         mode=mode,

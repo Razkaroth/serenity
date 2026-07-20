@@ -75,7 +75,7 @@ class NodeClient:
         url: str,
         guest_name: str = "Hermes Agent",
         duration: Optional[str] = None,
-        headed: bool = False,
+        headed: bool = True,
         mode: str = "transcribe",
         language: str = "es-MX",
         translated_captions: bool = False,

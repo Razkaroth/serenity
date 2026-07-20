@@ -1,5 +1,15 @@
 { pkgs, ... }:
 
+let
+  playwrightRuntime = pkgs.python312Packages.toPythonModule (pkgs.symlinkJoin {
+    name = "hermes-playwright-runtime";
+    paths = with pkgs.python312Packages; [
+      playwright
+      pyee
+      greenlet
+    ];
+  });
+in
 {
   imports = [
     ./alters.nix
@@ -26,6 +36,32 @@
   services.hermes-agent = {
     enable = true;
     addToSystemPackages = true;
+    # Hermes already seals typing-extensions. Keep it out of this union to
+    # satisfy its extra-package collision guard while retaining Playwright.
+    extraPythonPackages = [ playwrightRuntime ];
+    # extraPythonPackages triggers a package override. Preserve Hermes's
+    # default optional integrations instead of rebuilding its venv without
+    # Discord, Slack, Telegram, voice, or other platform dependencies.
+    extraDependencyGroups = [
+      "anthropic"
+      "azure-identity"
+      "bedrock"
+      "daytona"
+      "dingtalk"
+      "edge-tts"
+      "exa"
+      "fal"
+      "feishu"
+      "firecrawl"
+      "hindsight"
+      "honcho"
+      "messaging"
+      "modal"
+      "parallel-web"
+      "tts-premium"
+      "voice"
+      "matrix"
+    ];
 
     container = {
       enable = true;
@@ -48,6 +84,9 @@
       # the container's ephemeral /home/hermes.
       GOOGLE_WORKSPACE_CLI_CONFIG_DIR = "/data/.hermes/gws";
       GOOGLE_WORKSPACE_CLI_KEYRING_BACKEND = "file";
+      # Use Nix's browser bundle matching python-playwright, never a mutable
+      # browser download under ~/.cache/ms-playwright.
+      PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
     };
 
     settings = {
@@ -113,6 +152,7 @@
       nodejs_22
       ripgrep
       uv
+      xorg-server
     ];
   };
 
@@ -142,4 +182,38 @@
     chown hermes:hermes /var/lib/hermes /var/lib/hermes/.hermes
   '';
 
+  systemd.services.hermes-agent-periodic-restart = {
+    description = "Restart Hermes Agent every three days";
+
+    serviceConfig.Type = "oneshot";
+
+    script = ''
+      state=/var/lib/hermes/.periodic-restart-last
+      now=$(${pkgs.coreutils}/bin/date +%s)
+      last=0
+
+      if [ -r "$state" ]; then
+        last=$(${pkgs.coreutils}/bin/cat "$state")
+      fi
+
+      # Timer runs daily, but restarts only after 72 hours.
+      if [ "$((now - last))" -lt 259200 ]; then
+        exit 0
+      fi
+
+      ${pkgs.coreutils}/bin/printf '%s\n' "$now" > "$state"
+      ${pkgs.systemd}/bin/systemctl restart hermes-agent.service
+    '';
+  };
+
+  systemd.timers.hermes-agent-periodic-restart = {
+    description = "Three-day Hermes Agent restart timer";
+    wantedBy = [ "timers.target" ];
+
+    timerConfig = {
+      OnCalendar = "*-*-* 03:00:00";
+      Persistent = true;
+      Unit = "hermes-agent-periodic-restart.service";
+    };
+  };
 }

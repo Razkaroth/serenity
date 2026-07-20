@@ -27,6 +27,43 @@ def _auth_state_path() -> Path:
     return Path(get_hermes_home()) / "workspace" / "meetings" / "auth.json"
 
 
+def _check_google_auth(path: Path) -> tuple[bool, str]:
+    """Verify the saved storage state against Meet, not only its file path."""
+    if not path.is_file():
+        return False, "not saved — run: hermes meet auth"
+    try:
+        from playwright.sync_api import sync_playwright
+        from .meet_bot import _start_xvfb, _stop_xvfb
+    except ImportError:
+        return False, "cannot verify — playwright is unavailable"
+
+    xvfb = None
+    browser = None
+    try:
+        xvfb = _start_xvfb(True)
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(headless=False)
+            context = browser.new_context(storage_state=str(path))
+            page = context.new_page()
+            page.goto("https://meet.google.com/", wait_until="domcontentloaded", timeout=30_000)
+            page.wait_for_timeout(3_000)
+            body = page.locator("body").inner_text()[:2_000]
+            guest_mode = bool(page.locator('input[placeholder="Your name"]').count())
+            context.close()
+        if "Sign in" in body or guest_mode:
+            return False, "saved state is expired or unauthenticated"
+        return True, "authenticated"
+    except Exception as e:
+        return False, f"live check failed: {e}"
+    finally:
+        if browser is not None:
+            try:
+                browser.close()
+            except Exception:
+                pass
+        _stop_xvfb(xvfb)
+
+
 # ---------------------------------------------------------------------------
 # argparse wiring
 # ---------------------------------------------------------------------------
@@ -59,7 +96,10 @@ def register_cli(subparser: argparse.ArgumentParser) -> None:
     join_p.add_argument("url", help="https://meet.google.com/...")
     join_p.add_argument("--guest-name", default="Hermes Agent")
     join_p.add_argument("--duration", default=None, help="e.g. 30m, 2h, 90s")
-    join_p.add_argument("--headed", action="store_true", help="show browser")
+    display_group = join_p.add_mutually_exclusive_group()
+    display_group.add_argument("--headed", dest="headed", action="store_true", help="run under Xvfb (default)")
+    display_group.add_argument("--headless", dest="headed", action="store_false", help="run Chromium headless")
+    join_p.set_defaults(headed=True)
     join_p.add_argument("--language", choices=("es-MX", "en-US"), default="es-MX")
     join_p.add_argument(
         "--mode", choices=("transcribe", "realtime"), default="transcribe",
@@ -195,14 +235,14 @@ def _cmd_setup() -> int:
     print(f"  chromium       : {chromium_msg}")
 
     auth_path = _auth_state_path()
-    auth_ok = auth_path.is_file()
+    auth_ok, auth_msg = _check_google_auth(auth_path) if pw_ok else (False, "cannot verify — playwright is unavailable")
     print(
         "  google auth    : "
-        + (f"ok ({auth_path})" if auth_ok else "not saved — run: hermes meet auth")
+        + (f"ok ({auth_path})" if auth_ok else auth_msg)
     )
 
     print()
-    all_ok = system_ok and pw_ok and chromium_ok
+    all_ok = system_ok and pw_ok and chromium_ok and auth_ok
     if all_ok:
         print(
             "ready. Join a meeting:  "
