@@ -127,6 +127,7 @@ in
     ./intel-audio.nix
     ./nvidia.nix
     ./security.nix
+    ./winapps.nix
   ];
 
   environment.systemPackages = [

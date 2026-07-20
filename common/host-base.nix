@@ -48,7 +48,6 @@ in
 
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    inputs.hermes-agent.nixosModules.default
     inputs.hydenix.nixosModules.default
   ];
 

@@ -1,0 +1,13 @@
+# Copy to ~/.config/winapps/winapps.conf, replace account and askpass command,
+# then chmod 0600 ~/.config/winapps/winapps.conf. Do not commit live config.
+WAFLAVOR="libvirt"
+VM_NAME="RDPWindows"
+RDP_IP=""
+RDP_PORT="3389"
+RDP_USER="<WINDOWS_LOCAL_ACCOUNT>"
+RDP_PASS=""
+RDP_ASKPASS="<USER-OWNED PASSWORD COMMAND>"
+RDP_SCALE="100"
+RDP_FLAGS="/cert:tofu /sound /microphone +home-drive"
+DEBUG="true"
+AUTOPAUSE="off"

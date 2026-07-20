@@ -3,6 +3,7 @@
 {
   imports = [
     ../../common/system
+    ./hermes
     ./nixarr.nix
     ./zero-tier.nix
   ];

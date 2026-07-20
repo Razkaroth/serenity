@@ -70,7 +70,7 @@ in
       extraVolumes = [
         "/home/raz/.agents:/home/raz/.agents:rw"
         "/home/raz/nexus:/home/raz/nexus:rw"
-        "/home/raz/serenity/common/system/hermes:/home/raz/serenity/common/system/hermes:ro"
+        "/home/raz/serenity/serenity/system/hermes:/home/raz/serenity/serenity/system/hermes:ro"
         "${pkgs.gws}/bin/gws:/usr/local/bin/gws:ro"
       ];
     };

@@ -8,6 +8,7 @@
       hydenixConfig.gaming.enable = false;
       userConfig.linger = true;
     })
+    inputs.hermes-agent.nixosModules.default
     ./serenity-hardware.nix
     ./system
     ./server.nix

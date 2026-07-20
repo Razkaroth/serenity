@@ -30,6 +30,8 @@ in
       alias n='~/.config/nvim/kitty.sh' # kitty wrapper for nvim
       alias ta='tmux attach'
       alias t='tmux new-session -A -s scratch'
+      alias h='herdr'
+      alias hs='herdr --remote raz@serenity'
       alias lz='lazygit'
       alias y='yazi'
       alias dcu='docker compose up'

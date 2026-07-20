@@ -5,6 +5,7 @@
       inherit inputs;
       hostName = "ascension";
       homeModule = ./hm;
+      extraGroups = [ "kvm" ];
       extraOverlays = [
         inputs.anifetch.overlays.default
       ];

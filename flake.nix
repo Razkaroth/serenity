@@ -36,8 +36,8 @@
     };
 
     #playwright.url = "github:pietdevries94/playwright-web-flake";
-    
-  spacetimedb = {
+
+    spacetimedb = {
       url = "github:clockworklabs/SpacetimeDB/31fd1c8c3346dfec38dfcc2e89c2ecf457cf26ff";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -57,16 +57,20 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     nixarr.url = "github:rasmus-kirk/nixarr";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    winapps = {
+      url = "github:winapps-org/winapps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { 
+    {
       chaotic,
       nixos-hardware,
       nixarr,
       zen-browser,
       spacetimedb,
-    #playwright,
+      #playwright,
       nixpkgs-edge,
       nixpkgs-locked,
       ...
@@ -77,20 +81,20 @@
 
       system = "x86_64-linux";
       hydenixSerenityConfig = inputs.nixpkgs.lib.nixosSystem {
-         specialArgs = {
-           inherit inputs;
-         };
+        specialArgs = {
+          inherit inputs;
+        };
         modules = [
-        { nixpkgs.hostPlatform = system; }
-        inputs.nixarr.nixosModules.default
-        chaotic.nixosModules.default
+          { nixpkgs.hostPlatform = system; }
+          inputs.nixarr.nixosModules.default
+          chaotic.nixosModules.default
           ./serenity/configuration.nix
         ];
       };
       hydenixAscenceConfig = inputs.nixpkgs.lib.nixosSystem {
-         specialArgs = {
-           inherit inputs;
-         };
+        specialArgs = {
+          inherit inputs;
+        };
         modules = [
           { nixpkgs.hostPlatform = system; }
           # inputs.nixos-hardware.nixosModules.omen."15-en0010ca"

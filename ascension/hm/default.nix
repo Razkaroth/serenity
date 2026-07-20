@@ -8,6 +8,7 @@
     ./confs
     # ./caelestia.nix # Moved to common
     ./hydenix.nix
+    ./winapps.nix
   ];
 
   # home-manager options go here
@@ -23,7 +24,7 @@
     package = pkgs.capitaine-cursors-themed;
     size = 30;
   };
-  
+
   home.sessionVariables = {
     EDITOR = "nvim";
     TERMINAL = "kitty";
@@ -32,6 +33,5 @@
     # XDG_DATA_HOME = "$USER_HOME/.local/share";
     # XDG_CACHE_HOME = "$USER_HOME/.cache";
   };
-
 
 }
