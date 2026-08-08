@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  image = "actualbudget/actual-server:latest";
+  image = "actualbudget/actual-server:26.7.0";
   containerName = "actual-budget";
   hostPort = 9999;
   containerPort = 5006;
