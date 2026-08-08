@@ -3,6 +3,7 @@
 {
   imports = [
     ../../common/system
+    ./actual-budget.nix
     ./hermes
     ./nixarr.nix
     ./zero-tier.nix

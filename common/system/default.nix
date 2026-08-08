@@ -3,8 +3,8 @@
   imports = [
     ./tailscale.nix
     ./mpd.nix
-    ./actual.nix
     ./audio.nix
+    ./bluetooth.nix
     ./via.nix
     ./vm.nix
     ./docker.nix
