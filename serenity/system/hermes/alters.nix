@@ -413,5 +413,6 @@ in
     (mkIf cfg.instances.dr-bruce.enable (mkAlter "dr-bruce" cfg.instances.dr-bruce))
     (mkIf cfg.instances.morrison.enable (mkAlter "morrison" cfg.instances.morrison))
     (mkIf cfg.instances.jarvis.enable (mkAlter "jarvis" cfg.instances.jarvis))
+    (mkIf cfg.instances.vasilisa.enable (mkAlter "vasilisa" cfg.instances.vasilisa))
   ]);
 }

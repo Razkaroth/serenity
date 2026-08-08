@@ -14,6 +14,7 @@ in
   imports = [
     ./alters.nix
     ./camofox-docker.nix
+    ./c2-server.nix
     ./plugins.nix
     ./spawn-hermes.nix
     ./tts-neutts-docker.nix
@@ -71,6 +72,7 @@ in
         "/home/raz/.agents:/home/raz/.agents:rw"
         "/home/raz/nexus:/home/raz/nexus:rw"
         "/home/raz/serenity/serenity/system/hermes:/home/raz/serenity/serenity/system/hermes:ro"
+        "/var/lib/hermes/c2-server:/c2-server:rw"
         "${pkgs.gws}/bin/gws:/usr/local/bin/gws:ro"
       ];
     };
@@ -90,6 +92,7 @@ in
     };
 
     settings = {
+      cron.wrap_response = false;
       custom_providers = [
         {
           name = "opencode-go";
@@ -100,8 +103,10 @@ in
 
       model = {
         # provider = "custom:opencode-go";
-        provider = "openai-codex";
-        default = "gpt-5.6-sol";
+        provider = "deepseek";
+        default = "deepseek-v4-pro";
+        # provider = "openai-codex";
+        # default = "gpt-5.6-sol";
       };
 
       toolsets = [ "all" ];
@@ -170,6 +175,16 @@ in
     instances.jarvis = {
       enable = true;
       envFile = "/home/raz/.config/hermes/.env.jarvis";
+    };
+
+    instances.vasilisa = {
+      enable = true;
+      envFile = "/home/raz/.config/hermes/.env.vasilisa";
+      settings={
+        model={
+          provider = "deepseek";
+        };
+      };
     };
   };
 
