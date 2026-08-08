@@ -20,6 +20,7 @@ in
       RestartSec = 10;
       StateDirectory = "lector";
       EnvironmentFile = envFile;
+      TimeoutStartSec = "10min";
     };
 
     preStart = ''
@@ -30,8 +31,9 @@ in
     script = ''
       exec docker run --rm \
         --name ${containerName} \
-        --publish 127.0.0.1:${toString uiPort}:3000 \
-        --publish 127.0.0.1:${toString apiPort}:${toString apiPort} \
+        --user 0:0 \
+        --publish 0.0.0.0:${toString uiPort}:3000 \
+        --publish 0.0.0.0:${toString apiPort}:${toString apiPort} \
         --volume /var/lib/lector:/app/data \
         --env NODE_ENV=production \
         --env DATA_DIR=/app/data \
@@ -45,29 +47,7 @@ in
     '';
   };
 
-  systemd.services.lector-tailscale-serve = {
-    description = "Tailscale Serve HTTPS for Lector UI and API";
-    after = [
-      "tailscaled.service"
-      "lector.service"
-    ];
-    wants = [
-      "tailscaled.service"
-      "lector.service"
-    ];
-    wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.tailscale ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-
-    script = ''
-      tailscale serve --bg --yes --https=${toString uiPort} http://127.0.0.1:${toString uiPort}
-      tailscale serve --bg --yes --https=${toString apiPort} http://127.0.0.1:${toString apiPort}
-    '';
-  };
+  networking.firewall.allowedTCPPorts = [ uiPort apiPort ];
 
   services.cron = {
     enable = true;

@@ -94,7 +94,10 @@ in
     };
 
     settings = {
-      cron.wrap_response = false;
+      cron ={
+        wrap_response = false;
+        model_drift_guard = false;
+      };
       custom_providers = [
         {
           name = "opencode-go";
@@ -105,10 +108,10 @@ in
 
       model = {
         # provider = "custom:opencode-go";
-        provider = "deepseek";
-        default = "deepseek-v4-pro";
-        # provider = "openai-codex";
-        # default = "gpt-5.6-sol";
+        # provider = "deepseek";
+        # default = "deepseek-v4-pro";
+        provider = "openai-codex";
+        default = "gpt-5.6-sol";
       };
 
       toolsets = [ "all" ];

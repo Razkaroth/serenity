@@ -5,6 +5,7 @@
     ../../common/system
     ./actual-budget.nix
     ./anki-sync.nix
+    ./habitica.nix
     ./hermes
     ./lector.nix
     ./nixarr.nix

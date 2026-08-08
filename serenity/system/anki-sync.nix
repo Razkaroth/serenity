@@ -1,9 +1,9 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   services.anki-sync-server = {
     enable = true;
-    address = "127.0.0.1";
+    address = "0.0.0.0";
     port = 27701;
     openFirewall = false;
     users = [
@@ -14,26 +14,5 @@
     ];
   };
 
-  systemd.services.anki-sync-tailscale-serve = {
-    description = "Tailscale Serve HTTPS for Anki sync server";
-    after = [
-      "tailscaled.service"
-      "anki-sync-server.service"
-    ];
-    wants = [
-      "tailscaled.service"
-      "anki-sync-server.service"
-    ];
-    wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.tailscale ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-
-    script = ''
-      tailscale serve --bg --yes --https=27701 http://127.0.0.1:27701
-    '';
-  };
+  networking.firewall.allowedTCPPorts = [ 27701 ];
 }

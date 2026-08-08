@@ -123,15 +123,15 @@ in
         volume = true;
       };
       showOnHover = true;
-      status = {
-        showAudio = false;
-        showBattery = true;
-        showBluetooth = true;
-        showKbLayout = true;
-        showMicrophone = true;
-        showNetwork = true;
-        showLockStatus = true;
-      };
+      statusIcons = [
+        { id = "lockStatus"; enabled = true; }
+        { id = "audio"; enabled = true; }
+        { id = "microphone"; enabled = true; }
+        { id = "kbLayout"; enabled = true; }
+        { id = "network"; enabled = true; }
+        { id = "bluetooth"; enabled = true; }
+        { id = "battery"; enabled = true; }
+      ];
       tray = {
         background = false;
         compact = false;
