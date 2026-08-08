@@ -7,8 +7,6 @@ let
   containerPort = 5006;
 in
 {
-  networking.firewall.allowedTCPPorts = [ hostPort ];
-
   systemd.services.actual-budget = {
     description = "Actual Budget server";
     wantedBy = [ "multi-user.target" ];
@@ -24,7 +22,7 @@ in
     script = ''
       exec docker run --rm \
         --name ${containerName} \
-        --publish ${toString hostPort}:${toString containerPort} \
+        --publish 127.0.0.1:${toString hostPort}:${toString containerPort} \
         --volume /var/lib/actual-budget:/data \
         ${image}
     '';
@@ -34,6 +32,29 @@ in
       RestartSec = 10;
       StateDirectory = "actual-budget";
     };
+  };
+
+  systemd.services.actual-budget-tailscale-serve = {
+    description = "Tailscale Serve HTTPS for Actual Budget";
+    after = [
+      "tailscaled.service"
+      "actual-budget.service"
+    ];
+    wants = [
+      "tailscaled.service"
+      "actual-budget.service"
+    ];
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.tailscale ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+
+    script = ''
+      tailscale serve --bg --yes --https=443 http://127.0.0.1:${toString hostPort}
+    '';
   };
 
   services.cron = {
