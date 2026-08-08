@@ -4,7 +4,9 @@
   imports = [
     ../../common/system
     ./actual-budget.nix
+    ./anki-sync.nix
     ./hermes
+    ./lector.nix
     ./nixarr.nix
     ./zero-tier.nix
   ];

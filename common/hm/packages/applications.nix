@@ -36,6 +36,7 @@ let
     zk
     gthumb
     capitaine-cursors-themed
+    anki
   ];
   edgePkgs = with pkgs-edge; [
     signal-desktop # messaging client
