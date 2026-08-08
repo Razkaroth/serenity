@@ -12,6 +12,7 @@ let
 in
 {
   imports = [
+    ./actual-mcp-docker.nix
     ./alters.nix
     ./camofox-docker.nix
     ./c2-server.nix
@@ -79,6 +80,7 @@ in
 
     environmentFiles = [
       "/home/raz/.config/hermes/hermes.env"
+      "/home/raz/.config/actual-mcp.env"
     ];
 
     environment = {
@@ -114,6 +116,11 @@ in
       mcp_servers.linear = {
         url = "https://mcp.linear.app/mcp";
         auth = "oauth";
+      };
+
+      mcp_servers.actual = {
+        url = "http://127.0.0.1:3600/http";
+        headers.Authorization = "Bearer \${MCP_SSE_AUTHORIZATION}";
       };
 
       web.backend = "exa";
@@ -188,14 +195,19 @@ in
     };
   };
 
-  # Hermes hardens its env/auth parent with chmod 0700 at startup, but the
-  # NixOS module exposes that state to hostUsers via ~/.hermes ->
-  # /var/lib/hermes/.hermes. Restore group traversal for host CLI access.
-  systemd.services.hermes-agent.postStart = ''
-    sleep 2
-    chmod 2770 /var/lib/hermes /var/lib/hermes/.hermes
-    chown hermes:hermes /var/lib/hermes /var/lib/hermes/.hermes
-  '';
+  systemd.services.hermes-agent = {
+    after = [ "actual-mcp.service" ];
+    wants = [ "actual-mcp.service" ];
+
+    # Hermes hardens its env/auth parent with chmod 0700 at startup, but the
+    # NixOS module exposes that state to hostUsers via ~/.hermes ->
+    # /var/lib/hermes/.hermes. Restore group traversal for host CLI access.
+    postStart = ''
+      sleep 2
+      chmod 2770 /var/lib/hermes /var/lib/hermes/.hermes
+      chown hermes:hermes /var/lib/hermes /var/lib/hermes/.hermes
+    '';
+  };
 
   systemd.services.hermes-agent-periodic-restart = {
     description = "Restart Hermes Agent every three days";
