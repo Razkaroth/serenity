@@ -40,12 +40,10 @@ let
     process-compose
     jq
     lazygit
-    code-cursor
     postman
     insomnia
     pandoc
     speedtest-cli
-    stripe-cli
     sshfs
     tree-sitter
     tree
@@ -83,7 +81,7 @@ let
     github-cli
     jetbrains-toolbox
     neovim
-    
+    code-cursor
   ];
 in
 {

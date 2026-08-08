@@ -32,14 +32,13 @@ let
     gcalcli # google calendar
     todoist
     todoist-electron
-    signal-desktop # messaging client
     zoom-us # video conferencing
     zk
     gthumb
     capitaine-cursors-themed
   ];
   edgePkgs = with pkgs-edge; [
-
+    signal-desktop # messaging client
     vesktop
   ];
 in
