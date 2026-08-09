@@ -84,6 +84,8 @@ in
     "100.104.2.6" = [ "raz.com" ];
   };
 
+  security.pki.certificateFiles = [ ./certs/raz-minica-ca.pem ];
+
   users.users.raz = lib.recursiveUpdate {
     isNormalUser = true;
     initialPassword = "hydenix";
