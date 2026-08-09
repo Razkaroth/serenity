@@ -62,13 +62,16 @@ in
       "parallel-web"
       "tts-premium"
       "voice"
-      "matrix"
-    ];
+        "matrix"
+        "mcp"
+      ];
 
     container = {
       enable = true;
       backend = "docker";
       hostUsers = [ "raz" ];
+      # Hermes runs in Docker; forward Actual MCP's bearer token into it.
+      extraOptions = [ "--env-file=/home/raz/.config/actual-mcp.env" ];
       extraVolumes = [
         "/home/raz/.agents:/home/raz/.agents:rw"
         "/home/raz/nexus:/home/raz/nexus:rw"

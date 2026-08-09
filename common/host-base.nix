@@ -80,6 +80,10 @@ in
     };
   } hydenixConfig;
 
+  networking.hosts = {
+    "100.104.2.6" = [ "raz.com" ];
+  };
+
   users.users.raz = lib.recursiveUpdate {
     isNormalUser = true;
     initialPassword = "hydenix";
