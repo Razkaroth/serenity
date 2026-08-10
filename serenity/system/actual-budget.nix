@@ -34,8 +34,8 @@ in
     };
   };
 
-  systemd.services.actual-budget-tailscale-serve = {
-    description = "Tailscale Serve HTTPS for Actual Budget";
+  systemd.services.actual-budget-tailscale-funnel = {
+    description = "Tailscale Funnel HTTPS for Actual Budget";
     after = [
       "tailscaled.service"
       "actual-budget.service"
@@ -50,10 +50,16 @@ in
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
+      ExecStop = "${pkgs.tailscale}/bin/tailscale funnel --https=8443 off";
     };
 
+    preStart = ''
+      # Remove the legacy listener that intercepts Jellyfin's tailnet HTTPS.
+      tailscale serve --https=443 off
+    '';
+
     script = ''
-      tailscale serve --bg --yes --https=443 http://127.0.0.1:${toString hostPort}
+      tailscale funnel --bg --yes --https=8443 http://127.0.0.1:${toString hostPort}
     '';
   };
 
