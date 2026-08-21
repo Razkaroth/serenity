@@ -10,6 +10,7 @@
     ./lector.nix
     ./nixarr.nix
     ./zero-tier.nix
+    ./coolify-vm.nix
   ];
 
   environment.systemPackages = [
