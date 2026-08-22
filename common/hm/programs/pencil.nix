@@ -2,11 +2,11 @@
 
 let
   pname = "pencil";
-  version = "1.1.55";
+  version = "1.2.5";
 
   src = pkgs.fetchurl {
-    url = "https://www.pencil.dev/download/Pencil-linux-x86_64.AppImage";
-    hash = "sha256-ZSBINXK7GJRS1yfrMMT7+71S4S+AFZPoVRKa08T1UDM=";
+    url = "https://www.pen.dev/download/Pen-linux-x86_64.AppImage";
+    hash = "sha256-EtLWHAKr04AQR8VC201abVj3/uwSSxEAP7/3KoYPsWA=";
   };
 
   appimageContents = pkgs.appimageTools.extractType2 {
@@ -21,7 +21,7 @@ let
         mv "$out/bin/${pname}-${version}" "$out/bin/${pname}"
       fi
 
-      install -Dm644 ${appimageContents}/pencil.png "$out/share/icons/hicolor/512x512/apps/${pname}.png"
+      install -Dm644 ${appimageContents}/pen.png "$out/share/icons/hicolor/512x512/apps/${pname}.png"
     '';
 
     meta = with lib; {
