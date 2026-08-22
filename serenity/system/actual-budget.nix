@@ -55,7 +55,7 @@ in
 
     preStart = ''
       # Remove the legacy listener that intercepts Jellyfin's tailnet HTTPS.
-      tailscale serve --https=443 off
+      tailscale serve --https=443 off || true
     '';
 
     script = ''
