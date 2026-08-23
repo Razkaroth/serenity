@@ -11,7 +11,11 @@ let
   vmUuid = "c001f700-5e1e-4117-a777-525400c001f7";
   diskPath = "/var/lib/libvirt/images/coolify.qcow2";
   diskGiB = 50;
-  sshPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ/UwzECsaGLKWKPKzXS+PrPdI3m2HBUOUX1D7vFQuQT";
+  sutrIp = "93.188.166.75";
+  sshPubKeys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ/UwzECsaGLKWKPKzXS+PrPdI3m2HBUOUX1D7vFQuQT"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPei9Lvs+bmmrlWpQf7Na+Pe+yNn9egSU5YBcqfcFHoq"
+  ];
 
   # Ubuntu 24.04 LTS cloud image (noble release 20260814).
   ubuntuCloudImage = pkgs.fetchurl {
@@ -23,7 +27,7 @@ let
     #cloud-config
     hostname: ${vmName}
     fqdn: ${vmName}
-    manage_etc_hosts: true
+    manage_etc_hosts: false
     users:
       - name: raz
         groups: [sudo, docker]
@@ -31,21 +35,23 @@ let
         shell: /bin/bash
         lock_passwd: true
         ssh_authorized_keys:
-          - ${sshPubKey}
+    ${lib.concatMapStringsSep "\n" (key: "          - ${key}") sshPubKeys}
     ssh_pwauth: false
     package_update: true
     packages:
       - qemu-guest-agent
       - curl
       - docker.io
+      - docker-compose-v2
     runcmd:
+      - grep -q '^${sutrIp}[[:space:]]\+sutr$' /etc/hosts || printf '${sutrIp} sutr\n' >> /etc/hosts
       - systemctl enable --now qemu-guest-agent
       - systemctl enable --now docker
       - curl -fsSL https://tailscale.com/install.sh | sh
   '';
 
   metaData = pkgs.writeText "meta-data" ''
-    instance-id: ${vmName}-1
+    instance-id: ${vmName}-2
     local-hostname: ${vmName}
   '';
 
@@ -78,6 +84,23 @@ let
         { dev = "hd"; }
         { dev = "cdrom"; }
       ];
+      devices = {
+        serial = [
+          {
+            type = "pty";
+            target.port = 0;
+          }
+        ];
+        console = [
+          {
+            type = "pty";
+            target = {
+              type = "serial";
+              port = 0;
+            };
+          }
+        ];
+      };
     };
 in
 {
@@ -121,6 +144,11 @@ in
       "virbr0"
     ];
     nss.enableGuest = true;
+  };
+
+  systemd.services.nixvirt = {
+    after = [ "NetworkManager-wait-online.service" ];
+    wants = [ "NetworkManager-wait-online.service" ];
   };
 
   # Copy the cloud image once into a persistent qcow2. Never use the nix

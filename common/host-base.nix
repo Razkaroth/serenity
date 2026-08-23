@@ -82,6 +82,7 @@ in
 
   networking.hosts = {
     "100.104.2.6" = [ "raz.com" ];
+    "93.188.166.75" = [ "sutr" ];
   };
 
   security.pki.certificateFiles = [ ./certs/raz-minica-ca.pem ];

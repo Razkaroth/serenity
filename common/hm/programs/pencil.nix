@@ -6,7 +6,7 @@ let
 
   src = pkgs.fetchurl {
     url = "https://www.pen.dev/download/Pen-linux-x86_64.AppImage";
-    hash = "sha256-EtLWHAKr04AQR8VC201abVj3/uwSSxEAP7/3KoYPsWA=";
+    hash = "sha256-3fQHS8kcY8NiGw2HjNc1S1olGj2+x8QOdLBCY36/sXw=";
   };
 
   appimageContents = pkgs.appimageTools.extractType2 {
