@@ -19,6 +19,8 @@ let
     # AI
     lmstudio
     n8n
+    inputs.beads.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.bead-me-up-scotty.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Docmunents
     websocat

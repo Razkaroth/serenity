@@ -40,6 +40,46 @@
         "type": "github"
       }
     },
+    "bead-me-up-scotty": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787626173,
+        "narHash": "sha256-RZmEBzQ0Bxxk40Nk4qtH8KRNsw7LaEEbJG37dpq+Wvw=",
+        "owner": "Razkaroth",
+        "repo": "bead-me-up-scotty",
+        "rev": "7b3b3872759923badde617c1527aa6d6ca102e5b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Razkaroth",
+        "repo": "bead-me-up-scotty",
+        "type": "github"
+      }
+    },
+    "beads": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787525059,
+        "narHash": "sha256-FeAi9IMH1ct1CmuqRzf9gmLmB68f2tjw9vtvPqM5F9A=",
+        "owner": "gastownhall",
+        "repo": "beads",
+        "rev": "8d86c06bf231cbc0907436a111fb7b75d39ee12d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gastownhall",
+        "repo": "beads",
+        "type": "github"
+      }
+    },
     "caelestia-cli": {
       "inputs": {
         "caelestia-shell": [
@@ -1073,6 +1113,8 @@
       "inputs": {
         "NixVirt": "NixVirt",
         "anifetch": "anifetch",
+        "bead-me-up-scotty": "bead-me-up-scotty",
+        "beads": "beads",
         "caelestia-shell": "caelestia-shell",
         "chaotic": "chaotic",
         "herdr": "herdr",

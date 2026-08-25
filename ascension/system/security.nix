@@ -14,6 +14,8 @@
     enableGnomeKeyring = true;
   };
 
+  services.gnome.gnome-keyring.enable = true;
+
   security.sudo.extraRules = [
     {
       users = [ "raz" ];
