@@ -9,6 +9,9 @@
     # ./caelestia.nix # Moved to common
     ./hydenix.nix
     ./winapps.nix
+    ./zsh.nix
+    ./caelestia.nix
+    ./anifetch.nix
   ];
 
   # home-manager options go here

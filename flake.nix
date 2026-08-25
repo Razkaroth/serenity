@@ -114,10 +114,133 @@
         ];
       };
 
+      nomadPkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      nomadPkgsEdge = import inputs.nixpkgs-edge {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      nomadPkgsLocked = import inputs.nixpkgs-locked {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      nomadConfig = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = nomadPkgs;
+        extraSpecialArgs = {
+          inherit inputs;
+          pkgs-edge = nomadPkgsEdge;
+          pkgs-locked = nomadPkgsLocked;
+        };
+        modules = [
+          ./personas/nomad.nix
+          {
+            home = {
+              username = "raz";
+              homeDirectory = "/home/raz";
+              stateVersion = "26.05";
+            };
+            targets.genericLinux.enable = true;
+          }
+        ];
+      };
+      mkHomeCheck =
+        modules:
+        inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = nomadPkgs;
+          extraSpecialArgs = {
+            inherit inputs;
+            pkgs-edge = nomadPkgsEdge;
+            pkgs-locked = nomadPkgsLocked;
+          };
+          modules = modules ++ [
+            {
+              home = {
+                username = "raz";
+                homeDirectory = "/home/raz";
+                stateVersion = "26.05";
+              };
+              targets.genericLinux.enable = true;
+            }
+          ];
+        };
+      layerChecks = {
+        caelestia = mkHomeCheck [ ./personas/layers/caelestia ];
+        hyprland = mkHomeCheck [
+          ./common/hm/modules/mutable-files.nix
+          ./personas/layers/hyprland
+        ];
+        mpd = mkHomeCheck [ ./personas/layers/mpd ];
+        winapps = mkHomeCheck [ ./personas/layers/winapps ];
+      };
+      mutableCopy = import ./common/hm/modules/mutable-copy.nix { pkgs = nomadPkgs; };
+      invalidMutableConfig = mkHomeCheck [
+        ./common/hm/modules/mutable-files.nix
+        {
+          home.file.".invalid-mutable" = {
+            source = nomadPkgs.writeText "invalid-mutable" "invalid";
+            force = true;
+            mutable = true;
+            mutablePersist = true;
+          };
+        }
+      ];
+      mutableConflictRejected =
+        !(builtins.tryEval (builtins.deepSeq invalidMutableConfig.activationPackage true)).success;
+      mutableCopyCheck =
+        assert mutableConflictRejected;
+        nomadPkgs.runCommand "mutable-copy-check"
+          {
+            nativeBuildInputs = [ mutableCopy ];
+          }
+          ''
+            mkdir -p source target
+            printf baseline > source/existing
+            printf stale > target/existing
+
+            hm-mutable-copy reset source target
+            test "$(cat target/existing)" = baseline
+            test -w target/existing
+
+            printf edited > target/existing
+            printf added > source/missing
+            hm-mutable-copy merge source target
+            test "$(cat target/existing)" = edited
+            test "$(cat target/missing)" = added
+
+            rm source/missing
+            hm-mutable-copy merge source target
+            test "$(cat target/missing)" = added
+
+            touch "$out"
+          '';
+
     in
     {
       nixosConfigurations.nixos = hydenixSerenityConfig;
       nixosConfigurations.${SERENITY} = hydenixSerenityConfig;
       nixosConfigurations.${ASCENSION} = hydenixAscenceConfig;
+      homeConfigurations."raz@nomad" = nomadConfig;
+
+      homeManagerModules = {
+        personas.nomad = import ./personas/nomad.nix;
+        layers = {
+          caelestia = import ./personas/layers/caelestia;
+          hyprland = import ./personas/layers/hyprland;
+          mpd = import ./personas/layers/mpd;
+          winapps = import ./personas/layers/winapps;
+        };
+        mutableFiles = import ./common/hm/modules/mutable-files.nix;
+      };
+
+      checks.${system} = {
+        nomad = nomadConfig.activationPackage;
+        layer-caelestia = layerChecks.caelestia.activationPackage;
+        layer-hyprland = layerChecks.hyprland.activationPackage;
+        layer-mpd = layerChecks.mpd.activationPackage;
+        layer-winapps = layerChecks.winapps.activationPackage;
+        mutable-copy = mutableCopyCheck;
+      };
     };
 }

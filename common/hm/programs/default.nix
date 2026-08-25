@@ -3,9 +3,9 @@
   imports = [
     ./affinity.nix
     ./git.nix
-    ./tmux.nix
     ./tuxedo.nix
     ./pass.nix
+    ./pass-desktop.nix
     ./direnv.nix
     ./vscode.nix
     ./zsh.nix
@@ -18,5 +18,6 @@
     ./responsively.nix
     ./spotiflac.nix
     ./rmpc.nix
+    ./herdr.nix
   ];
 }

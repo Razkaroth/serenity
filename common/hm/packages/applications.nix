@@ -1,4 +1,10 @@
-{ pkgs, pkgs-edge, pkgs-locked, inputs, ... }:
+{
+  pkgs,
+  pkgs-edge,
+  pkgs-locked,
+  inputs,
+  ...
+}:
 let
   lockedPkgs = with pkgs-locked; [
   ];
@@ -7,8 +13,6 @@ let
     mpc
     mpd
     bagels
-    yazi
-    eza
     kitty
     firefox # browser
     # bottles # wine manager
@@ -33,7 +37,6 @@ let
     todoist
     todoist-electron
     zoom-us # video conferencing
-    zk
     gthumb
     capitaine-cursors-themed
     anki
@@ -44,10 +47,13 @@ let
   ];
 in
 {
-  home.packages = stablePkgs ++ edgePkgs ++ lockedPkgs ++ [
-    inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.herdr
-    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta # zen-beta
-  ];
+  home.packages =
+    stablePkgs
+    ++ edgePkgs
+    ++ lockedPkgs
+    ++ [
+      inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta # zen-beta
+    ];
 
   # Configure zen-beta as default browser
   xdg.mimeApps = {
@@ -69,22 +75,70 @@ in
       "application/x-extension-xht" = "zen-beta.desktop";
 
       # all images to satty, except SVG which opens in Zen
-      "image/avif" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/bmp" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/gif" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/heic" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/heif" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/jpeg" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/jxl" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/png" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/tiff" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/webp" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/x-bmp" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/x-ico" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/x-png" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/x-tga" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/x-tiff" = [ "satty.desktop" "com.gabm.satty.desktop" ];
-      "image/x-webp" = [ "satty.desktop" "com.gabm.satty.desktop" ];
+      "image/avif" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/bmp" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/gif" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/heic" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/heif" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/jpeg" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/jxl" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/png" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/tiff" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/webp" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/x-bmp" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/x-ico" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/x-png" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/x-tga" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/x-tiff" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
+      "image/x-webp" = [
+        "satty.desktop"
+        "com.gabm.satty.desktop"
+      ];
 
       # SVG/PDF in browser (Zen)
       "image/svg+xml" = "zen-beta.desktop";

@@ -1,0 +1,29 @@
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    aria2
+    bat
+    btop
+    curl
+    eza
+    fd
+    ffmpeg
+    fzf
+    jq
+    lazygit
+    lsof
+    pandoc
+    ripgrep
+    socat
+    speedtest-cli
+    sshfs
+    tree
+    tree-sitter
+    typst
+    uutils-coreutils-noprefix
+    worktrunk
+    yazi
+    zk
+    zoxide
+  ];
+}

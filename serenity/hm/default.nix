@@ -4,6 +4,8 @@
   imports = [
     ../../common/hm
     ./confs
+    ./zsh.nix
+    ./caelestia.nix
   ];
 
   # home-manager options go here
@@ -34,7 +36,7 @@
       enable = false; # enable git module
       name = "razkaroth"; # git user name eg "John Doe"
       email = "rocker.ikaros@gmail.com"; # git user email eg "john.doe@example.com"
-     };
+    };
     hyde.enable = false; # enable hyde module
     hyprland.enable = false; # enable hyprland module
     lockscreen = {
