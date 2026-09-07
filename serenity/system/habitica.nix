@@ -6,7 +6,7 @@ let
   containerName = "habitica";
   mongoContainerName = "habitica-mongodb";
   networkName = "habitica";
-  hostPort = 9001;
+  hostPort = 9901;
 in
 {
   systemd.services.habitica-network = {

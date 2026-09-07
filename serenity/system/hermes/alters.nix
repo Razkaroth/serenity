@@ -284,6 +284,8 @@ let
           RestartSec = 10;
           StateDirectory = "hermes-neutts-${name}";
         };
+        startLimitIntervalSec = 300;
+        startLimitBurst = 5;
       };
 
       systemd.services.${serviceName} = {

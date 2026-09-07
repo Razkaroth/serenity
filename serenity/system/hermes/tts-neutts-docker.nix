@@ -83,10 +83,12 @@ in
         --device cpu
     '';
 
-    serviceConfig = {
-      Restart = "on-failure";
-      RestartSec = 10;
-      StateDirectory = "hermes-neutts";
-    };
+      serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = 10;
+        StateDirectory = "hermes-neutts";
+      };
+      startLimitIntervalSec = 300;
+      startLimitBurst = 5;
   };
 }
