@@ -14,6 +14,9 @@ let
     config.allowUnfree = true;
     overlays = [
       inputs.hydenix.overlays.default
+      (final: prev: {
+        Bibata-Modern-Ice = prev.bibata-cursors;
+      })
       inputs.nixos-rocksmith.overlays.default
     ] ++ extraOverlays;
 

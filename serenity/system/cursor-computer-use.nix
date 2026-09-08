@@ -9,12 +9,12 @@ let
 in
 {
   # Cursor creates an isolated TigerVNC/Xfce display when started with --computer-use.
-  # Note: xfwm4 currently times out in the managed session on this host; keep packages
-  # ready, but leave the systemd worker without --computer-use until that is fixed.
+  # xfconf exposes the D-Bus service Xfce needs to load its default xfwm4 session.
   environment.systemPackages = with pkgs; [
     xdotool
-    ffmpeg
+    ffmpeg-full
     xdpyinfo
+    xrdb
     xrandr
     xprop
     tigervnc
@@ -22,6 +22,7 @@ in
     xfce4-session
     xfce4-panel
     xfwm4
+    xfconf
     dbus
   ];
 }
