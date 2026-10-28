@@ -199,6 +199,18 @@ in
         };
       };
     };
+
+    instances.genos = {
+      enable = true;
+      envFile = "/home/raz/.config/hermes/.env.genos";
+      neutts.enable = false;
+      settings = {
+        model = {
+          provider = "deepseek";
+          default = "deepseek-v4-flash";
+        };
+      };
+    };
   };
 
   systemd.services.hermes-agent = {

@@ -4,6 +4,7 @@
   imports = [
     ../../common/hm
     ./confs
+    ./services
   ];
 
   # home-manager options go here

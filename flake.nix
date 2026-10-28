@@ -54,6 +54,11 @@
       url = "github:NousResearch/hermes-agent";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # numtide's agent package set; kept on its own nixpkgs so the numtide
+    # cache (cache.numtide.com) substitutes the prebuilt packages.
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+    };
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     nixarr.url = "github:rasmus-kirk/nixarr";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";

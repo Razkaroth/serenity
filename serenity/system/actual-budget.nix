@@ -41,25 +41,55 @@ in
       "actual-budget.service"
     ];
     wants = [
-      "tailscaled.service"
       "actual-budget.service"
     ];
+    requires = [
+      "tailscaled.service"
+    ];
     wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.tailscale ];
+    path = [
+      pkgs.coreutils
+      pkgs.jq
+      pkgs.tailscale
+    ];
 
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStop = "${pkgs.tailscale}/bin/tailscale funnel --https=8443 off";
+    unitConfig = {
+      BindsTo = "tailscaled.service";
+      StartLimitIntervalSec = "0";
     };
 
-    preStart = ''
-      # Remove the legacy listener that intercepts Jellyfin's tailnet HTTPS.
-      tailscale serve --https=443 off || true
-    '';
+    serviceConfig = {
+      Type = "simple";
+      Restart = "always";
+      RestartSec = 10;
+      ExecStop = "${pkgs.tailscale}/bin/tailscale funnel reset";
+    };
 
+    # RemainAfterExit oneshot stays "active" after tailscale drops serve
+    # config, so public Funnel dies while systemd still reports success.
+    # Jellyfin's nginx owns 80/443. Actual is exposed only through Funnel 8443.
     script = ''
-      tailscale funnel --bg --yes --https=8443 http://127.0.0.1:${toString hostPort}
+      desiredProxy="http://127.0.0.1:${toString hostPort}"
+
+      apply() {
+        tailscale funnel --bg --yes --https=8443 "$desiredProxy"
+      }
+
+      isHealthy() {
+        tailscale funnel status --json | jq -e --arg proxy "$desiredProxy" '
+          (.TCP["8443"].HTTPS == true)
+          and (.AllowFunnel | to_entries | any(.value == true and (.key | endswith(":8443"))))
+          and (.Web | to_entries | any(.value.Handlers["/"].Proxy == $proxy))
+        ' >/dev/null
+      }
+
+      apply
+      while true; do
+        sleep 30
+        if ! isHealthy; then
+          apply
+        fi
+      done
     '';
   };
 

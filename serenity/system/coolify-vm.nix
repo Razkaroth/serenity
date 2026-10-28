@@ -70,8 +70,8 @@ let
       uuid = vmUuid;
       vcpu = { count = 2; };
       memory = {
-        count = 4;
-        unit = "GiB";
+        count = 2560;
+        unit = "MiB";
       };
       storage_vol = diskPath;
       install_vol = "${cidataIso}";

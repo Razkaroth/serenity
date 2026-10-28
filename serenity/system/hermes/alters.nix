@@ -127,6 +127,7 @@ let
       stateDir = "/var/lib/hermes-${name}";
       camofoxStateDir = "/var/lib/hermes-camofox-${name}";
       neuttsStateDir = "/var/lib/hermes-neutts-${name}";
+      neuttsEnabled = alter.neutts.enable;
       neuttsHttpBridge = pkgs.writeShellApplication {
         name = "${serviceName}-neutts-http";
         runtimeInputs = [ pkgs.python3 ];
@@ -135,20 +136,24 @@ let
             exec python ${./neutts-http-bridge.py} "$@"
         '';
       };
-      settings = lib.recursiveUpdate commonSettings (lib.recursiveUpdate {
-        browser.camofox.user_id = userName;
-        tts = {
-          provider = "neutts-http";
-          providers.neutts-http = {
-            type = "command";
-            command = "${pkgs.lib.getExe neuttsHttpBridge} {input_path} {output_path}";
-            output_format = "wav";
-            timeout = 300;
-            voice_compatible = true;
-            max_text_length = 2000;
+      settings = lib.recursiveUpdate commonSettings (lib.recursiveUpdate (
+        {
+          browser.camofox.user_id = userName;
+        }
+        // lib.optionalAttrs neuttsEnabled {
+          tts = {
+            provider = "neutts-http";
+            providers.neutts-http = {
+              type = "command";
+              command = "${pkgs.lib.getExe neuttsHttpBridge} {input_path} {output_path}";
+              output_format = "wav";
+              timeout = 300;
+              voice_compatible = true;
+              max_text_length = 2000;
+            };
           };
-        };
-      } alter.settings);
+        }
+      ) alter.settings);
       configFile = pkgs.writeText "${serviceName}-config.yaml" (builtins.toJSON settings);
       identity = builtins.hashString "sha256" (builtins.toJSON {
         image = alter.image;
@@ -227,7 +232,7 @@ let
         };
       };
 
-      systemd.services."${serviceName}-neutts-sample" = {
+      systemd.services."${serviceName}-neutts-sample" = lib.mkIf neuttsEnabled {
         description = "Seed editable NeuTTS sample for Hermes alter ${name}";
         path = [ pkgs.coreutils ];
         serviceConfig.Type = "oneshot";
@@ -242,7 +247,7 @@ let
         '';
       };
 
-      systemd.services.${neuttsServiceName} = {
+      systemd.services.${neuttsServiceName} = lib.mkIf neuttsEnabled {
         description = "Dedicated NeuTTS service for Hermes alter ${name}";
         wantedBy = [ "multi-user.target" ];
         after = [
@@ -295,14 +300,12 @@ let
           "docker.service"
           "${networkName}-network.service"
           "${camofoxServiceName}.service"
-          "${neuttsServiceName}.service"
-        ];
+        ] ++ lib.optional neuttsEnabled "${neuttsServiceName}.service";
         requires = [
           "docker.service"
           "${networkName}-network.service"
           "${camofoxServiceName}.service"
-          "${neuttsServiceName}.service"
-        ];
+        ] ++ lib.optional neuttsEnabled "${neuttsServiceName}.service";
         path = [ pkgs.docker-client pkgs.coreutils pkgs.nix ];
         preStart = ''
           test -f ${lib.escapeShellArg alter.envFile} || {
@@ -404,6 +407,16 @@ in
             default = { };
             description = "Hermes settings merged over the isolated alter defaults.";
           };
+          neutts = mkOption {
+            type = types.submodule {
+              options.enable = mkOption {
+                type = types.bool;
+                default = true;
+                description = "Run a dedicated NeuTTS voice service and TTS provider for this alter.";
+              };
+            };
+            default = { };
+          };
         };
       }));
       default = { };
@@ -416,5 +429,6 @@ in
     (mkIf cfg.instances.morrison.enable (mkAlter "morrison" cfg.instances.morrison))
     (mkIf cfg.instances.jarvis.enable (mkAlter "jarvis" cfg.instances.jarvis))
     (mkIf cfg.instances.vasilisa.enable (mkAlter "vasilisa" cfg.instances.vasilisa))
+    (mkIf cfg.instances.genos.enable (mkAlter "genos" cfg.instances.genos))
   ]);
 }

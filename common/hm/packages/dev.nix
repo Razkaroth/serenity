@@ -85,5 +85,8 @@ let
   ];
 in
 {
-  home.packages = stablePkgs ++ edgePkgs;
+  home.packages = stablePkgs ++ edgePkgs ++ [
+    # Agentic Development Environment (stablyai/orca), from numtide's agent set
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.orca
+  ];
 }
